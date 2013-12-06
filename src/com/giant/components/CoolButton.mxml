@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" buttonMode="true"
+		 mouseOver="cutState(event)" mouseOut="cutState(event)">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.greensock.TweenLite;
+			[Bindable]
+			/**
+			 * 按钮正常状态下显示的图片
+			 */
+			public var normalSource:Object;
+			
+			[Bindable]
+			/**
+			 * 鼠标经过按钮时候显示的图片
+			 */
+			public var overSource:Object;
+			
+			/**
+			 * 鼠标经过的时候 切换状态
+			 */
+			public function cutState(event:MouseEvent):void
+			{	
+				if(event.type==MouseEvent.MOUSE_OVER){
+					TweenLite.to(overImg, .5, {alpha:1});
+					TweenLite.to(normalImg, .5, {alpha:0});
+				}else if(event.type==MouseEvent.MOUSE_OUT){
+					TweenLite.to(overImg, .5, {alpha:0});
+					TweenLite.to(normalImg, .5, {alpha:1});
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:Image id="overImg" source="{overSource}" alpha="0"/>
+	<s:Image id="normalImg" source="{normalSource}"/>
+</s:Group>

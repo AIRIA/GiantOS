@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+DockLayer层的 右侧Dock工具条
+-->
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:giant="com.giant.components.*"
+		  right="0" gap="0" horizontalAlign="right" verticalCenter="0">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script source="../scripts/DockScript.as"/>
+	<s:Image source="assets/dock/dock_top_right.png"/>
+	<s:BorderContainer width="65"
+					   backgroundImage="@Embed(source='assets/dock/dock_middle_right.png')"
+					   borderVisible="false" borderWeight="0">
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="right" verticalAlign="top"/>
+		</s:layout>
+		<giant:DockItem icon="assets/dock/clock.png" toolTip="时钟" right="0"/>
+		<giant:DockItem click="fullscreen(event)" icon="assets/dock/fullscreen.png" toolTip="全屏" right="0"/>
+	</s:BorderContainer>
+	<s:Image source="assets/dock/dock_bottom_right.png"/>
+</s:VGroup>

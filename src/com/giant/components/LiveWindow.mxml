@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:GiantPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:components="com.giant.components.*"
+					   width="1000" height="600" title="主播室">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<components:controlBarContent>
+		<s:Button label="上传PPT"/>
+		<s:Button label="开始直播"/>
+		<s:Button label="直播完毕"/>
+	</components:controlBarContent>
+	
+	<s:HGroup width="100%" height="100%" gap="5">
+		<mx:TabNavigator paddingTop="1" chromeColor="0xCCCCCC" borderColor="0xCCCCCC" tabOffset="10" horizontalGap="10" width="100%" height="100%">
+			<mx:Canvas label="直播预览" width="100%" height="100%">
+				<s:VGroup gap="5" width="100%" height="100%">
+					<components:SimplePanel borderVisible="false" width="300" height="300" title="直播预览">
+						<s:Rect left="0" right="0" top="0" bottom="0">
+							<s:fill>
+								<s:SolidColor color="0x000000" />
+							</s:fill>
+						</s:Rect>
+						<s:VideoDisplay loop="true" scaleMode="letterbox" width="100%" height="100%" source="http://122.227.216.103/youku/65713704ACE3182BD29EE46B2B/030002010052A131F75DB90230E416E8084310-4D55-F403-4DBE-9D8115854D5E.flv" />
+					</components:SimplePanel>
+					<components:SimplePanel borderVisible="false" width="100%" height="100%" title="PPT列表">
+						
+					</components:SimplePanel>
+				</s:VGroup>
+			</mx:Canvas>
+			<mx:Canvas label="PPT演示" width="100%" height="100%">
+				
+			</mx:Canvas>
+		</mx:TabNavigator>
+		
+		<components:SimplePanel title="师生互动" width="350" height="100%">
+			<components:layout>
+				<s:VerticalLayout  />
+			</components:layout>
+			<s:VGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" paddingTop="5">
+				
+			</s:VGroup>
+			<s:HGroup paddingLeft="5" paddingRight="5" width="100%" verticalAlign="middle" height="40">
+				<s:Image source="assets/icons/role.png" width="32" height="32" />
+				<s:TextInput skinClass="com.giant.skins.GiantTextInputSkin" prompt="输入文字,回车发送" width="100%"/>
+			</s:HGroup>
+			
+			<components:controlBarContent>
+				<s:HGroup verticalAlign="middle" width="100%" height="20">
+					<s:Label text="当前在线人数:5" />
+				</s:HGroup>
+			</components:controlBarContent>
+		</components:SimplePanel>
+		
+	</s:HGroup>
+</components:GiantPanel>

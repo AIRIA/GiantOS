@@ -1,0 +1,36 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace components "com.giant.components.*";
+
+global
+{
+	fontFamily:"宋体";
+	fontSize:13px;
+}
+
+components|DeskIcon s|Label{
+	color:"0xFFFFFF";
+}
+
+components|TimerItem s|Label{
+	fontFamily:"微软雅黑";
+}
+
+mx|ToolTip{
+	font-size:13px;
+	corner-radius:3;
+	background-alpha:0.9;
+	paddingTop:1px;
+	paddingBottom:1px;
+	color:'0x808080';
+	borderColor:'0x333333';
+	borderStyle:solid;
+	background-color:'0xFFFFFF';
+}
+
+s|Label#titleDisplay{
+	fontSize:14px;
+	fontFamily:"微软雅黑";
+	color:"0xFFFFFF";
+}

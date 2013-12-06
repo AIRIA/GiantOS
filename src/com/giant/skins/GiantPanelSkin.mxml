@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+			 xmlns:components="com.giant.components.*"
+			 minWidth="131" minHeight="127" blendMode="normal" color="#333333" fontSize="13"
+			 fontWeight="normal" mouseEnabled="false"
+			 alpha.disabled="0.5"
+			 alpha.disabledWithControlBar="0.5">
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		[HostComponent("com.giant.components.GiantPanel")]
+		]]>
+	</fx:Metadata>
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.greensock.plugins.VisiblePlugin;
+			
+			import mx.core.UIComponent;
+			[Bindable]
+			private var radius:Number = 5;
+			[Bindable]
+			private var contentPadding:Number = 8;
+			[Bindable]
+			private var backgroundFillColor:Number = 0xFFFFFF;
+			[Bindable]
+			private var backgroundFillAlpha:Number = 0.3;
+			
+			
+			protected function topGroupMouseDown(event:MouseEvent):void
+			{
+				hostComponent.startDrag();
+			}
+			
+			protected function topGroupMouseOut(event:MouseEvent):void
+			{
+				hostComponent.stopDrag();
+			}
+			
+			protected function topGroupMouseUp(event:MouseEvent):void
+			{
+				hostComponent.stopDrag();
+			}
+			
+			protected function closeWindow(event:MouseEvent):void
+			{
+				(hostComponent.parent as Group).removeElement(hostComponent);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+		<s:State name="normalWithControlBar" stateGroups="withControls"/>
+		<s:State name="disabledWithControlBar" stateGroups="withControls"/>
+	</s:states>
+	
+	<!-- drop shadow can't be hittable so it stays sibling of other graphics -->
+	<!--- @private -->
+	<s:RectangularDropShadow id="dropShadow" left="0" right="0" top="0" bottom="0" alpha="0.32"
+							 angle="90" blurX="20" blurY="20" color="#000000" distance="11"/>
+	
+	<!-- drop shadow can't be hittable so all other graphics go in this group -->
+	<s:Group left="0" right="0" top="0" bottom="0">
+		<!-- layer 1: border -->
+		<!--- @private -->
+		<s:Rect id="border" left="0" right="0" top="0" bottom="0" radiusX="{radius}"
+				radiusY="{radius}">
+			<s:stroke>
+				<!--- @private -->
+				<s:SolidColorStroke id="borderStroke" alpha="0.7" color="#0B1F04"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Rect id="borderInner" left="1" right="1" top="1" bottom="1" radiusX="{radius}"
+				radiusY="{radius}">
+			<s:stroke>
+				<!--- @private -->
+				<s:SolidColorStroke alpha="0.7" color="#aaaaaa" weight=".5"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<!-- layer 2: background fill -->
+		<!--- Defines the appearance of the PanelSkin class's background. -->
+		<s:Rect id="background" left="1" right="1" top="1" bottom="1" radiusX="{radius}"
+				radiusY="{radius}">
+			<s:fill>
+				<s:SolidColor id="backgroundFill" alpha="{backgroundFillAlpha}"
+							  color="{backgroundFillColor}"/>
+			</s:fill>
+		</s:Rect>
+		
+		<!-- layer 3: contents -->
+		<!--- Contains the vertical stack of titlebar content and controlbar. -->
+		<s:Group id="contents" left="1" right="1" top="1" bottom="1">
+			<s:layout>
+				<s:VerticalLayout gap="0" horizontalAlign="justify"/>
+			</s:layout>
+			<!--- @private -->
+			<s:Group id="topGroup" mouseDown="topGroupMouseDown(event)" mouseOut="topGroupMouseOut(event)" mouseUp="topGroupMouseUp(event)">
+				
+				<!-- layer 0: title bar fill -->
+				<!--- @private -->
+				<s:Rect id="tbFill" left="0" right="0" top="0" bottom="1" alpha="0">
+					<s:fill>
+						<s:SolidColor color="#FFFFFF"/>
+					</s:fill>
+				</s:Rect>
+				
+				<!-- layer 1: title bar highlight -->
+				<!--- @private -->
+				<s:Rect id="tbHilite" left="0" right="0" top="0" bottom="0" alpha="0">
+					<s:stroke>
+						<s:SolidColorStroke color="#FFFFFF"/>
+					</s:stroke>
+				</s:Rect>
+				
+				<!-- layer 3: text -->
+				<!--- @copy spark.components.Panel#titleDisplay -->
+				<s:Label id="titleDisplay" left="9" right="3" top="1" bottom="0" minHeight="30"
+						 fontWeight="normal" maxDisplayedLines="1" textAlign="center"
+						 verticalAlign="middle">
+				</s:Label>
+				<s:HGroup right="5" top="5" verticalAlign="middle">
+					<components:CoolButton visible="{hostComponent.minisizeEnable}"
+										   includeInLayout="{hostComponent.minisizeEnable}"
+										   normalSource="assets/window/minisize.png"
+										   overSource="assets/window/minisize_over.png"/>
+					<components:CoolButton visible="{hostComponent.maxsizeEnable}"
+										   includeInLayout="{hostComponent.maxsizeEnable}"
+										   normalSource="assets/window/maxsize.png"
+										   overSource="assets/window/maxsize_over.png"/>
+					<components:CoolButton visible="{hostComponent.closeEnable}"
+										   click="closeWindow(event)"
+										   includeInLayout="{hostComponent.closeEnable}"
+										   normalSource="assets/window/close.png"
+										   overSource="assets/window/close_over.png"/>
+				</s:HGroup>
+			</s:Group>
+			
+			<!--
+			Note: setting the minimum size to 0 here so that changes to the host component's
+			size will not be thwarted by this skin part's minimum size.   This is a compromise,
+			more about it here: http://bugs.adobe.com/jira/browse/SDK-21143
+			-->
+			<!--- @copy spark.components.SkinnableContainer#contentGroup -->
+			<s:Group width="100%" height="100%">
+				<s:Rect left="{contentPadding-1}" right="{contentPadding-1}" top="-1"
+						bottom="{contentPadding-1}">
+					<s:fill>
+						<s:SolidColor alpha="0.8" color="#FFFFFF"/>
+					</s:fill>
+					<s:stroke>
+						<s:SolidColorStroke alpha="0.8" color="#333333" weight="2"/>
+					</s:stroke>
+				</s:Rect>
+				<s:Rect left="{contentPadding-.5}" right="{contentPadding-.5}" top="-.5"
+						bottom="{contentPadding-.5}">
+					<s:stroke>
+						<s:SolidColorStroke alpha="0.8" color="#FFFFFF" weight=".5"/>
+					</s:stroke>
+				</s:Rect>
+				<s:Group id="contentGroup" width="100%" height="100%" minWidth="0" minHeight="0"
+						 horizontalCenter="0" verticalCenter="0">
+					<s:layout>
+						<s:HorizontalLayout paddingBottom="{contentPadding+1}"
+											paddingLeft="{contentPadding+1}"
+											paddingRight="{contentPadding+1}" paddingTop="1"/>
+					</s:layout>
+				</s:Group>
+			</s:Group>
+			<!--- @private -->
+			<s:Group id="bottomGroup" includeIn="normalWithControlBar, disabledWithControlBar"
+					 minWidth="0" minHeight="0">
+				<!-- layer 3: control bar -->
+				<!--- @copy spark.components.Panel#controlBarGroup -->
+				<s:Group id="controlBarGroup" left="0" right="0" top="1" bottom="1" minWidth="0"
+						 minHeight="0">
+					<s:layout>
+						<s:HorizontalLayout gap="10" paddingBottom="7" paddingLeft="10"
+											paddingRight="10" paddingTop="0"/>
+					</s:layout>
+				</s:Group>
+			</s:Group>
+		</s:Group>
+	</s:Group>
+</s:SparkSkin>

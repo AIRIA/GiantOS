@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="58" height="58" 
+		 mouseOut="mouseOutHandler(event)"
+		 mouseOver="mouseOverHandler(event)" buttonMode="true">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:Fade alphaTo="1" duration="300" id="fadeIn" />
+		<s:Fade alphaTo="0" duration="300" id="fadeOut" />
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var icon:Object;
+			
+			private function mouseOverHandler(event:MouseEvent):void
+			{
+				fadeOut.stop();
+				fadeIn.play([cover]);
+			}
+			
+			protected function mouseOutHandler(event:MouseEvent):void
+			{
+				fadeIn.stop();
+				fadeOut.play([cover]);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Image source="{icon}" verticalCenter="0" horizontalCenter="0" />
+	<s:Image alpha="0" id="cover" visible="false" width="58" height="58" source="assets/dock/dock_item_bg.png"/>
+</s:Group>

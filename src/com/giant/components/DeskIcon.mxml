@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="70" height="70" buttonMode="true"
+		 mouseOver="mouseOverHandler(event)" 
+		 mouseOut="mouseOutHandler(event)">
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import spark.filters.DropShadowFilter;
+			[Bindable]
+			public var icon:Object;
+			[Bindable]
+			public var appName:String;
+			[Bindable]
+			private var appNameFilter:DropShadowFilter = new DropShadowFilter(2,90,0x000000,1,8,2);
+			
+			protected function mouseOverHandler(event:MouseEvent):void
+			{
+				iconBgLayer.visible = true;
+			}
+			
+			protected function mouseOutHandler(event:MouseEvent):void
+			{
+				iconBgLayer.visible = false;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Group visible="false" width="{iconGroup.width}" height="{iconGroup.height}" id="iconBgLayer">
+		<s:Rect radiusX="2" radiusY="2" left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="#FFFFFF" alpha="0.4"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="#4777D3" alpha="0.5"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Rect radiusX="2" radiusY="2" left="1" right="1" top="1" bottom="1">
+			<s:stroke>
+				<s:SolidColorStroke color="#FFFFFF" alpha="0.5"/>
+			</s:stroke>
+		</s:Rect>
+	</s:Group>
+	<s:VGroup id="iconGroup" color="#FFFFFF" width="100%" horizontalAlign="center" gap="2" 
+			  verticalAlign="middle" paddingBottom="5" paddingLeft="3" paddingRight="3" paddingTop="3">
+		<s:Image width="40" height="40" smooth="true" scaleMode="letterbox" source="{icon}"/>
+		<s:Label filters="{[appNameFilter]}" textAlign="center" text="{appName}" width="100%"/>
+	</s:VGroup>
+</s:Group>
