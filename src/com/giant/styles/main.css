@@ -34,3 +34,9 @@ s|Label#titleDisplay{
 	fontFamily:"微软雅黑";
 	color:"0xFFFFFF";
 }
+
+s|TextInput{
+	focusColor:"0xCCCCCC";
+	focusAlpha:0;
+	color:"0x666666";
+}

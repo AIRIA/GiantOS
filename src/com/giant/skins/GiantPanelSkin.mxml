@@ -18,9 +18,7 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import com.greensock.plugins.VisiblePlugin;
 			
-			import mx.core.UIComponent;
 			[Bindable]
 			private var radius:Number = 5;
 			[Bindable]
@@ -49,6 +47,11 @@
 			protected function closeWindow(event:MouseEvent):void
 			{
 				(hostComponent.parent as Group).removeElement(hostComponent);
+			}
+			
+			protected function prevent(event:MouseEvent):void
+			{
+				event.stopPropagation();
 			}
 			
 		]]>
@@ -129,14 +132,17 @@
 				<s:HGroup right="5" top="5" verticalAlign="middle">
 					<components:CoolButton visible="{hostComponent.minisizeEnable}"
 										   includeInLayout="{hostComponent.minisizeEnable}"
+										   mouseDown="prevent(event)"
 										   normalSource="assets/window/minisize.png"
 										   overSource="assets/window/minisize_over.png"/>
 					<components:CoolButton visible="{hostComponent.maxsizeEnable}"
 										   includeInLayout="{hostComponent.maxsizeEnable}"
+										   mouseDown="prevent(event)"
 										   normalSource="assets/window/maxsize.png"
 										   overSource="assets/window/maxsize_over.png"/>
 					<components:CoolButton visible="{hostComponent.closeEnable}"
 										   click="closeWindow(event)"
+										   mouseDown="prevent(event)"
 										   includeInLayout="{hostComponent.closeEnable}"
 										   normalSource="assets/window/close.png"
 										   overSource="assets/window/close_over.png"/>
