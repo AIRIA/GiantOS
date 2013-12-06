@@ -24,9 +24,9 @@
 			[Bindable]
 			private var contentPadding:Number = 8;
 			[Bindable]
-			private var backgroundFillColor:Number = 0xFFFFFF;
+			private var backgroundFillColor:Number = 0xA9DBF6;
 			[Bindable]
-			private var backgroundFillAlpha:Number = 0.3;
+			private var backgroundFillAlpha:Number = 0.7;
 			
 			
 			protected function topGroupMouseDown(event:MouseEvent):void

@@ -1,8 +1,10 @@
 import com.giant.components.GiantPanel;
-import com.giant.components.LiveWindow;
+import com.giant.windows.ClientWindow;
+import com.giant.windows.LiveWindow;
 
 // ActionScript file
 private var liveWindow:LiveWindow;
+private var clientWindow:ClientWindow;
 public function openApp(appName:String,width:Number,height:Number):void
 {
 	var cls:Class = getDefinitionByName(appName) as Class;

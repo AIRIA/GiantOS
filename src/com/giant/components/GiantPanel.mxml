@@ -3,12 +3,13 @@
 <s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" cornerRadius="5" 
 		 skinClass="com.giant.skins.GiantPanelSkin"
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" mouseDown="mouseDownHandler(event)">
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import spark.components.Group;
 			[Bindable]
 			/**
 			 * 窗口是否可以最大化
@@ -24,6 +25,13 @@
 			 * 窗口是否可以关闭
 			 */
 			public var closeEnable:Boolean = true;
+			
+			protected function mouseDownHandler(event:MouseEvent):void
+			{
+				var childs:Number = this.parent.numChildren;
+				(this.parent as Group).setElementIndex(this,childs-1);
+			}
+			
 		]]>
 	</fx:Script>
 </s:Panel>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:SimplePanel xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						xmlns:s="library://ns.adobe.com/flex/spark" 
+						xmlns:mx="library://ns.adobe.com/flex/mx" 
+						xmlns:components="com.giant.components.*" 
+						width="350" height="100%" title="师生互动">
+	<fx:Script>
+		<![CDATA[
+			import com.giant.skins.GiantTextInputSkin;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<components:layout>
+		<s:VerticalLayout  />
+	</components:layout>
+	<s:VGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" paddingTop="5">
+		
+	</s:VGroup>
+	<s:Group width="100%" height="40">
+		<s:Rect left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="0xE5E5E5"/>
+			</s:fill>
+		</s:Rect>
+		<s:HGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" verticalAlign="middle" >
+			<s:Image source="assets/icons/role.png" width="32" height="32" />
+			<s:TextInput skinClass="com.giant.skins.GiantTextInputSkin" prompt="输入文字,回车发送" width="100%"/>
+		</s:HGroup>
+	</s:Group>
+	<components:controlBarContent>
+		<s:HGroup verticalAlign="middle" width="100%" height="20">
+			<s:Label text="当前在线人数:5" />
+			<s:Spacer width="100%"/>
+			<s:Button label="我要发言"/>
+		</s:HGroup>
+	</components:controlBarContent>
+</components:SimplePanel>
