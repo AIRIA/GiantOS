@@ -3,7 +3,7 @@
 						xmlns:s="library://ns.adobe.com/flex/spark" 
 						xmlns:mx="library://ns.adobe.com/flex/mx" 
 						xmlns:components="com.giant.components.*" 
-						width="350" height="100%" title="师生互动">
+						width="350" height="100%" title="师生互动" iconTip="隐藏" cutIcon="assets/icons/right.png">
 	<fx:Script>
 		<![CDATA[
 			import com.giant.skins.GiantTextInputSkin;

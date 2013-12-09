@@ -14,27 +14,24 @@
 	</components:controlBarContent>
 	
 	<s:HGroup width="100%" height="100%" gap="5">
-		<mx:TabNavigator paddingTop="1" chromeColor="0xCCCCCC" borderColor="0xCCCCCC" tabOffset="10" horizontalGap="10" width="100%" height="100%">
-			<mx:Canvas label="直播预览" width="100%" height="100%">
-				<s:VGroup gap="5" width="100%" height="100%">
-					<components:SimplePanel borderVisible="false" width="300" height="300" title="直播预览">
-						<s:Rect left="0" right="0" top="0" bottom="0">
-							<s:fill>
-								<s:SolidColor color="0x000000" />
-							</s:fill>
-						</s:Rect>
-						<s:VideoDisplay loop="true" scaleMode="letterbox" width="100%" height="100%" source="http://122.227.216.103/youku/65713704ACE3182BD29EE46B2B/030002010052A131F75DB90230E416E8084310-4D55-F403-4DBE-9D8115854D5E.flv" />
-					</components:SimplePanel>
-					<components:SimplePanel borderVisible="false" width="100%" height="100%" title="PPT列表">
-						
-					</components:SimplePanel>
-				</s:VGroup>
-			</mx:Canvas>
-			<mx:Canvas label="PPT演示" width="100%" height="100%">
+		<s:VGroup width="100%" height="100%">
+			<s:HGroup width="100%" height="100%">
+				<components:SimplePanel cutIcon="assets/icons/maximum.png" width="300" height="300" title="直播预览">
+					<s:Rect left="0" right="0" top="0" bottom="0">
+						<s:fill>
+							<s:SolidColor color="0x000000" />
+						</s:fill>
+					</s:Rect>
+					<s:VideoDisplay loop="true" scaleMode="letterbox" width="100%" height="100%" source="http://61.160.198.204/youku/657411E4EDD3081E98B75C6B96/0300080100522EE34C4F800371D8BEAE04A557-D1B4-FA61-FC11-A540AC1E2FF5.mp4" />
+				</components:SimplePanel>
+				<components:SimplePanel cutIcon="assets/icons/maximum.png" width="100%" height="100%" title="PPT演示">
+					
+				</components:SimplePanel>
+			</s:HGroup>
+			<components:SimplePanel iconTip="隐藏" cutIcon="assets/icons/down.png" width="100%" height="100%" title="PPT列表">
 				
-			</mx:Canvas>
-		</mx:TabNavigator>
-		
+			</components:SimplePanel>
+		</s:VGroup>
 		<components:ChatPanel />
 		
 	</s:HGroup>

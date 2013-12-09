@@ -7,4 +7,14 @@
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			/*面板右上角 切换面板显示的icon*/
+			public var cutIcon:String;
+			[Bindable]
+			/* 图标的tip */
+			public var iconTip:String;
+		]]>
+	</fx:Script>
 </s:Panel>
