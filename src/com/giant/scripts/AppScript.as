@@ -1,10 +1,20 @@
 import com.giant.components.GiantPanel;
+import com.giant.nets.SocketManager;
 import com.giant.windows.ClientWindow;
 import com.giant.windows.LiveWindow;
+
+import mx.events.FlexEvent;
 
 // ActionScript file
 private var liveWindow:LiveWindow;
 private var clientWindow:ClientWindow;
+
+
+protected function appStart(event:FlexEvent):void
+{
+	SocketManager.getSocket();
+}
+
 public function openApp(appName:String,width:Number,height:Number):void
 {
 	var cls:Class = getDefinitionByName(appName) as Class;

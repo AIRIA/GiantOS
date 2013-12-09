@@ -3,7 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:giant="com.giant.components.*"
-			   minWidth="955" minHeight="600">
+			   minWidth="955" minHeight="600" applicationComplete="appStart(event)">
 	<fx:Style source="com/giant/styles/main.css"/>
 	<fx:Script source="com/giant/scripts/AppScript.as"/>
 	<fx:Declarations>
