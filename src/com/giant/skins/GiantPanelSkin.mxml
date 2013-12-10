@@ -125,7 +125,7 @@
 						<s:SolidColorStroke color="#FFFFFF"/>
 					</s:stroke>
 				</s:Rect>
-				
+				<s:Image source="{hostComponent.icon}" width="24" height="24" scaleMode="stretch" left="5" verticalCenter="0" />
 				<!-- layer 3: text -->
 				<!--- @copy spark.components.Panel#titleDisplay -->
 				<s:Label id="titleDisplay" left="9" right="3" top="1" bottom="0" minHeight="30"

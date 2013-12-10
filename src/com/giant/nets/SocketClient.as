@@ -5,7 +5,7 @@ package com.giant.nets
 	import com.giant.events.GiantEvent;
 	import com.giant.managers.ShareManager;
 	import com.giant.utils.Util;
-	
+	 
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.OutputProgressEvent;
@@ -45,6 +45,7 @@ package com.giant.nets
 		public function sendMsg(json:String):void
 		{
 			trace("send data:"+json);
+			Util.info("[send]"+json);
 			socket.writeMultiByte(json+"\n","UTF-8");
 			socket.flush();
 		}
@@ -57,6 +58,7 @@ package com.giant.nets
 		protected function getDataHandler(event:ProgressEvent):void
 		{
 			var jsonStr:String = socket.readMultiByte(socket.bytesAvailable,"UTF-8");
+			Util.info("[recv]"+jsonStr);
 			socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,jsonStr));
 		}
 		

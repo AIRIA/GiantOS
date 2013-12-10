@@ -40,3 +40,7 @@ s|TextInput{
 	focusAlpha:0;
 	color:"0x666666";
 }
+
+s|Scroller s|VScrollBar{
+	skinClass:ClassReference("com.giant.skins.scroller.GiantVScrollerSkin");
+}

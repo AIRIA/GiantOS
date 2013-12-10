@@ -32,8 +32,8 @@
 			<s:TileLayout columnWidth="70" orientation="columns" paddingBottom="50" paddingLeft="10"
 						  paddingTop="10"/>
 		</s:layout>
-		<giant:DeskIcon appName="在线教学" click="openApp('com.giant.windows.LiveWindow',1000,600)" icon="assets/record.png"/>
-		<giant:DeskIcon appName="直播课堂" click="openApp('com.giant.windows.ClientWindow',1000,600)" icon="assets/play.png"/>
+		<giant:DeskIcon appName="在线教学" click="openApp(event,'com.giant.windows.LiveWindow',1000,600)" icon="assets/record.png"/>
+		<giant:DeskIcon appName="直播课堂" click="openApp(event,'com.giant.windows.ClientWindow',1000,600)" icon="assets/play.png"/>
 	</s:Group>
 	<s:Group width="100%" height="100%">
 		<!-- 放置dock图标 -->

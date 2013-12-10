@@ -32,6 +32,9 @@
 			 */
 			public var onClose:Function = null;
 			
+			[Bindable]
+			public var icon:Object;
+			
 			protected function mouseDownHandler(event:MouseEvent):void
 			{
 				var childs:Number = this.parent.numChildren;

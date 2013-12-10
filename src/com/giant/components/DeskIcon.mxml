@@ -4,7 +4,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 width="70" height="70" buttonMode="true"
 		 mouseOver="mouseOverHandler(event)" 
-		 mouseOut="mouseOutHandler(event)">
+		 mouseOut="mouseOutHandler(event)" mouseChildren="false">
 	
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
