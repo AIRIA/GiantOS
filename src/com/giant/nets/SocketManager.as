@@ -1,5 +1,10 @@
 package com.giant.nets
 {
+	import com.giant.configures.RouteDictionary;
+	import com.giant.configures.StatusConfigure;
+	import com.giant.events.GiantEvent;
+	import com.giant.managers.EventManager;
+	import com.giant.managers.ShareManager;
 	import com.giant.utils.Util;
 	
 	import flash.events.Event;
@@ -9,59 +14,80 @@ package com.giant.nets
 	import flash.events.SecurityErrorEvent;
 	import flash.net.Socket;
 	import flash.system.Security;
+	
+	import mx.controls.Alert;
+	import mx.utils.ObjectUtil;
+	
+	import avmplus.getQualifiedClassName;
 
 	public class SocketManager
 	{
 		private static var socket:Socket;
 		public static function getSocket():Socket
 		{
-			if(!socket)
-			{
-				Security.loadPolicyFile("xmlsocket://192.168.2.170:9703");
-				socket = new Socket();
-				socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR,securityErrorHandler);
-				socket.addEventListener(Event.CONNECT,connectHandler);
-				socket.addEventListener(Event.CLOSE,closeHandler);
-				socket.addEventListener(IOErrorEvent.IO_ERROR,ioErrorHandler);
-				socket.addEventListener(ProgressEvent.SOCKET_DATA,getDataHandler);
-				socket.addEventListener(OutputProgressEvent.OUTPUT_PROGRESS,outputHandler);
-				socket.connect(NetConfig.SERVER_IP,NetConfig.TEA_PORT);
-			}
+			Security.loadPolicyFile("xmlsocket://192.168.2.170:9703");
+			socket = new Socket();
+			socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR,securityErrorHandler);
+			socket.addEventListener(Event.CONNECT,connectHandler);
+			socket.addEventListener(Event.CLOSE,closeHandler);
+			socket.addEventListener(IOErrorEvent.IO_ERROR,ioErrorHandler);
+			socket.addEventListener(ProgressEvent.SOCKET_DATA,getDataHandler);
+			socket.addEventListener(OutputProgressEvent.OUTPUT_PROGRESS,outputHandler);
+			socket.connect(NetConfig.SERVER_IP,ShareManager.port);
 			return socket;
+		}
+		/**
+		 * 发送JSON格式的数据到socket服务器 
+		 * @param msg
+		 * 
+		 */		
+		public static function sendMsg(msg:Object):void
+		{
+			var props:Array = ObjectUtil.getClassInfo(msg).properties as Array;
+			var vo:Object = {};
+			for(var i:Number=0;i<props.length;i++)
+			{
+				var prop:String = props[i];
+				vo[prop] = msg[prop];
+			}
+			vo["route"] = getQualifiedClassName(msg);
+			var jsonStr:String = JSON.stringify(vo);
+			trace("send data:"+jsonStr);
+			socket.writeMultiByte(jsonStr+"\n","UTF-8");
+			socket.flush();
 		}
 		
 		protected static function outputHandler(event:OutputProgressEvent):void
 		{
-			// TODO Auto-generated method stub
-			
+			//Util.alert("send data");
 		}
 		
 		protected static function getDataHandler(event:ProgressEvent):void
 		{
-			// TODO Auto-generated method stub
-			Util.alert("socket recv data");
+			var jsonStr:String = socket.readMultiByte(socket.bytesAvailable,"UTF-8");
+			RouteDictionary.recvRoute(jsonStr);
 		}
 		
 		protected static function ioErrorHandler(event:IOErrorEvent):void
 		{
-			// TODO Auto-generated method stub
 			Util.alert("socket io error");
 		}
 		
 		protected static function closeHandler(event:Event):void
 		{
-			Util.alert("socket closed");
+			StatusConfigure.connected = false;
+			Alert.show("socket closed");
 		}
 		
 		protected static function connectHandler(event:Event):void
 		{
-			// TODO Auto-generated method stub
-			Util.alert("socket connected");
+			Alert.show("socket connected");
+			var socket:Socket = event.target as Socket;
+			socket.dispatchEvent(new GiantEvent(GiantEvent.SERVER_CONNECTED));
 		}
 		
 		protected static function securityErrorHandler(event:SecurityErrorEvent):void
 		{
-			// TODO Auto-generated method stub
 			Util.alert("security error occur");
 		}
 	}

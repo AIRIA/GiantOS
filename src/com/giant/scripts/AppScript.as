@@ -12,7 +12,7 @@ private var clientWindow:ClientWindow;
 
 protected function appStart(event:FlexEvent):void
 {
-	SocketManager.getSocket();
+	
 }
 
 public function openApp(appName:String,width:Number,height:Number):void

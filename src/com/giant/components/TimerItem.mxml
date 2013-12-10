@@ -17,7 +17,6 @@
 				'4':'四',
 				'5':'五',
 				'6':'六'
-				
 			};
 			//初始化时间
 			public function createHandler(event:Event=null):void{

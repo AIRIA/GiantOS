@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 程序窗口的基类 -->
-<s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" cornerRadius="5" 
-		 skinClass="com.giant.skins.GiantPanelSkin"
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" mouseDown="mouseDownHandler(event)">
+<s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 cornerRadius="5" mouseDown="mouseDownHandler(event)"
+		 skinClass="com.giant.skins.GiantPanelSkin">
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
@@ -25,6 +26,11 @@
 			 * 窗口是否可以关闭
 			 */
 			public var closeEnable:Boolean = true;
+			[Event]
+			/**
+			 * 窗口关闭的时候调用
+			 */
+			public var onClose:Function = null;
 			
 			protected function mouseDownHandler(event:MouseEvent):void
 			{

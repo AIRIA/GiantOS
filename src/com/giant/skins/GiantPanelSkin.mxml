@@ -46,6 +46,8 @@
 			
 			protected function closeWindow(event:MouseEvent):void
 			{
+				if(hostComponent.onClose!=null)
+					hostComponent.onClose();
 				(hostComponent.parent as Group).removeElement(hostComponent);
 			}
 			
@@ -105,7 +107,8 @@
 				<s:VerticalLayout gap="0" horizontalAlign="justify"/>
 			</s:layout>
 			<!--- @private -->
-			<s:Group id="topGroup" mouseDown="topGroupMouseDown(event)" mouseOut="topGroupMouseOut(event)" mouseUp="topGroupMouseUp(event)">
+			<s:Group id="topGroup" mouseDown="topGroupMouseDown(event)"
+					 mouseOut="topGroupMouseOut(event)" mouseUp="topGroupMouseUp(event)">
 				
 				<!-- layer 0: title bar fill -->
 				<!--- @private -->
@@ -142,8 +145,8 @@
 										   overSource="assets/window/maxsize_over.png"/>
 					<components:CoolButton visible="{hostComponent.closeEnable}"
 										   click="closeWindow(event)"
-										   mouseDown="prevent(event)"
 										   includeInLayout="{hostComponent.closeEnable}"
+										   mouseDown="prevent(event)"
 										   normalSource="assets/window/close.png"
 										   overSource="assets/window/close_over.png"/>
 				</s:HGroup>

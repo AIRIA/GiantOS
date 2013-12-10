@@ -5,5 +5,5 @@ import flash.events.MouseEvent;
 
 private function fullscreen(event:MouseEvent=null):void
 {
-	stage.displayState = stage.displayState==StageDisplayState.FULL_SCREEN?StageDisplayState.NORMAL:StageDisplayState.FULL_SCREEN;
+	stage.displayState = stage.displayState==StageDisplayState.FULL_SCREEN_INTERACTIVE?StageDisplayState.NORMAL:StageDisplayState.FULL_SCREEN_INTERACTIVE;
 }

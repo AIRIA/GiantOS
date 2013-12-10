@@ -2,6 +2,8 @@ package com.giant.utils
 {
 	import flash.external.ExternalInterface;
 	import flash.system.Capabilities;
+	
+	import mx.utils.ObjectUtil;
 
 	/**
 	 * 可以在控制台打印Log消息
@@ -67,6 +69,17 @@ package com.giant.utils
 					guid += "-";
 			}
 			return guid;
+		}
+		
+		static public function decode(src:Object,target:Object):void
+		{
+			var props:Array = ObjectUtil.getClassInfo(target).properties as Array;
+			var vo:Object = {};
+			for(var i:Number=0;i<props.length;i++)
+			{
+				var prop:String = props[i];
+				target[prop] = src[prop];
+			}
 		}
 		
 	}

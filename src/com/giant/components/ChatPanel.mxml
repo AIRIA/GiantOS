@@ -1,41 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<components:SimplePanel xmlns:fx="http://ns.adobe.com/mxml/2009" 
-						xmlns:s="library://ns.adobe.com/flex/spark" 
-						xmlns:mx="library://ns.adobe.com/flex/mx" 
-						xmlns:components="com.giant.components.*" 
-						width="350" height="100%" title="师生互动" iconTip="隐藏" cutIcon="assets/icons/right.png">
+<components:SimplePanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+						xmlns:s="library://ns.adobe.com/flex/spark"
+						xmlns:mx="library://ns.adobe.com/flex/mx"
+						xmlns:components="com.giant.components.*"
+						width="350" height="100%" cutIcon="assets/icons/right.png" iconTip="隐藏"
+						title="师生互动" >
 	<fx:Script>
 		<![CDATA[
+			import com.giant.configures.RouteDictionary;
+			import com.giant.configures.StatusConfigure;
+			import com.giant.nets.SocketManager;
 			import com.giant.skins.GiantTextInputSkin;
+			import com.giant.utils.Util;
+			import com.giant.vo.ChatMsg;
+			import com.giant.vo.Person;
+			
+			import mx.events.FlexEvent;
 			[Bindable]
 			public var btnLabel:String;
+			
+			protected function sendMsg(event:FlexEvent):void
+			{
+				var date:Date = new Date();
+				var hours:String = formatNum(date.getHours());
+				var minutes:String = formatNum(date.getMinutes());
+				var seconds:String = formatNum(date.getSeconds());
+				var chatMsg:ChatMsg = new ChatMsg();
+				RouteDictionary.registerRoute(chatMsg,recvChatMsg);
+				chatMsg.time = hours+":"+minutes+":"+seconds;
+				chatMsg.content = msgInput.text;
+				chatMsg.roomId = "room_1";
+				chatMsg.human = Person.name;
+				SocketManager.sendMsg(chatMsg);
+				msgInput.text = "";
+			}
+			
+			private function addChatItem(msg:ChatMsg):void
+			{
+				var chatItem:ChatItem = new ChatItem();
+				chatItem.chatMsg = msg;
+				chatGroup.addElement(chatItem);
+			}
+			
+			private function formatNum(num:int):String{
+				if(num<10){
+					return "0"+num;
+				}
+				return num.toString();
+			}
+			
+			public function recvChatMsg(msg:Object):void
+			{
+				var chatMsg:ChatMsg = new ChatMsg();
+				Util.decode(msg,chatMsg);
+				addChatItem(chatMsg);
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
 	<components:layout>
-		<s:VerticalLayout  />
+		<s:VerticalLayout/>
 	</components:layout>
-	<s:VGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" paddingTop="5">
-		
-	</s:VGroup>
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup id="chatGroup" width="100%" height="100%" paddingLeft="5" paddingRight="5" paddingTop="5">
+		</s:VGroup>
+	</s:Scroller>
 	<s:Group width="100%" height="40">
 		<s:Rect left="0" right="0" top="0" bottom="0">
 			<s:fill>
 				<s:SolidColor color="0xE5E5E5"/>
 			</s:fill>
 		</s:Rect>
-		<s:HGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" verticalAlign="middle" >
-			<s:Image source="assets/icons/role.png" width="32" height="32" />
-			<s:TextInput skinClass="com.giant.skins.GiantTextInputSkin" prompt="输入文字,回车发送" width="100%"/>
+		<s:HGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" verticalAlign="middle">
+			<s:Image width="32" height="32" source="assets/icons/role.png"/>
+			<s:TextInput id="msgInput" width="100%" enabled="{StatusConfigure.connected}"
+						 enter="sendMsg(event)" prompt="输入文字,回车发送"
+						 skinClass="com.giant.skins.GiantTextInputSkin"/>
 		</s:HGroup>
 	</s:Group>
 	<components:controlBarContent>
-		<s:HGroup verticalAlign="middle" width="100%" height="20">
-			<s:Label text="当前在线人数:5" />
+		<s:HGroup width="100%" height="20" verticalAlign="middle">
+			<s:Label text="当前在线人数:5"/>
 			<s:Spacer width="100%"/>
-			<s:Button label="我要发言"/>
+			<s:Button label="{btnLabel}"/>
 		</s:HGroup>
 	</components:controlBarContent>
 </components:SimplePanel>

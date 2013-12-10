@@ -45,6 +45,7 @@
             params.quality = "high";
             params.bgcolor = "${bgcolor}";
             params.allowScriptAccess = "sameDomain";
+            params.allowFullScreenInteractive = "true";
             params.allowFullScreen = "true";
             var attributes = {};
             attributes.id = "${application}";
@@ -82,6 +83,7 @@
                 <param name="quality" value="high" />
                 <param name="bgcolor" value="${bgcolor}" />
                 <param name="allowScriptAccess" value="sameDomain" />
+                <param name=”allowFullScreenInteractive” value=”true” />
                 <param name="allowFullScreen" value="true" />
                 <!--[if !IE]>-->
                 <object type="application/x-shockwave-flash" data="${swf}.swf" width="${width}" height="${height}">
