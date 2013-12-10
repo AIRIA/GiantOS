@@ -5,58 +5,14 @@
 					   xmlns:components="com.giant.components.*"
 					   width="1000" height="600" creationComplete="createComplete(event)"
 					   onClose="{closeSocket}" title="直播课堂">
+	
+	<fx:Script source="../scripts/ClientWindow.as"/>
+	
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
-	<fx:Script>
-		<![CDATA[
-			import com.giant.configures.RouteDictionary;
-			import com.giant.configures.StatusConfigure;
-			import com.giant.events.GiantEvent;
-			import com.giant.managers.ShareManager;
-			import com.giant.nets.NetConfig;
-			import com.giant.nets.SocketManager;
-			import com.giant.utils.JsonUtil;
-			import com.giant.vo.msgs.Person;
-			
-			import mx.controls.Alert;
-			import mx.events.FlexEvent;
-			private var socket:Socket;
-			
-			protected function createComplete(event:FlexEvent):void
-			{
-				ShareManager.port = NetConfig.STU_PORT;
-				socket = SocketManager.getSocket();
-				socket.addEventListener(GiantEvent.SERVER_CONNECTED,connectedHandler);
-				RouteDictionary.registerRoute(new Person(),recvData);
-			}
-			private function connectedHandler(event:GiantEvent):void
-			{
-				var person:Person = new Person();
-				person.roomId = "room_1";
-				person.type = "cmd";
-				SocketManager.sendMsg(JsonUtil.objToJson(person));
-			}
-			public function recvData(data:Object):void
-			{
-				Alert.show(data.msg);
-				if(data.msg=="success")
-				{
-					StatusConfigure.connected = true;
-				}
-			}
-			
-			public function closeSocket():void
-			{
-				if(socket.connected)
-				{
-					socket.close();
-				}
-				
-			}
-			
-		]]>
-	</fx:Script>
+	
+	
 	<s:HGroup width="100%" height="100%">
 		<s:VGroup width="100%" height="100%">
 			<s:HGroup width="100%" height="100%">
@@ -80,6 +36,6 @@
 				
 			</components:SimplePanel>
 		</s:VGroup>
-		<components:ChatPanel btnLabel="我要发言"/>
+		<components:ChatPanel id="chatPanel" sendEnable="{StatusConfigure.clientConnected}" socketClient="{socketClient}" btnLabel="我要发言" routeDic="{ShareManager.clientRouteDic}"/>
 	</s:HGroup>
 </components:GiantPanel>

@@ -4,6 +4,16 @@ package com.giant.vo.msgs
 	
 	public class RoomInfo extends Message
 	{
-		public var stu_list:Vector<Person>;
+		private var _student:Array
+
+		public function get student():Array
+		{
+			return _student;
+		}
+
+		public function set student(value:Array):void
+		{
+			_student = value;
+		}
 	}
 }

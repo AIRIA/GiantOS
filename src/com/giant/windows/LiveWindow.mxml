@@ -5,53 +5,7 @@
 					   xmlns:components="com.giant.components.*"
 					   width="1000" height="600" creationComplete="createComplete(event)"
 					   onClose="{closeSocket}" title="主播室">
-	<fx:Script>
-		<![CDATA[
-			import com.giant.configures.RouteDictionary;
-			import com.giant.configures.StatusConfigure;
-			import com.giant.events.GiantEvent;
-			import com.giant.managers.ShareManager;
-			import com.giant.nets.NetConfig;
-			import com.giant.nets.SocketManager;
-			import com.giant.utils.JsonUtil;
-			import com.giant.vo.commands.Room;
-			
-			import mx.controls.Alert;
-			import mx.events.FlexEvent;
-			
-			private var socket:Socket;
-			
-			protected function createComplete(event:FlexEvent):void
-			{
-				ShareManager.port = NetConfig.TEA_PORT;
-				socket = SocketManager.getSocket();
-				socket.addEventListener(GiantEvent.SERVER_CONNECTED,connectedHandler);
-				RouteDictionary.registerRoute(new Room(),getRoomData);
-			}
-			
-			private function connectedHandler(event:GiantEvent):void
-			{
-				var room:Room = new Room();
-				room.roomId = "room_1";
-				SocketManager.sendMsg(JsonUtil.objToJson(room));
-			}
-			
-			protected function getRoomData(data:Object):void
-			{
-				Alert.show(data.msg);
-				StatusConfigure.connected = true;
-			}
-			
-			protected function closeSocket():void
-			{
-				if(socket.connected)
-				{
-					socket.close();
-				}
-			}
-			
-		]]>
-	</fx:Script>
+	<fx:Script source="../scripts/LiveWindow.as"/>
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
@@ -84,7 +38,6 @@
 				
 			</components:SimplePanel>
 		</s:VGroup>
-		<components:ChatPanel btnLabel="允许提问"/>
-		
+		<components:ChatPanel id="chatPanel" sendEnable="{StatusConfigure.liveConnected}" socketClient="{socketClient}" btnLabel="允许提问" routeDic="{ShareManager.liveRouteDic}"/>
 	</s:HGroup>
 </components:GiantPanel>

@@ -4,61 +4,8 @@
 						xmlns:mx="library://ns.adobe.com/flex/mx"
 						xmlns:components="com.giant.components.*"
 						width="350" height="100%" cutIcon="assets/icons/right.png" iconTip="隐藏"
-						title="师生互动" >
-	<fx:Script>
-		<![CDATA[
-			import com.giant.configures.RouteDictionary;
-			import com.giant.configures.StatusConfigure;
-			import com.giant.nets.SocketManager;
-			import com.giant.skins.GiantTextInputSkin;
-			import com.giant.utils.JsonUtil;
-			import com.giant.utils.Util;
-			import com.giant.vo.msgs.ChatMsg;
-			import com.giant.vo.msgs.Person;
-			
-			import mx.events.FlexEvent;
-			[Bindable]
-			public var btnLabel:String;
-			
-			protected function sendMsg(event:FlexEvent):void
-			{
-				var date:Date = new Date();
-				var hours:String = formatNum(date.getHours());
-				var minutes:String = formatNum(date.getMinutes());
-				var seconds:String = formatNum(date.getSeconds());
-				var chatMsg:ChatMsg = new ChatMsg();
-				RouteDictionary.registerRoute(chatMsg,recvChatMsg);
-				chatMsg.time = hours+":"+minutes+":"+seconds;
-				chatMsg.content = msgInput.text;
-				chatMsg.roomId = "room_1";
-				chatMsg.human = Person.name;
-				SocketManager.sendMsg(JsonUtil.objToJson(chatMsg));
-				msgInput.text = "";
-			}
-			
-			private function addChatItem(msg:ChatMsg):void
-			{
-				var chatItem:ChatItem = new ChatItem();
-				chatItem.chatMsg = msg;
-				chatGroup.addElement(chatItem);
-			}
-			
-			private function formatNum(num:int):String{
-				if(num<10){
-					return "0"+num;
-				}
-				return num.toString();
-			}
-			
-			public function recvChatMsg(msg:Object):void
-			{
-				var chatMsg:ChatMsg = new ChatMsg();
-				Util.decode(msg,chatMsg);
-				addChatItem(chatMsg);
-			}
-			
-		]]>
-	</fx:Script>
+						title="师生互动" creationComplete="createCompleteHandler(event)">
+	<fx:Script source="../scripts/ChatPanel.as" />
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
@@ -77,14 +24,14 @@
 		</s:Rect>
 		<s:HGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" verticalAlign="middle">
 			<s:Image width="32" height="32" source="assets/icons/role.png"/>
-			<s:TextInput id="msgInput" width="100%" enabled="{StatusConfigure.connected}"
+			<s:TextInput enabled="{sendEnable}" id="msgInput" width="100%"
 						 enter="sendMsg(event)" prompt="输入文字,回车发送"
 						 skinClass="com.giant.skins.GiantTextInputSkin"/>
 		</s:HGroup>
 	</s:Group>
 	<components:controlBarContent>
 		<s:HGroup width="100%" height="20" verticalAlign="middle">
-			<s:Label text="当前在线人数:5"/>
+			<s:Label text="{'当前在线人数:'+onlineNum}"/>
 			<s:Spacer width="100%"/>
 			<s:Button label="{btnLabel}"/>
 		</s:HGroup>

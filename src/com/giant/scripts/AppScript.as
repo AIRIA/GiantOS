@@ -1,5 +1,5 @@
 import com.giant.components.GiantPanel;
-import com.giant.nets.SocketManager;
+import com.giant.nets.SocketClient;
 import com.giant.windows.ClientWindow;
 import com.giant.windows.LiveWindow;
 
