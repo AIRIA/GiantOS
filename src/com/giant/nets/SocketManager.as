@@ -3,7 +3,6 @@ package com.giant.nets
 	import com.giant.configures.RouteDictionary;
 	import com.giant.configures.StatusConfigure;
 	import com.giant.events.GiantEvent;
-	import com.giant.managers.EventManager;
 	import com.giant.managers.ShareManager;
 	import com.giant.utils.Util;
 	
@@ -41,19 +40,10 @@ package com.giant.nets
 		 * @param msg
 		 * 
 		 */		
-		public static function sendMsg(msg:Object):void
+		public static function sendMsg(json:String):void
 		{
-			var props:Array = ObjectUtil.getClassInfo(msg).properties as Array;
-			var vo:Object = {};
-			for(var i:Number=0;i<props.length;i++)
-			{
-				var prop:String = props[i];
-				vo[prop] = msg[prop];
-			}
-			vo["route"] = getQualifiedClassName(msg);
-			var jsonStr:String = JSON.stringify(vo);
-			trace("send data:"+jsonStr);
-			socket.writeMultiByte(jsonStr+"\n","UTF-8");
+			trace("send data:"+json);
+			socket.writeMultiByte(json+"\n","UTF-8");
 			socket.flush();
 		}
 		

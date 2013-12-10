@@ -7,7 +7,7 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import com.giant.vo.ChatMsg;
+			import com.giant.vo.msgs.ChatMsg;
 			[Bindable]
 			public var chatMsg:ChatMsg;
 		]]>

@@ -13,7 +13,8 @@
 			import com.giant.managers.ShareManager;
 			import com.giant.nets.NetConfig;
 			import com.giant.nets.SocketManager;
-			import com.giant.vo.Room;
+			import com.giant.utils.JsonUtil;
+			import com.giant.vo.commands.Room;
 			
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
@@ -32,7 +33,7 @@
 			{
 				var room:Room = new Room();
 				room.roomId = "room_1";
-				SocketManager.sendMsg(room);
+				SocketManager.sendMsg(JsonUtil.objToJson(room));
 			}
 			
 			protected function getRoomData(data:Object):void

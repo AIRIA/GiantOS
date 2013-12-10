@@ -11,9 +11,10 @@
 			import com.giant.configures.StatusConfigure;
 			import com.giant.nets.SocketManager;
 			import com.giant.skins.GiantTextInputSkin;
+			import com.giant.utils.JsonUtil;
 			import com.giant.utils.Util;
-			import com.giant.vo.ChatMsg;
-			import com.giant.vo.Person;
+			import com.giant.vo.msgs.ChatMsg;
+			import com.giant.vo.msgs.Person;
 			
 			import mx.events.FlexEvent;
 			[Bindable]
@@ -31,7 +32,7 @@
 				chatMsg.content = msgInput.text;
 				chatMsg.roomId = "room_1";
 				chatMsg.human = Person.name;
-				SocketManager.sendMsg(chatMsg);
+				SocketManager.sendMsg(JsonUtil.objToJson(chatMsg));
 				msgInput.text = "";
 			}
 			

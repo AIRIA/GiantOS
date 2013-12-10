@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<components:GiantPanel xmlns:fx="http://ns.adobe.com/mxml/2009" title="直播课堂" 
-					   xmlns:s="library://ns.adobe.com/flex/spark" 
-					   xmlns:mx="library://ns.adobe.com/flex/mx" 
-					   xmlns:components="com.giant.components.*" width="1000" height="600"
-					   creationComplete="createComplete(event)" onClose="{closeSocket}">
+<components:GiantPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:components="com.giant.components.*"
+					   width="1000" height="600" creationComplete="createComplete(event)"
+					   onClose="{closeSocket}" title="直播课堂">
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
@@ -12,11 +13,11 @@
 			import com.giant.configures.RouteDictionary;
 			import com.giant.configures.StatusConfigure;
 			import com.giant.events.GiantEvent;
-			import com.giant.managers.EventManager;
 			import com.giant.managers.ShareManager;
 			import com.giant.nets.NetConfig;
 			import com.giant.nets.SocketManager;
-			import com.giant.vo.Person;
+			import com.giant.utils.JsonUtil;
+			import com.giant.vo.msgs.Person;
 			
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
@@ -25,8 +26,8 @@
 			protected function createComplete(event:FlexEvent):void
 			{
 				ShareManager.port = NetConfig.STU_PORT;
-				EventManager.instance().addEventListener(GiantEvent.SERVER_CONNECTED,connectedHandler);
 				socket = SocketManager.getSocket();
+				socket.addEventListener(GiantEvent.SERVER_CONNECTED,connectedHandler);
 				RouteDictionary.registerRoute(new Person(),recvData);
 			}
 			private function connectedHandler(event:GiantEvent):void
@@ -34,7 +35,7 @@
 				var person:Person = new Person();
 				person.roomId = "room_1";
 				person.type = "cmd";
-				SocketManager.sendMsg(person);
+				SocketManager.sendMsg(JsonUtil.objToJson(person));
 			}
 			public function recvData(data:Object):void
 			{
@@ -47,7 +48,11 @@
 			
 			public function closeSocket():void
 			{
-				socket.close();
+				if(socket.connected)
+				{
+					socket.close();
+				}
+				
 			}
 			
 		]]>
@@ -55,19 +60,23 @@
 	<s:HGroup width="100%" height="100%">
 		<s:VGroup width="100%" height="100%">
 			<s:HGroup width="100%" height="100%">
-				<components:SimplePanel cutIcon="assets/icons/maximum.png" width="300" height="300" title="直播预览">
+				<components:SimplePanel width="300" height="300" cutIcon="assets/icons/maximum.png"
+										title="直播预览">
 					<s:Rect left="0" right="0" top="0" bottom="0">
 						<s:fill>
-							<s:SolidColor color="0x000000" />
+							<s:SolidColor color="0x000000"/>
 						</s:fill>
 					</s:Rect>
-					<s:VideoDisplay loop="true" scaleMode="letterbox" width="100%" height="100%" source="http://61.160.198.204/youku/657411E4EDD3081E98B75C6B96/0300080100522EE34C4F800371D8BEAE04A557-D1B4-FA61-FC11-A540AC1E2FF5.mp4" />
+					<s:VideoDisplay width="100%" height="100%" loop="true" scaleMode="letterbox"
+									source="http://61.160.198.204/youku/657411E4EDD3081E98B75C6B96/0300080100522EE34C4F800371D8BEAE04A557-D1B4-FA61-FC11-A540AC1E2FF5.mp4"/>
 				</components:SimplePanel>
-				<components:SimplePanel cutIcon="assets/icons/maximum.png" width="100%" height="100%" title="PPT演示">
+				<components:SimplePanel width="100%" height="100%" cutIcon="assets/icons/maximum.png"
+										title="PPT演示">
 					
 				</components:SimplePanel>
 			</s:HGroup>
-			<components:SimplePanel iconTip="隐藏" cutIcon="assets/icons/down.png" width="100%" height="100%" title="PPT列表">
+			<components:SimplePanel width="100%" height="100%" cutIcon="assets/icons/down.png"
+									iconTip="隐藏" title="PPT列表">
 				
 			</components:SimplePanel>
 		</s:VGroup>
