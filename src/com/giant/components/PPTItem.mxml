@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="150" height="100%" buttonMode="true">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var itemName:String;
+			[Bindable]
+			public var itemImage:Object;
+			[Bindable]
+			private var _contentPadding:Number = 5;
+			
+			[Bindable]
+			private var _bgPadding:Number = 1;
+		]]>
+	</fx:Script>
+	<s:Rect radiusX="4" radiusY="4" left="{_bgPadding}" right="{_bgPadding}" top="{_bgPadding}" bottom="{_bgPadding}">
+		<s:fill>
+			<s:SolidColor color="0xCCCCCC" />
+		</s:fill>
+	</s:Rect>
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" paddingBottom="5"
+			  paddingLeft="{_contentPadding}" paddingRight="{_contentPadding}"
+			  paddingTop="{_contentPadding}">
+		<s:Image width="100%" scaleMode="stretch" height="100%" source="{itemImage}"/>
+		<s:Label text="{itemName}"/>
+	</s:VGroup>
+</s:Group>

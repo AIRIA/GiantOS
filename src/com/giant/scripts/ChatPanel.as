@@ -43,6 +43,8 @@ private function addChatItem(msg:ChatMsg):void
 	var chatItem:ChatItem = new ChatItem();
 	chatItem.chatMsg = msg;
 	chatGroup.addElement(chatItem);
+	chatGroup.validateNow();
+	chatScroller.verticalScrollBar.value = chatScroller.verticalScrollBar.maximum;
 }
 
 private function formatNum(num:int):String{

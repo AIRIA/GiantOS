@@ -22,12 +22,12 @@
 			
 			protected function mouseOutHandler(event:MouseEvent):void
 			{
-				fadeIn.stop();
+				fadeIn.stop(); 
 				fadeOut.play([cover]);
 			}
 			
 		]]>
 	</fx:Script>
 	<s:Image source="{icon}" verticalCenter="0" horizontalCenter="0" />
-	<s:Image alpha="0" id="cover" visible="false" width="58" height="58" source="assets/dock/dock_item_bg.png"/>
+	<s:Image alpha="0" id="cover" verticalCenter="0" horizontalCenter="0" visible="false" width="50" height="50" source="assets/dock/dock_item_bg.png"/>
 </s:Group>

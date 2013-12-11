@@ -12,7 +12,7 @@
 	<components:layout>
 		<s:VerticalLayout/>
 	</components:layout>
-	<s:Scroller width="100%" height="100%">
+	<s:Scroller id="chatScroller" width="100%" height="100%">
 		<s:VGroup id="chatGroup" width="100%" height="100%" paddingLeft="5" paddingRight="5" paddingTop="5">
 		</s:VGroup>
 	</s:Scroller>

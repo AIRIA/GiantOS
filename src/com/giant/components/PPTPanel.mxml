@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:SimplePanel xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						xmlns:s="library://ns.adobe.com/flex/spark" 
+						xmlns:mx="library://ns.adobe.com/flex/mx" 
+						xmlns:components="com.giant.components.*" 
+						width="100%" height="100%" cutIcon="assets/icons/maximum.png"
+						title="PPT演示">
+	
+	<fx:Script>
+		<![CDATA[
+			protected function mouseOverHandler(event:MouseEvent):void
+			{
+				fadeIn.play([navGroup]);
+			}
+			
+			protected function mouseOutHandler(event:MouseEvent):void
+			{
+				fadeOut.play([navGroup]);
+			}
+			
+			protected function navBtnOverHandler(event:MouseEvent):void
+			{
+				event.currentTarget.alpha = 1;
+			}
+			
+			protected function navBtnOutHandler(event:MouseEvent):void
+			{
+				event.currentTarget.alpha = 0.5;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:Fade id="fadeIn" duration="500" alphaTo="1"/>
+		<s:Fade id="fadeOut" duration="500" alphaTo="0"/>
+	</fx:Declarations>
+	<s:Image width="100%" height="100%" source="ppts/1.jpg" />
+	<s:HGroup mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)" alpha="0" id="navGroup" width="100%" height="100%" verticalAlign="middle">
+		<s:Image alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)" buttonMode="true" source="assets/icons/prev.png" />
+		<s:Spacer width="100%" />
+		<s:Image alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)"  buttonMode="true" source="assets/icons/next.png" />
+	</s:HGroup>
+</components:SimplePanel>

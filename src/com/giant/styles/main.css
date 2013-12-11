@@ -44,3 +44,7 @@ s|TextInput{
 s|Scroller s|VScrollBar{
 	skinClass:ClassReference("com.giant.skins.scroller.GiantVScrollerSkin");
 }
+
+s|Scroller s|HScrollBar{
+	skinClass:ClassReference("com.giant.skins.scroller.GiantHScrollerSkin")
+}
