@@ -1,11 +1,9 @@
 package com.giant.nets
 {
-	import com.giant.configures.RouteDictionary;
-	import com.giant.configures.StatusConfigure;
 	import com.giant.events.GiantEvent;
 	import com.giant.managers.ShareManager;
 	import com.giant.utils.Util;
-	 
+	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.OutputProgressEvent;
@@ -19,6 +17,14 @@ package com.giant.nets
 	public class SocketClient
 	{
 		private var socket:Socket;
+		
+		private var packBuffer:String;
+		private var packSize:Number;
+		private var packRealSize:Number;
+		private var packSuffixSize:Number = 0;
+		private var decodeEnded:Boolean = true;
+		
+		
 		public function SocketClient()
 		{
 			Security.loadPolicyFile("xmlsocket://192.168.2.170:9703");
@@ -46,7 +52,9 @@ package com.giant.nets
 		{
 			trace("send data:"+json);
 			Util.info("[send]"+json);
-			socket.writeMultiByte(json+"\n","UTF-8");
+			var msgLen:Number = json.length;
+			var prefix:String = Util.numToString(msgLen);
+			socket.writeMultiByte(prefix+json+"\n","UTF-8");
 			socket.flush();
 		}
 		
@@ -55,11 +63,46 @@ package com.giant.nets
 			//Util.alert("send data");
 		}
 		
+		private function decodePack(packStr:String,prefixLength:Number=4):void
+		{
+			if(decodeEnded){
+				packSize = Number(packStr.substr(0,prefixLength))+1;
+				packBuffer = packStr.substr(prefixLength,packSize);
+				if(packBuffer.length == packSize){
+					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,packBuffer));
+					packBuffer = null;
+					decodeEnded = true;
+					var remainStr:String = packStr.substr(packSize+prefixLength);
+					if(remainStr.length)
+						decodePack(remainStr);
+				}else{
+					decodeEnded = false;
+					packSuffixSize = packSize - packBuffer.length;
+				}
+			}else{
+				var suffixStr:String;
+				suffixStr = packStr.substr(0,packSuffixSize);
+				packBuffer += suffixStr;
+				if(packBuffer.length == packSize){
+					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,packBuffer));
+					decodeEnded = true;
+					packBuffer = null;
+					var lastStr:String = packStr.substr(packSuffixSize);
+					if(lastStr.length)
+						decodePack(remainStr);
+				}else{
+					decodeEnded = false;
+					packSuffixSize = packSize - packBuffer.length;
+				}
+			}
+			
+		}
+		
 		protected function getDataHandler(event:ProgressEvent):void
 		{
 			var jsonStr:String = socket.readMultiByte(socket.bytesAvailable,"UTF-8");
 			Util.info("[recv]"+jsonStr);
-			socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,jsonStr));
+			decodePack(jsonStr);
 		}
 		
 		protected function ioErrorHandler(event:IOErrorEvent):void

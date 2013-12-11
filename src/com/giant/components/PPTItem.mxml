@@ -13,6 +13,8 @@
 			[Bindable]
 			public var itemImage:Object;
 			[Bindable]
+			public var pageId:Number;
+			[Bindable]
 			private var _contentPadding:Number = 5;
 			
 			[Bindable]

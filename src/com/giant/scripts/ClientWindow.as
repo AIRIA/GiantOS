@@ -5,6 +5,7 @@ import com.giant.managers.ShareManager;
 import com.giant.nets.NetConfig;
 import com.giant.nets.SocketClient;
 import com.giant.utils.JsonUtil;
+import com.giant.vo.msgs.PPTItem;
 import com.giant.vo.msgs.Person;
 
 import flash.net.Socket;
@@ -14,6 +15,9 @@ import mx.events.FlexEvent;
 private var socket:Socket;
 [Bindable]
 private var socketClient:SocketClient;
+
+
+
 
 protected function createComplete(event:FlexEvent):void
 {
@@ -25,6 +29,15 @@ protected function createComplete(event:FlexEvent):void
 	//注册路由
 	ShareManager.clientRouteDic.registerWithObj(new Person(),recvData);
 	ShareManager.clientRouteDic.registerWithString("get_room_info",getRoomInfo);
+	ShareManager.clientRouteDic.registerWithObj(new PPTItem(),getPPTInfo);
+}
+/**
+ * 获取老师正在播放的ppt信息
+ */
+private function getPPTInfo(data:Object):void
+{
+	var pptItem:PPTItem = JsonUtil.jsonToObj(data,PPTItem);
+	pptPanel.pptItem = pptItem;
 }
 private function connectedHandler(event:GiantEvent):void
 {

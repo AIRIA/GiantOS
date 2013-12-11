@@ -8,6 +8,14 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.giant.vo.msgs.PPTItem;
+			[Bindable]
+			public var nextPage:Function = null;
+			[Bindable]
+			public var prevPage:Function = null;
+			[Bindable]
+			public var pptItem:com.giant.vo.msgs.PPTItem;
+			
 			protected function mouseOverHandler(event:MouseEvent):void
 			{
 				fadeIn.play([navGroup]);
@@ -36,10 +44,15 @@
 		<s:Fade id="fadeIn" duration="500" alphaTo="1"/>
 		<s:Fade id="fadeOut" duration="500" alphaTo="0"/>
 	</fx:Declarations>
-	<s:Image width="100%" height="100%" source="ppts/1.jpg" />
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:SolidColor color="0xDDDDDD" />
+		</s:fill>
+	</s:Rect>
+	<s:Image width="100%" height="100%" source="{pptItem.source}" />
 	<s:HGroup mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)" alpha="0" id="navGroup" width="100%" height="100%" verticalAlign="middle">
-		<s:Image alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)" buttonMode="true" source="assets/icons/prev.png" />
+		<s:Image click="prevPage(event)" alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)" buttonMode="true" source="assets/icons/prev.png" />
 		<s:Spacer width="100%" />
-		<s:Image alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)"  buttonMode="true" source="assets/icons/next.png" />
+		<s:Image click="nextPage(event)" alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)"  buttonMode="true" source="assets/icons/next.png" />
 	</s:HGroup>
 </components:SimplePanel>

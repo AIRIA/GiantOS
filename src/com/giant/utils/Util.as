@@ -82,5 +82,22 @@ package com.giant.utils
 			}
 		}
 		
+		static public function stringToNum(str:String):Number
+		{
+			return Number(str);
+		}
+		
+		static public function numToString(num:Number,prefix:String="0",targetLength:Number=4):String
+		{
+			var numStr:String = num.toString();
+			var len:Number = targetLength - numStr.length;
+			var prefixStr:String = "";
+			while(len>0){
+				prefixStr += prefix;
+				len--;
+			}
+			return prefixStr+numStr;
+		}
+		
 	}
 }

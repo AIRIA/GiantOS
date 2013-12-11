@@ -28,7 +28,7 @@
 					<s:VideoDisplay width="100%" height="100%" loop="true" scaleMode="letterbox"
 									source="http://61.160.198.204/youku/657411E4EDD3081E98B75C6B96/0300080100522EE34C4F800371D8BEAE04A557-D1B4-FA61-FC11-A540AC1E2FF5.mp4"/>
 				</components:SimplePanel>
-				<components:PPTPanel />
+				<components:PPTPanel id="pptPanel" />
 			</s:HGroup>
 			<components:PPTItemList />
 		</s:VGroup>
