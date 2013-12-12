@@ -53,6 +53,8 @@
 	{
 		pageId:'ppt当前页码',
 		source:'ppt图片路径',
-		name:'ppt名称'
+		name:'ppt名称',
+		roomId:'房间号',
+		
 	}
 

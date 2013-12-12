@@ -11,6 +11,7 @@ package com.giant.nets
 	import flash.events.SecurityErrorEvent;
 	import flash.net.Socket;
 	import flash.system.Security;
+	import flash.utils.ByteArray;
 	
 	import avmplus.getQualifiedClassName;
 
@@ -54,7 +55,7 @@ package com.giant.nets
 			Util.info("[send]"+json);
 			var msgLen:Number = json.length;
 			var prefix:String = Util.numToString(msgLen);
-			socket.writeMultiByte(prefix+json+"\n","UTF-8");
+			socket.writeMultiByte(prefix+json,"UTF-8");
 			socket.flush();
 		}
 		
@@ -66,7 +67,7 @@ package com.giant.nets
 		private function decodePack(packStr:String,prefixLength:Number=4):void
 		{
 			if(decodeEnded){
-				packSize = Number(packStr.substr(0,prefixLength))+1;
+				packSize = Number(packStr.substr(0,prefixLength));
 				packBuffer = packStr.substr(prefixLength,packSize);
 				if(packBuffer.length == packSize){
 					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,packBuffer));

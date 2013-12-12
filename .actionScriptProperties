@@ -15,6 +15,8 @@
   </compiler>
   <applications>
     <application path="GiantOS.mxml"/>
+    <application path="main.mxml"/>
+    <application path="index.mxml"/>
   </applications>
   <modules/>
   <workers/>

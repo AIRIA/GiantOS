@@ -15,6 +15,8 @@
 			[Bindable]
 			/* 图标的tip */
 			public var iconTip:String;
+			[Bindable]
+			public var titleIcon:String;
 		]]>
 	</fx:Script>
 </s:Panel>

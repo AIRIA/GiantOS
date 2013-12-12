@@ -121,11 +121,11 @@ in accordance with the terms of the license agreement accompanying it.
                         <s:SolidColor color="0xC0C0C0" />
                     </s:fill>
                 </s:Rect>
-                
+                <s:Image verticalCenter="0" left="5" source="{hostComponent.titleIcon}" width="24" height="24" />
                 <!-- layer 3: text -->
                 <!--- @copy spark.components.Panel#titleDisplay -->
                 <s:Label id="titleDisplay" fontFamily="宋体" color="0x333333" maxDisplayedLines="1"
-                         left="9" right="3" top="1" bottom="0" minHeight="30"
+                         left="30" right="3" top="1" bottom="0" minHeight="30"
                          verticalAlign="middle" textAlign="start" fontWeight="normal">
                 </s:Label>
 				<s:Image buttonMode="true" toolTip="{hostComponent.iconTip}" source="{hostComponent.cutIcon}" verticalCenter="0" right="5"/>

@@ -26,7 +26,7 @@ protected function createComplete(event:FlexEvent):void
 	//注册路由
 	ShareManager.clientRouteDic.registerWithObj(new Person(),recvData);
 	ShareManager.clientRouteDic.registerWithString("get_room_info",getRoomInfo);
-	ShareManager.liveRouteDic.registerWithString("error_msg",msgErrorHandler);
+	ShareManager.clientRouteDic.registerWithString("error_msg",msgErrorHandler);
 	ShareManager.clientRouteDic.registerWithObj(new PPTItem(),getPPTInfo);
 }
 
