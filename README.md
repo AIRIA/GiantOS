@@ -1,7 +1,22 @@
-GiantOS
-=======
+<center><font color="orange">GiantOS</font></center>  
+===
 
-live teach
+**DATE:2013/12/12 10:45:11**
+
+
+----------
+
+常规通讯的协议 
+>socket服务器返回错误信息的统一结构
+
+	{
+		route:'error_msg',
+		msg:'服务器返回的详细错误信息'
+	}
+
+
+----------
+
 
 >老师登录进来发送的创建房间的命令
 
@@ -27,5 +42,17 @@ live teach
 	{
 		route:"get_room_info",
 		total:0,
-		student:[json]
+		student:[{
+			name:'学生名字',
+			id:'学生的ID'
+		},...]
 	}
+
+>PPT信息
+
+	{
+		pageId:'ppt当前页码',
+		source:'ppt图片路径',
+		name:'ppt名称'
+	}
+

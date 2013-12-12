@@ -16,9 +16,6 @@ private var socket:Socket;
 [Bindable]
 private var socketClient:SocketClient;
 
-
-
-
 protected function createComplete(event:FlexEvent):void
 {
 	ShareManager.port = NetConfig.STU_PORT;
@@ -29,7 +26,13 @@ protected function createComplete(event:FlexEvent):void
 	//注册路由
 	ShareManager.clientRouteDic.registerWithObj(new Person(),recvData);
 	ShareManager.clientRouteDic.registerWithString("get_room_info",getRoomInfo);
+	ShareManager.liveRouteDic.registerWithString("error_msg",msgErrorHandler);
 	ShareManager.clientRouteDic.registerWithObj(new PPTItem(),getPPTInfo);
+}
+
+private function msgErrorHandler(data:Object):void
+{
+	
 }
 /**
  * 获取老师正在播放的ppt信息

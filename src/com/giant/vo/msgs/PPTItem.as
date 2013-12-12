@@ -8,6 +8,10 @@ package com.giant.vo.msgs
 		private var _pageId:Number;
 		private var _source:String;
 		private var _name:String;
+		
+		public function PPTItem(){
+			type = "ppt";
+		}
 
 		public function get pageId():Number
 		{

@@ -20,6 +20,8 @@ import mx.events.FlexEvent;
 private var socket:Socket;
 [Bindable]
 private var socketClient:SocketClient;
+[Bindable]
+private var roomId:String = "room_1";
 
 protected function createComplete(event:FlexEvent):void
 {
@@ -30,6 +32,11 @@ protected function createComplete(event:FlexEvent):void
 	socket.addEventListener(GiantEvent.RECV_DATA,recvDataHandler);
 	ShareManager.liveRouteDic.registerWithObj(new Room(),getRoomData);
 	ShareManager.liveRouteDic.registerWithString("get_room_info",getRoomInfo);
+	ShareManager.liveRouteDic.registerWithString("error_msg",msgErrorHandler);
+}
+
+private function msgErrorHandler(data:Object):void
+{
 	
 }
 /* 获取到ppt列表后  广播老师显示的页数 */
@@ -41,10 +48,11 @@ private function getPPTInfo(data:Object):void
 private function connectedHandler(event:GiantEvent):void
 {
 	var room:Room = new Room();
-	room.roomId = "room_1";
+	room.roomId = roomId;
 	var pptItem:PPTItem = new PPTItem();
 	pptItem.pageId = 1;
 	pptItem.type = "ppt";
+	pptItem.roomId = "room_1";
 	pptItem.source = "ppts/1.jpg";
 	pptItem.name = "name1";
 	pptPanel.pptItem = pptItem;
@@ -61,6 +69,7 @@ private function nextPage(event:MouseEvent):void
 	if(pptIdx<ShareManager.pptList.length)
 	{
 		pptPanel.pptItem = JsonUtil.jsonToObj(ShareManager.pptList[pptIdx],PPTItem);
+		pptPanel.pptItem.roomId = roomId;
 		socketClient.sendMsg(JsonUtil.objToJson(pptPanel.pptItem));
 	}
 }
@@ -71,6 +80,7 @@ private function prevPage(event:MouseEvent):void
 	if(pptIdx>0)
 	{
 		pptPanel.pptItem = JsonUtil.jsonToObj(ShareManager.pptList[pptIdx-1],PPTItem);
+		pptPanel.pptItem.roomId = roomId;
 		socketClient.sendMsg(JsonUtil.objToJson(pptPanel.pptItem));
 	}
 	
