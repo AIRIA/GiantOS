@@ -1,5 +1,6 @@
 import com.giant.configures.RouteDictionary;
 import com.giant.events.GiantEvent;
+import com.giant.managers.EventManager;
 import com.giant.managers.ShareManager;
 import com.giant.nets.NetConfig;
 import com.giant.nets.SocketClient;
@@ -22,7 +23,17 @@ private var roomId:String = "room_1";
 
 protected function createComplete(event:FlexEvent):void
 {
+	EventManager.instance().addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
 	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,connectServer);
+}
+
+protected function handsUpHandler(event:GiantEvent):void
+{
+	client.sendMsg(JSON.stringify({
+		route:'hands_up',
+		type:'ask',
+		id:Person.getPerson().id
+	}));
 }
 
 protected function connectServer(event:Event):void

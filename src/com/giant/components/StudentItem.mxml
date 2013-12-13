@@ -5,6 +5,8 @@
 		 width="100%" creationComplete="createComplete(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.giant.events.GiantEvent;
+			
 			import mx.events.FlexEvent;
 			[Bindable]
 			public var role:String = "学生";
@@ -29,12 +31,18 @@
 			
 			protected function createComplete(event:FlexEvent):void
 			{
+				addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
 				if(icon=="student")
 				{
 					roleImg.source = stu;
 				}else{
 					roleImg.source = stu;
 				}
+			}
+			
+			protected function handsUpHandler(event:GiantEvent):void
+			{
+				yesImg.visible = noImg.visible = videoImg.visible = true;
 			}
 			
 		]]>
@@ -53,10 +61,10 @@
 			<s:Label width="60" text="{role}"/>
 			<s:Label text="{uname}"/>
 			<s:Spacer width="100%"/>
-			<s:Image width="20" height="20" smooth="true" source="{video}"/>
-			<s:Image width="20" height="20" buttonMode="true" smooth="true" source="{yes}"
+			<s:Image visible="false" id="videoImg" width="20" height="20" smooth="true" source="{video}"/>
+			<s:Image visible="false" id="yesImg" width="20" height="20" buttonMode="true" smooth="true" source="{yes}"
 					 toolTip="允许发言"/>
-			<s:Image width="20" height="20" buttonMode="true" smooth="true" source="{no}"
+			<s:Image visible="false" id="noImg" width="20" height="20" buttonMode="true" smooth="true" source="{no}"
 					 toolTip="拒绝发言"/>
 		</s:HGroup>
 </s:Group>

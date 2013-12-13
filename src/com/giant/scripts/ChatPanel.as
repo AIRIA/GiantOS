@@ -13,7 +13,7 @@ import flash.events.Event;
 
 import mx.events.FlexEvent;
 [Bindable]
-public var btnLabel:String;
+public var btnLabel:String = "";
 [Bindable]
 public var routeDic:RouteDictionary;
 [Bindable]

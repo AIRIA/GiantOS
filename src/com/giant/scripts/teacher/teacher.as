@@ -31,6 +31,12 @@ protected function createComplete(event:FlexEvent):void
 	route.registerWithObj(new Room(),getRoomData);
 	route.registerWithString("get_room_info",getRoomInfo);
 	route.registerWithString("error_msg",msgErrorHandler);
+	route.registerWithString("hands_up",handsUpHandler);
+}
+
+private function handsUpHandler(data:Object):void
+{
+	onlineList.dispatchEvent(new GiantEvent(GiantEvent.HANDS_UP,data));
 }
 
 protected function closeConnectHandler(event:GiantEvent):void

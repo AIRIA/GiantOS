@@ -3,9 +3,29 @@
 						xmlns:s="library://ns.adobe.com/flex/spark"
 						xmlns:mx="library://ns.adobe.com/flex/mx"
 						xmlns:components="com.giant.components.*"
-						width="350" height="100%" cutIcon="assets/icons/right.png" iconTip="隐藏"
-						title="师生互动" creationComplete="createCompleteHandler(event)">
-	<fx:Script source="../scripts/ChatPanel.as" />
+						width="350" height="100%" creationComplete="createCompleteHandler(event)"
+						cutIcon="assets/icons/right.png" iconTip="隐藏" title="师生互动">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.giant.managers.EventManager;
+			protected function askBtnComplete(event:FlexEvent):void
+			{
+				var btn:Button = event.target as Button;
+				if(btn.enabled==false){
+					btn.toolTip = "没有检测到麦克风设备 或者麦克风正在被使用";
+				}
+			}
+			
+			protected function askHandler(event:MouseEvent):void
+			{
+				EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.HANDS_UP));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Script source="../scripts/ChatPanel.as"/>
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
@@ -13,7 +33,8 @@
 		<s:VerticalLayout/>
 	</components:layout>
 	<s:Scroller id="chatScroller" width="100%" height="100%">
-		<s:VGroup id="chatGroup" width="100%" height="100%" paddingLeft="5" paddingRight="5" paddingTop="5">
+		<s:VGroup id="chatGroup" width="100%" height="100%" paddingLeft="5" paddingRight="5"
+				  paddingTop="5">
 		</s:VGroup>
 	</s:Scroller>
 	<s:Group width="100%" height="40">
@@ -24,8 +45,8 @@
 		</s:Rect>
 		<s:HGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" verticalAlign="middle">
 			<s:Image width="32" height="32" source="assets/icons/role.png"/>
-			<s:TextInput enabled="{sendEnable}" id="msgInput" width="100%"
-						 enter="sendMsg(event)" prompt="输入文字,回车发送" maxChars="512"
+			<s:TextInput id="msgInput" width="100%" enabled="{sendEnable}" enter="sendMsg(event)"
+						 maxChars="512" prompt="输入文字,回车发送"
 						 skinClass="com.giant.skins.GiantTextInputSkin"/>
 		</s:HGroup>
 	</s:Group>
@@ -33,7 +54,7 @@
 		<s:HGroup width="100%" height="20" verticalAlign="middle">
 			<s:Label text="{'当前在线人数:'+onlineNum}"/>
 			<s:Spacer width="100%"/>
-			<s:Button enabled="{btnLabel.length!=0}" label="{btnLabel}"/>
+			<s:Button creationComplete="askBtnComplete(event)" click="askHandler(event)" visible="{btnLabel.length!=0}" label="{btnLabel}"/>
 		</s:HGroup>
 	</components:controlBarContent>
 </components:SimplePanel>

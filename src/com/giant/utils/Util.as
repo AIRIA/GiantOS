@@ -1,6 +1,7 @@
 package com.giant.utils
 {
 	import flash.external.ExternalInterface;
+	import flash.media.Microphone;
 	import flash.system.Capabilities;
 	
 	import mx.utils.ObjectUtil;
@@ -97,6 +98,11 @@ package com.giant.utils
 				len--;
 			}
 			return prefixStr+numStr;
+		}
+		
+		static public function supportMic():Boolean
+		{
+			return Microphone.names.length as Boolean;
 		}
 		
 	}

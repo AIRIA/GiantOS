@@ -55,6 +55,21 @@
 		source:'ppt图片路径',
 		name:'ppt名称',
 		roomId:'房间号',
-		
+		route:'get_ppt_info'
 	}
 
+>获取学生id
+
+	{
+		route:'student_info'
+		name:'姓名',
+		id:'学生ID'
+	}
+
+>学生请求发言
+
+	{
+		route:'hands_up',
+		id:'学生id',
+		type:'ask'
+	}

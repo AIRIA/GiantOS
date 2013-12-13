@@ -24,6 +24,10 @@ package com.giant.events
 		 * 学生输入名称完毕
 		 */
 		public static const INPUT_NAME_ENDED:String = "input_name_ended";
+		/**
+		 * 学生举手抢麦
+		 */
+		public static const HANDS_UP:String = "hands_up";
 		
 		public var data:Object;
 		

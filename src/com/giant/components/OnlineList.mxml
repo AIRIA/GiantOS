@@ -13,23 +13,40 @@
 			
 			import mx.events.FlexEvent;
 			
+			[Bindable]
+			private var onlineList:Array;
+			
 			protected function createComplete(event:FlexEvent):void
 			{
 				addEventListener(GiantEvent.GET_ROOM_INFO,updateRoomInfo);
+				addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
 			}
 			
 			protected function updateRoomInfo(event:GiantEvent):void
 			{
 				_stuGroup.removeAllElements();
 				var data:Object =event.data;
-				var students:Array = data.students;
-				for(var i:int=0;i<students.length;i++)
+				onlineList = data.students;
+				for(var i:int=0;i<onlineList.length;i++)
 				{
-					var stu:Person = JsonUtil.jsonToObj(students[i],Person);;
+					var stu:Person = JsonUtil.jsonToObj(onlineList[i],Person);;
 					var si:StudentItem = new StudentItem();
 					si.uname = stu.name;
 					si.id = stu.id;
 					_stuGroup.addElement(si);
+				}
+			}
+			
+			protected function handsUpHandler(event:GiantEvent):void
+			{
+				var data:Object = event.data;
+				for(var i:int=0;i<onlineList.length;i++)
+				{
+					var si:StudentItem = _stuGroup.getElementAt(i) as StudentItem;
+					if(si.id == data.id)
+					{
+						si.dispatchEvent(new GiantEvent(GiantEvent.HANDS_UP));
+					}
 				}
 			}
 			
