@@ -2,14 +2,13 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   xmlns:gaint="com.giant.components.*" layout="{appLayout}"
+			   xmlns:gaint="com.giant.components.*"
 			   minWidth="955" minHeight="600" pageTitle="多媒体直播" creationComplete="createComplete(event)">
 	<fx:Style source="com/giant/styles/main.css"/>
 	<fx:Script source="com/giant/scripts/teacher/teacher.as" />
 	<fx:Script source="com/giant/scripts/teacher/handlers.as"/>
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
-		<s:VerticalLayout gap="1" id="appLayout" />
 	</fx:Declarations>
 	<s:controlBarContent>
 		<s:Image smooth="true" verticalCenter="0" height="20" source="assets/icons/logo.png" />
@@ -18,43 +17,46 @@
 		<s:Button label="发布直播"/>
 		<s:Button label="结束直播"/>
 	</s:controlBarContent>
-	<s:HGroup width="100%" height="100%">
-		<s:VGroup width="350" height="100%">
-			<gaint:SimplePanel width="100%" height="300" title="直播视频"
-							   titleIcon="assets/icons/video.png">
-				<s:Rect width="100%" height="100%">
-					<s:fill>
-						<s:SolidColor color="0x000000"/>
-					</s:fill>
-				</s:Rect>
-				<s:VideoDisplay muted="true" width="100%" height="100%" source="763979-102-022-1641.mp4"/>
-			</gaint:SimplePanel>
-			<gaint:PPTItemList width="100%" height="100%" orientation="rows"
-							   titleIcon="assets/icons/pptlist.png"/>
-		</s:VGroup>
-		<gaint:PPTPanel id="pptPanel" width="100%" height="100%" titleIcon="assets/icons/ppt.png"/>
-		<s:VGroup width="300" height="100%">
-			<gaint:OnlineList id="onlineList"/>
-			<gaint:ChatPanel socketClient="{client}" id="chatPanel" width="100%" height="100%" routeDic="{route}"
-							 titleIcon="assets/icons/chat.png"/>
-		</s:VGroup>
-	</s:HGroup>
-	<s:Group width="100%" height="30">
-		
-		<s:Rect width="100%" height="100%">
-			<s:fill>
-				<s:SolidColor color="0xCCCCCC"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect top="0.5" width="100%" height="0.5">
-			<s:stroke>
-				<s:SolidColorStroke color="0xBBBBBB"/>
-			</s:stroke>
-		</s:Rect>
-		<s:HGroup verticalAlign="middle" width="100%" height="100%" paddingRight="15">
-			<s:Label id="status" text="状态栏:当前状态[离线]" left="5" verticalCenter="0"/>
-			<s:Spacer width="100%"/>
-			<s:Image toolTip="离线状态" source="assets/icons/offline.png"/>
+	<s:VGroup width="100%" height="100%" gap="1">
+		<s:HGroup width="100%" height="100%">
+			<s:VGroup width="350" height="100%">
+				<gaint:SimplePanel width="100%" height="300" title="直播视频"
+								   titleIcon="assets/icons/video.png">
+					<s:Rect width="100%" height="100%">
+						<s:fill>
+							<s:SolidColor color="0x000000"/>
+						</s:fill>
+					</s:Rect>
+					<s:VideoDisplay  muted="false" loop="true" width="100%" height="100%" source="030002010051ED8180A87C094560D3DE19B2C8-8EC0-7DFB-983B-EADB9AB5F5AC.flv"/>
+				</gaint:SimplePanel>
+				<gaint:PPTItemList width="100%" height="100%" orientation="rows"
+								   titleIcon="assets/icons/pptlist.png"/>
+			</s:VGroup>
+			<gaint:PPTPanel id="pptPanel" width="100%" height="100%" titleIcon="assets/icons/ppt.png"/>
+			<s:VGroup width="300" height="100%">
+				<gaint:OnlineList chatPanel="{chatPanel}" id="onlineList"/>
+				<gaint:ChatPanel socketClient="{client}" id="chatPanel" width="100%" height="100%" routeDic="{route}"
+								 titleIcon="assets/icons/chat.png"/>
+			</s:VGroup>
 		</s:HGroup>
-	</s:Group>
+		<s:Group width="100%" height="30">
+			
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0xCCCCCC"/>
+				</s:fill>
+			</s:Rect>
+			<s:Rect top="0.5" width="100%" height="0.5">
+				<s:stroke>
+					<s:SolidColorStroke color="0xBBBBBB"/>
+				</s:stroke>
+			</s:Rect>
+			<s:HGroup verticalAlign="middle" width="100%" height="100%" paddingRight="15">
+				<s:Label id="status" text="状态栏:当前状态[离线]" left="5" verticalCenter="0"/>
+				<s:Spacer width="100%"/>
+				<s:Image toolTip="离线状态" source="assets/icons/offline.png"/>
+			</s:HGroup>
+		</s:Group>
+	</s:VGroup>
+	<gaint:LoginLayer id="loginLayer"/>
 </s:Application>

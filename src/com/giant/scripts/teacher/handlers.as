@@ -11,8 +11,6 @@ import flash.events.MouseEvent;
 protected function connectServerHandlder(event:GiantEvent):void
 {
 	status.text = "当前状态[在线]"
-	var room:Room = new Room();
-	room.roomId = roomId;
 	var pptItem:PPTItem = new PPTItem();
 	pptItem.pageId = 1;
 	pptItem.type = "ppt";
@@ -23,7 +21,7 @@ protected function connectServerHandlder(event:GiantEvent):void
 	pptPanel.nextPage = nextPage;
 	pptPanel.prevPage = prevPage;
 	route.registerWithObj(new PPTItem(),getPPTInfo);
-	client.sendMsg(JsonUtil.objToJson(room));
+	client.sendMsg(JsonUtil.objToJson(Room.getRoom()));
 	client.sendMsg(JsonUtil.objToJson(pptItem));
 	chatPanel.dispatchEvent(event);
 }
@@ -34,7 +32,7 @@ private function nextPage(event:MouseEvent):void
 	if(pptIdx<ShareManager.pptList.length)
 	{
 		pptPanel.pptItem = JsonUtil.jsonToObj(ShareManager.pptList[pptIdx],PPTItem);
-		pptPanel.pptItem.roomId = roomId;
+		pptPanel.pptItem.roomId = Room.getRoom().roomId;
 		client.sendMsg(JsonUtil.objToJson(pptPanel.pptItem));
 	}
 }
@@ -45,7 +43,7 @@ private function prevPage(event:MouseEvent):void
 	if(pptIdx>0)
 	{
 		pptPanel.pptItem = JsonUtil.jsonToObj(ShareManager.pptList[pptIdx-1],PPTItem);
-		pptPanel.pptItem.roomId = roomId;
+		pptPanel.pptItem.roomId = Room.getRoom().roomId;
 		client.sendMsg(JsonUtil.objToJson(pptPanel.pptItem));
 	}
 }

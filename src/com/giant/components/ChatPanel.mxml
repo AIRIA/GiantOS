@@ -44,7 +44,7 @@
 			</s:fill>
 		</s:Rect>
 		<s:HGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" verticalAlign="middle">
-			<s:Image width="32" height="32" source="assets/icons/role.png"/>
+			<s:Image width="24" height="24" smooth="true" source="assets/icons/massage.png"/>
 			<s:TextInput id="msgInput" width="100%" enabled="{sendEnable}" enter="sendMsg(event)"
 						 maxChars="512" prompt="输入文字,回车发送"
 						 skinClass="com.giant.skins.GiantTextInputSkin"/>

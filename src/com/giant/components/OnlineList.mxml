@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<giant:SimplePanel xmlns:fx="http://ns.adobe.com/mxml/2009" 
-						xmlns:s="library://ns.adobe.com/flex/spark" 
-						xmlns:mx="library://ns.adobe.com/flex/mx" 
-						xmlns:giant="com.giant.components.*"
-						titleIcon="assets/icons/list.png" title="在线列表"
-						width="100%" height="250" creationComplete="createComplete(event)">
+<giant:SimplePanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:giant="com.giant.components.*"
+				   width="100%" height="250" creationComplete="createComplete(event)" title="在线列表"
+				   titleIcon="assets/icons/list.png">
 	<fx:Script>
 		<![CDATA[
 			import com.giant.events.GiantEvent;
@@ -15,10 +15,14 @@
 			
 			[Bindable]
 			private var onlineList:Array;
+			[Bindable]
+			public var chatPanel:ChatPanel;
 			
 			protected function createComplete(event:FlexEvent):void
 			{
 				addEventListener(GiantEvent.GET_ROOM_INFO,updateRoomInfo);
+				addEventListener(GiantEvent.STU_LOGIN,loginHandler);
+				addEventListener(GiantEvent.STU_LOGOUT,logoutHandler);
 				addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
 			}
 			
@@ -40,6 +44,7 @@
 			protected function handsUpHandler(event:GiantEvent):void
 			{
 				var data:Object = event.data;
+				chatPanel.onlineNum = onlineList.length;
 				for(var i:int=0;i<onlineList.length;i++)
 				{
 					var si:StudentItem = _stuGroup.getElementAt(i) as StudentItem;
@@ -50,13 +55,38 @@
 				}
 			}
 			
+			protected function loginHandler(event:GiantEvent):void
+			{
+				var data:Object = event.data;
+				var si:StudentItem = new StudentItem();
+				si.uname = data.name;
+				si.id = data.id;
+				_stuGroup.addElement(si);
+				chatPanel.onlineNum += 1;
+			}
+			
+			protected function logoutHandler(event:GiantEvent):void
+			{
+				var id:String = event.data.id;
+				for(var i:int=0;i<_stuGroup.numElements;i++)
+				{
+					var si:StudentItem = _stuGroup.getElementAt(i) as StudentItem;
+					if(si.id == id)
+					{
+						_stuGroup.removeElement(si);
+						return ;
+					}
+				}
+				chatPanel.onlineNum -= 1;
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
 	<s:Scroller width="100%" height="100%">
-		<s:VGroup id="_stuGroup" width="100%" paddingTop="5" height="100%">
+		<s:VGroup id="_stuGroup" width="100%" height="100%" paddingTop="5">
 			
 		</s:VGroup>
 	</s:Scroller>

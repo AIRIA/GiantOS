@@ -18,8 +18,6 @@ import mx.events.FlexEvent;
 private var client:SocketClient;
 [Bindable]
 private var route:RouteDictionary = new RouteDictionary();
-[Bindable]
-private var roomId:String = "room_1";
 
 protected function createComplete(event:FlexEvent):void
 {
@@ -36,8 +34,9 @@ protected function handsUpHandler(event:GiantEvent):void
 	}));
 }
 
-protected function connectServer(event:Event):void
+protected function connectServer(event:GiantEvent):void
 {
+	Room.getRoom().roomId = event.data.roomId;
 	status.text = "正在连接服务器...";
 	ShareManager.port = NetConfig.STU_PORT;
 	client = new SocketClient();
@@ -49,7 +48,6 @@ protected function connectServer(event:Event):void
 	route.registerWithString("error_msg",msgErrorHandler);
 	route.registerWithString("student_info",getStudentInfo);
 	route.registerWithObj(new PPTItem(),getPPTInfo);
-	
 }
 
 private function getStudentInfo(data:Object):void
@@ -63,7 +61,7 @@ private function getStudentInfo(data:Object):void
 protected function connectServerHandlder(event:GiantEvent):void
 {
 	var person:Person = Person.getPerson();
-	person.roomId = "room_1";
+	person.roomId = Room.getRoom().roomId;
 	person.type = "cmd";
 	client.sendMsg(JsonUtil.objToJson(person));
 }

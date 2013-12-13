@@ -13,8 +13,6 @@ import mx.events.FlexEvent;
 private var client:SocketClient;
 [Bindable]
 private var route:RouteDictionary = new RouteDictionary();
-[Bindable]
-private var roomId:String = "room_1";
 
 // ActionScript file
 /**
@@ -22,16 +20,34 @@ private var roomId:String = "room_1";
  */
 protected function createComplete(event:FlexEvent):void
 {
+	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,connectServer);
+}
+
+protected function connectServer(event:GiantEvent):void
+{
 	status.text = "正在连接服务器...";
+	Room.getRoom().roomId = event.data.roomId;
 	ShareManager.port = NetConfig.TEA_PORT;
 	client = new SocketClient();
 	client.getSocket().addEventListener(GiantEvent.SERVER_CONNECTED,connectServerHandlder);
 	client.getSocket().addEventListener(GiantEvent.CLOSE_CONNECT,closeConnectHandler);
 	client.getSocket().addEventListener(GiantEvent.RECV_DATA,recvDataHandler);
-	route.registerWithObj(new Room(),getRoomData);
+	route.registerWithObj(Room.getRoom(),getRoomData);
 	route.registerWithString("get_room_info",getRoomInfo);
 	route.registerWithString("error_msg",msgErrorHandler);
 	route.registerWithString("hands_up",handsUpHandler);
+	route.registerWithString("student_login",stuLoginHandler);
+	route.registerWithString("student_logout",stuLogoutHandler);
+}
+
+private function stuLogoutHandler(data:Object):void
+{
+	onlineList.dispatchEvent(new GiantEvent(GiantEvent.STU_LOGOUT,data));
+}
+
+private function stuLoginHandler(data:Object):void
+{
+	onlineList.dispatchEvent(new GiantEvent(GiantEvent.STU_LOGIN,data));
 }
 
 private function handsUpHandler(data:Object):void

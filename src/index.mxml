@@ -11,7 +11,7 @@
 	</fx:Declarations>
 	<s:VGroup gap="1" width="100%" height="100%">
 		<s:HGroup width="100%" height="100%">
-			<s:VGroup width="300" height="100%">
+			<s:VGroup width="400" height="100%">
 				<gaint:SimplePanel width="100%" height="300" title="直播视频"
 								   titleIcon="assets/icons/video.png">
 					<s:Rect width="100%" height="100%">
@@ -19,7 +19,7 @@
 							<s:SolidColor color="0x000000"/>
 						</s:fill>
 					</s:Rect>
-					<s:VideoDisplay muted="true" width="100%" height="100%" source="763979-102-022-1641.mp4"/>
+					<s:VideoDisplay muted="false" loop="true" width="100%" height="100%" source="Link_s Shadow (The Legend of Zelda).mp4"/>
 				</gaint:SimplePanel>
 				<gaint:ChatPanel btnLabel="发言" socketClient="{client}" routeDic="{route}" id="chatPanel" titleIcon="assets/icons/chat.png" width="100%" height="100%"/>
 			</s:VGroup>

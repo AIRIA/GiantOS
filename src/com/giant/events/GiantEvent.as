@@ -28,6 +28,14 @@ package com.giant.events
 		 * 学生举手抢麦
 		 */
 		public static const HANDS_UP:String = "hands_up";
+		/**
+		 * 学生登录进来
+		 */
+		public static const STU_LOGIN:String = "stu_login";
+		/**
+		 * 学生登出 
+		 */		
+		public static const STU_LOGOUT:String = "stu_logout";
 		
 		public var data:Object;
 		

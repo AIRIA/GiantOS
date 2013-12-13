@@ -73,3 +73,19 @@
 		id:'学生id',
 		type:'ask'
 	}
+
+>学生登录进来
+
+	{
+		route:'student_login',
+		id:'学生id',
+		name:'学生姓名'
+	}
+
+>学生登出
+
+	{
+		route:'studetn_logout',
+		id:'学生id',
+		name:'学生姓名'
+	}

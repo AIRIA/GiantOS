@@ -7,6 +7,7 @@
 			import com.giant.events.GiantEvent;
 			import com.giant.vo.msgs.Person;
 			
+			import mx.collections.ArrayCollection;
 			import mx.core.IVisualElement;
 			import mx.events.FlexEvent;
 			
@@ -18,7 +19,9 @@
 			protected function enterHandler(event:FlexEvent):void
 			{
 				Person.getPerson().name = userName.text;
-				dispatchEvent(new GiantEvent(GiantEvent.INPUT_NAME_ENDED));
+				dispatchEvent(new GiantEvent(GiantEvent.INPUT_NAME_ENDED,{
+					roomId:roomId.text
+				}));
 				(parent as Group).removeElement(this);
 			}
 			
@@ -34,6 +37,11 @@
 			<s:SolidColor color="0x333333"/>
 		</s:fill>
 	</s:Rect>
-	<s:TextInput skinClass="com.giant.skins.GiantTextInputSkin" verticalCenter="0" horizontalCenter="0"
-				 prompt="输入姓名 回车确认" id="userName" enter="enterHandler(event)"/>
+	<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
+		<s:TextInput id="roomId" width="150" height="25" skinClass="com.giant.skins.GiantTextInputSkin"
+					 prompt="输入频道号"/>
+		<s:TextInput width="150" height="25" skinClass="com.giant.skins.GiantTextInputSkin"
+					 prompt="输入姓名 回车确认" id="userName" enter="enterHandler(event)"/>
+	</s:VGroup>
+	
 </s:Group>
