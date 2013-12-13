@@ -36,8 +36,14 @@ protected function connectServer(event:Event):void
 	route.registerWithObj(Person.getPerson(),loginServerRes);
 	route.registerWithString("get_room_info",getRoomInfo);
 	route.registerWithString("error_msg",msgErrorHandler);
+	route.registerWithString("student_info",getStudentInfo);
 	route.registerWithObj(new PPTItem(),getPPTInfo);
 	
+}
+
+private function getStudentInfo(data:Object):void
+{
+	Person.getPerson().id = data.id;
 }
 
 /**
