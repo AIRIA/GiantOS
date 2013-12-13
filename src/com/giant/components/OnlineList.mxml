@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<giant:SimplePanel xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						xmlns:s="library://ns.adobe.com/flex/spark" 
+						xmlns:mx="library://ns.adobe.com/flex/mx" 
+						xmlns:giant="com.giant.components.*"
+						titleIcon="assets/icons/list.png" title="在线列表"
+						width="100%" height="250" creationComplete="createComplete(event)">
+	<fx:Script>
+		<![CDATA[
+			import com.giant.events.GiantEvent;
+			import com.giant.utils.JsonUtil;
+			import com.giant.vo.msgs.Person;
+			
+			import mx.events.FlexEvent;
+			
+			protected function createComplete(event:FlexEvent):void
+			{
+				addEventListener(GiantEvent.GET_ROOM_INFO,updateRoomInfo);
+			}
+			
+			protected function updateRoomInfo(event:GiantEvent):void
+			{
+				_stuGroup.removeAllElements();
+				var data:Object =event.data;
+				var students:Array = data.students;
+				for(var i:int=0;i<students.length;i++)
+				{
+					var stu:Person = JsonUtil.jsonToObj(students[i],Person);;
+					var si:StudentItem = new StudentItem();
+					si.uname = stu.name;
+					si.id = stu.id;
+					_stuGroup.addElement(si);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup id="_stuGroup" width="100%" paddingTop="5" height="100%">
+			
+		</s:VGroup>
+	</s:Scroller>
+	
+</giant:SimplePanel>

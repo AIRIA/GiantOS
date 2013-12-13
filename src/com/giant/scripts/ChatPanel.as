@@ -7,6 +7,7 @@ import com.giant.skins.GiantTextInputSkin;
 import com.giant.utils.JsonUtil;
 import com.giant.utils.Util;
 import com.giant.vo.msgs.ChatMsg;
+import com.giant.vo.msgs.Person;
 
 import flash.events.Event;
 
@@ -33,7 +34,7 @@ protected function sendMsg(event:FlexEvent):void
 	chatMsg.time = hours+":"+minutes+":"+seconds;
 	chatMsg.content = msgInput.text;
 	chatMsg.roomId = "room_1";
-	//chatMsg.human = Person.name;
+	chatMsg.human = Person.getPerson().name;
 	socketClient.sendMsg(JsonUtil.objToJson(chatMsg));
 	msgInput.text = "";
 }
@@ -63,8 +64,20 @@ public function recvChatMsg(msg:Object):void
 
 protected function createCompleteHandler(event:FlexEvent):void
 {
+	addEventListener(GiantEvent.SERVER_CONNECTED,connectedHandler);
+	addEventListener(GiantEvent.CLOSE_CONNECT,closeHandler);
 	addEventListener(GiantEvent.GET_ROOM_INFO,updateInfoHandler);
 	routeDic.registerWithObj(new ChatMsg,recvChatMsg);
+}
+
+protected function closeHandler(event:Event):void
+{
+	msgInput.enabled = false;
+}
+
+protected function connectedHandler(event:Event):void
+{
+	msgInput.enabled = true;
 }
 
 protected function updateInfoHandler(event:GiantEvent):void

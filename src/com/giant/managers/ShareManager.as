@@ -7,8 +7,8 @@ package com.giant.managers
 	{
 		public static var port:Number = 9700;
 		public static var roomId:String = "room_1";
-		public static var clientRouteDic:RouteDictionary = new RouteDictionary();
-		public static var liveRouteDic:RouteDictionary = new RouteDictionary();
+		public static var clientRouteDic:RouteDictionary;
+		public static var liveRouteDic:RouteDictionary;
 		public static var pptList:Array = [{pageId:1,name:'name1',source:'ppts/1.jpg'},
 			{pageId:2,name:'name2',source:'ppts/2.jpg'},
 			{pageId:3,name:'name3',source:'ppts/3.jpg'},

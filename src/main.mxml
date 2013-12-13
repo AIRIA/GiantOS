@@ -6,11 +6,7 @@
 			   minWidth="955" minHeight="600" pageTitle="多媒体直播" creationComplete="createComplete(event)">
 	<fx:Style source="com/giant/styles/main.css"/>
 	<fx:Script source="com/giant/scripts/teacher/teacher.as" />
-	<fx:Script>
-		<![CDATA[
-			import com.giant.managers.ShareManager;
-		]]>
-	</fx:Script>
+	<fx:Script source="com/giant/scripts/teacher/handlers.as"/>
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 		<s:VerticalLayout gap="1" id="appLayout" />
@@ -31,16 +27,17 @@
 						<s:SolidColor color="0x000000"/>
 					</s:fill>
 				</s:Rect>
-				<s:VideoDisplay width="100%" height="100%" source="763979-102-022-1641.mp4"/>
+				<s:VideoDisplay muted="true" width="100%" height="100%" source="763979-102-022-1641.mp4"/>
 			</gaint:SimplePanel>
 			<gaint:PPTItemList width="100%" height="100%" orientation="rows"
 							   titleIcon="assets/icons/pptlist.png"/>
 		</s:VGroup>
-		<gaint:PPTPanel width="100%" height="100%" titleIcon="assets/icons/ppt.png"/>
-		<s:Group width="300" height="100%">
-			<gaint:ChatPanel width="100%" height="100%" routeDic="{ShareManager.liveRouteDic}"
+		<gaint:PPTPanel id="pptPanel" width="100%" height="100%" titleIcon="assets/icons/ppt.png"/>
+		<s:VGroup width="300" height="100%">
+			<gaint:OnlineList id="onlineList"/>
+			<gaint:ChatPanel socketClient="{client}" id="chatPanel" width="100%" height="100%" routeDic="{route}"
 							 titleIcon="assets/icons/chat.png"/>
-		</s:Group>
+		</s:VGroup>
 	</s:HGroup>
 	<s:Group width="100%" height="30">
 		
@@ -54,6 +51,10 @@
 				<s:SolidColorStroke color="0xBBBBBB"/>
 			</s:stroke>
 		</s:Rect>
-		<s:Label id="status" text="状态栏" left="5" verticalCenter="0"/>
+		<s:HGroup verticalAlign="middle" width="100%" height="100%" paddingRight="15">
+			<s:Label id="status" text="状态栏:当前状态[离线]" left="5" verticalCenter="0"/>
+			<s:Spacer width="100%"/>
+			<s:Image toolTip="离线状态" source="assets/icons/offline.png"/>
+		</s:HGroup>
 	</s:Group>
 </s:Application>

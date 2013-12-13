@@ -25,7 +25,7 @@
 		<s:HGroup width="100%" height="100%" paddingLeft="5" paddingRight="5" verticalAlign="middle">
 			<s:Image width="32" height="32" source="assets/icons/role.png"/>
 			<s:TextInput enabled="{sendEnable}" id="msgInput" width="100%"
-						 enter="sendMsg(event)" prompt="输入文字,回车发送"
+						 enter="sendMsg(event)" prompt="输入文字,回车发送" maxChars="512"
 						 skinClass="com.giant.skins.GiantTextInputSkin"/>
 		</s:HGroup>
 	</s:Group>
@@ -33,7 +33,7 @@
 		<s:HGroup width="100%" height="20" verticalAlign="middle">
 			<s:Label text="{'当前在线人数:'+onlineNum}"/>
 			<s:Spacer width="100%"/>
-			<s:Button label="{btnLabel}"/>
+			<s:Button enabled="{btnLabel.length!=0}" label="{btnLabel}"/>
 		</s:HGroup>
 	</components:controlBarContent>
 </components:SimplePanel>

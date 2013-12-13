@@ -13,18 +13,14 @@ package com.giant.nets
 	import flash.system.Security;
 	import flash.utils.ByteArray;
 	
+	import mx.controls.Alert;
+	
 	import avmplus.getQualifiedClassName;
 
 	public class SocketClient
 	{
 		private var socket:Socket;
-		
-		private var packBuffer:String;
-		private var packSize:Number;
-		private var packRealSize:Number;
-		private var packSuffixSize:Number = 0;
-		private var decodeEnded:Boolean = true;
-		
+		private var packSize:Number = 0;
 		
 		public function SocketClient()
 		{
@@ -51,12 +47,18 @@ package com.giant.nets
 		 */		
 		public function sendMsg(json:String):void
 		{
-			trace("send data:"+json);
-			Util.info("[send]"+json);
-			var msgLen:Number = json.length;
-			var prefix:String = Util.numToString(msgLen);
-			socket.writeMultiByte(prefix+json,"UTF-8");
-			socket.flush();
+			if(socket){
+				if(json){
+					("send data:"+json);
+					var byteArray:ByteArray = new ByteArray();
+					byteArray.writeMultiByte(json,"UTF-8");
+					socket.writeInt(byteArray.length);
+					socket.writeBytes(byteArray);
+					socket.flush();
+				}
+			}else{
+				Alert.show("您已经断开和服务器的连接 无法发送数据");
+			}
 		}
 		
 		protected function outputHandler(event:OutputProgressEvent):void
@@ -64,46 +66,60 @@ package com.giant.nets
 			//Util.alert("send data");
 		}
 		
-		private function decodePack(packStr:String,prefixLength:Number=4):void
-		{
-			if(decodeEnded){
-				packSize = Number(packStr.substr(0,prefixLength));
-				packBuffer = packStr.substr(prefixLength,packSize);
-				if(packBuffer.length == packSize){
-					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,packBuffer));
-					packBuffer = null;
-					decodeEnded = true;
-					var remainStr:String = packStr.substr(packSize+prefixLength);
-					if(remainStr.length)
-						decodePack(remainStr);
-				}else{
-					decodeEnded = false;
-					packSuffixSize = packSize - packBuffer.length;
-				}
-			}else{
-				var suffixStr:String;
-				suffixStr = packStr.substr(0,packSuffixSize);
-				packBuffer += suffixStr;
-				if(packBuffer.length == packSize){
-					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,packBuffer));
-					decodeEnded = true;
-					packBuffer = null;
-					var lastStr:String = packStr.substr(packSuffixSize);
-					if(lastStr.length)
-						decodePack(remainStr);
-				}else{
-					decodeEnded = false;
-					packSuffixSize = packSize - packBuffer.length;
-				}
-			}
-			
-		}
+//		private function decodePack(packStr:String,prefixLength:Number=4):void
+//		{
+//			if(decodeEnded){
+//				packSize = Number(packStr.substr(0,prefixLength));
+//				packBuffer = packStr.substr(prefixLength,packSize);
+//				if(packBuffer.length == packSize){
+//					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,packBuffer));
+//					packBuffer = null;
+//					decodeEnded = true;
+//					var remainStr:String = packStr.substr(packSize+prefixLength);
+//					if(remainStr.length)
+//						decodePack(remainStr);
+//				}else{
+//					decodeEnded = false;
+//					packSuffixSize = packSize - packBuffer.length;
+//				}
+//			}else{
+//				var suffixStr:String;
+//				suffixStr = packStr.substr(0,packSuffixSize);
+//				packBuffer += suffixStr;
+//				if(packBuffer.length == packSize){
+//					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,packBuffer));
+//					decodeEnded = true;
+//					packBuffer = null;
+//					var lastStr:String = packStr.substr(packSuffixSize);
+//					if(lastStr.length)
+//						decodePack(remainStr);
+//				}else{
+//					decodeEnded = false;
+//					packSuffixSize = packSize - packBuffer.length;
+//				}
+//			}
+//		}
 		
 		protected function getDataHandler(event:ProgressEvent):void
 		{
-			var jsonStr:String = socket.readMultiByte(socket.bytesAvailable,"UTF-8");
-			Util.info("[recv]"+jsonStr);
-			decodePack(jsonStr);
+			try{
+				while(true){
+					if (packSize == 0)
+					{
+						if (socket.bytesAvailable < 4) 
+							return;
+						packSize = socket.readInt();
+					}
+					if (socket.bytesAvailable < packSize) 
+						return;
+					var data:String = socket.readMultiByte(packSize,"UTF-8");
+					Util.info("[recv]("+packSize+")"+data);
+					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,data));
+					packSize=0;
+				}
+			}catch(e:Error){
+				Util.info(e.message);
+			}
 		}
 		
 		protected function ioErrorHandler(event:IOErrorEvent):void

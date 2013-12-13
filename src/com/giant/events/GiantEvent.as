@@ -20,6 +20,10 @@ package com.giant.events
 		 * 关闭服务器连接
 		 */
 		public static const CLOSE_CONNECT:String = "close_connect";
+		/**
+		 * 学生输入名称完毕
+		 */
+		public static const INPUT_NAME_ENDED:String = "input_name_ended";
 		
 		public var data:Object;
 		

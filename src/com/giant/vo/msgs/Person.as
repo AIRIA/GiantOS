@@ -5,8 +5,18 @@ package com.giant.vo.msgs
 	[Bindable]
 	public class Person extends Message
 	{
+		
+		private static var _instance:Person;
+		public static function getPerson():Person
+		{
+			if(!_instance){
+				_instance = new Person();
+			}
+			return _instance;
+		}
+		
 		/* 角色姓名 */
-		private var _name:String;
+		private var _name:String = "陈老师";
 		/* ID */
 		private var _id:String;
 
