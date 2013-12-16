@@ -68,6 +68,7 @@
 			protected function logoutHandler(event:GiantEvent):void
 			{
 				var id:String = event.data.id;
+				chatPanel.onlineNum -= 1;
 				for(var i:int=0;i<_stuGroup.numElements;i++)
 				{
 					var si:StudentItem = _stuGroup.getElementAt(i) as StudentItem;
@@ -77,7 +78,6 @@
 						return ;
 					}
 				}
-				chatPanel.onlineNum -= 1;
 			}
 			
 		]]>
