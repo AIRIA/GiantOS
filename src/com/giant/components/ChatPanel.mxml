@@ -20,6 +20,9 @@
 			protected function askHandler(event:MouseEvent):void
 			{
 				EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.HANDS_UP));
+				var btn:Button = event.target as Button;
+				btn.enabled = false;
+				Util.warnTip("已经向老师发送了提问的请求，请等待......");
 			}
 			
 		]]>
@@ -54,7 +57,7 @@
 		<s:HGroup width="100%" height="20" verticalAlign="middle">
 			<s:Label text="{'当前在线人数:'+onlineNum}"/>
 			<s:Spacer width="100%"/>
-			<s:Button creationComplete="askBtnComplete(event)" click="askHandler(event)" visible="{btnLabel.length!=0}" label="{btnLabel}"/>
+			<s:Button id="speakBtn" creationComplete="askBtnComplete(event)" click="askHandler(event)" visible="{btnLabel.length!=0}" label="{btnLabel}"/>
 		</s:HGroup>
 	</components:controlBarContent>
 </components:SimplePanel>

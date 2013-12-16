@@ -27,7 +27,7 @@
 							<s:SolidColor color="0x000000"/>
 						</s:fill>
 					</s:Rect>
-					<s:VideoDisplay  muted="false" loop="true" width="100%" height="100%" source="030002010051ED8180A87C094560D3DE19B2C8-8EC0-7DFB-983B-EADB9AB5F5AC.flv"/>
+					<s:VideoDisplay  muted="true" loop="true" width="100%" height="100%" source="030002010051ED8180A87C094560D3DE19B2C8-8EC0-7DFB-983B-EADB9AB5F5AC.flv"/>
 				</gaint:SimplePanel>
 				<gaint:PPTItemList width="100%" height="100%" orientation="rows"
 								   titleIcon="assets/icons/pptlist.png"/>

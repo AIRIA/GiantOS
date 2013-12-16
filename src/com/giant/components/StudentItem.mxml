@@ -5,7 +5,9 @@
 		 width="100%" creationComplete="createComplete(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.giant.configures.RouteName;
 			import com.giant.events.GiantEvent;
+			import com.giant.managers.ShareManager;
 			
 			import mx.events.FlexEvent;
 			[Bindable]
@@ -45,26 +47,48 @@
 				yesImg.visible = noImg.visible = videoImg.visible = true;
 			}
 			
+			protected function allowAsk(event:MouseEvent):void
+			{
+				ShareManager.client.sendMsg(JSON.stringify({
+					route:RouteName.ALLOW_ASK,
+					type:'ask',
+					id:this.id
+				}));
+				yesImg.visible = noImg.visible = false;
+				videoImg.visible = true;
+			}
+			
+			protected function refuseAsk(event:MouseEvent):void
+			{
+				ShareManager.client.sendMsg(JSON.stringify({
+					route:RouteName.REFUSE_ASK,
+					type:'ask',
+					id:this.id
+				}));
+				yesImg.visible = noImg.visible = videoImg.visible = false;
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
-	<s:Rect width="100%" height="0.5" bottom="0">
+	<s:Rect bottom="0" width="100%" height="0.5">
 		<s:stroke>
-			<s:SolidColorStroke color="0xCCCCCC" />
+			<s:SolidColorStroke color="0xCCCCCC"/>
 		</s:stroke>
 	</s:Rect>
-		<s:HGroup paddingBottom="4" width="100%" height="100%" gap="5" verticalAlign="middle">
+		<s:HGroup width="100%" height="100%" gap="5" paddingBottom="4" verticalAlign="middle">
 			<s:Image id="roleImg" width="20" height="20" source="{icon}"/>
 			<s:Spacer width="20"/>
 			<s:Label width="60" text="{role}"/>
 			<s:Label text="{uname}"/>
 			<s:Spacer width="100%"/>
-			<s:Image visible="false" id="videoImg" width="20" height="20" smooth="true" source="{video}"/>
-			<s:Image visible="false" id="yesImg" width="20" height="20" buttonMode="true" smooth="true" source="{yes}"
-					 toolTip="允许发言"/>
-			<s:Image visible="false" id="noImg" width="20" height="20" buttonMode="true" smooth="true" source="{no}"
-					 toolTip="拒绝发言"/>
+			<s:Image id="videoImg" visible="false" width="20" height="20" smooth="true"
+					 source="{video}"/>
+			<s:Image id="yesImg" visible="false" width="20" height="20" buttonMode="true"
+					 click="allowAsk(event)" smooth="true" source="{yes}" toolTip="允许发言"/>
+			<s:Image id="noImg" visible="false" width="20" height="20" buttonMode="true"
+					 click="refuseAsk(event)" smooth="true" source="{no}" toolTip="拒绝发言"/>
 		</s:HGroup>
 </s:Group>

@@ -37,6 +37,10 @@ package com.giant.events
 		 */		
 		public static const STU_LOGOUT:String = "stu_logout";
 		
+		public static const SYS_WARN_INFO:String = "sys_warn_info";
+		
+		public static const SYS_ERROR_INFO:String = "sys_error_info";
+		
 		public var data:Object;
 		
 		public function GiantEvent(type:String,data:Object=null, bubbles:Boolean=false, cancelable:Boolean=false)

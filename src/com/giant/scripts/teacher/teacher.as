@@ -1,9 +1,12 @@
 import com.giant.configures.RouteDictionary;
+import com.giant.configures.RouteName;
 import com.giant.events.GiantEvent;
 import com.giant.managers.ShareManager;
 import com.giant.nets.NetConfig;
 import com.giant.nets.SocketClient;
+import com.giant.stream.SoundStream;
 import com.giant.vo.commands.Room;
+import com.giant.vo.msgs.Person;
 
 import flash.events.Event;
 
@@ -28,16 +31,25 @@ protected function connectServer(event:GiantEvent):void
 	status.text = "正在连接服务器...";
 	Room.getRoom().roomId = event.data.roomId;
 	ShareManager.port = NetConfig.TEA_PORT;
-	client = new SocketClient();
+	ShareManager.client = client = new SocketClient();
 	client.getSocket().addEventListener(GiantEvent.SERVER_CONNECTED,connectServerHandlder);
 	client.getSocket().addEventListener(GiantEvent.CLOSE_CONNECT,closeConnectHandler);
 	client.getSocket().addEventListener(GiantEvent.RECV_DATA,recvDataHandler);
 	route.registerWithObj(Room.getRoom(),getRoomData);
-	route.registerWithString("get_room_info",getRoomInfo);
-	route.registerWithString("error_msg",msgErrorHandler);
-	route.registerWithString("hands_up",handsUpHandler);
-	route.registerWithString("student_login",stuLoginHandler);
-	route.registerWithString("student_logout",stuLogoutHandler);
+	route.registerWithString(RouteName.GET_ROOM_INFO,getRoomInfo);
+	route.registerWithString(RouteName.ERROR_MSG,msgErrorHandler);
+	route.registerWithString(RouteName.HANDS_UP,handsUpHandler);
+	route.registerWithString(RouteName.STUDENT_LOGIN,stuLoginHandler);
+	route.registerWithString(RouteName.STUDENT_LOGOUT,stuLogoutHandler);
+	route.registerWithString(RouteName.LISTEN_ASK,listenHandler);
+}
+
+private function listenHandler(data:Object):void
+{
+	if(data.id!=Person.getPerson().id)
+	{
+		SoundStream.create().listen(data);
+	}
 }
 
 private function stuLogoutHandler(data:Object):void

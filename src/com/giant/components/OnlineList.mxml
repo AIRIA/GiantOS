@@ -44,8 +44,8 @@
 			protected function handsUpHandler(event:GiantEvent):void
 			{
 				var data:Object = event.data;
-				chatPanel.onlineNum = onlineList.length;
-				for(var i:int=0;i<onlineList.length;i++)
+				chatPanel.onlineNum = _stuGroup.numElements;
+				for(var i:int=0;i<_stuGroup.numElements;i++)
 				{
 					var si:StudentItem = _stuGroup.getElementAt(i) as StudentItem;
 					if(si.id == data.id)
@@ -68,12 +68,13 @@
 			protected function logoutHandler(event:GiantEvent):void
 			{
 				var id:String = event.data.id;
-				chatPanel.onlineNum -= 1;
+				
 				for(var i:int=0;i<_stuGroup.numElements;i++)
 				{
 					var si:StudentItem = _stuGroup.getElementAt(i) as StudentItem;
 					if(si.id == id)
 					{
+						chatPanel.onlineNum -= 1;
 						_stuGroup.removeElement(si);
 						return ;
 					}

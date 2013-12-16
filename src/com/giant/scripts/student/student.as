@@ -1,9 +1,11 @@
 import com.giant.configures.RouteDictionary;
+import com.giant.configures.RouteName;
 import com.giant.events.GiantEvent;
 import com.giant.managers.EventManager;
 import com.giant.managers.ShareManager;
 import com.giant.nets.NetConfig;
 import com.giant.nets.SocketClient;
+import com.giant.stream.SoundStream;
 import com.giant.utils.JsonUtil;
 import com.giant.utils.Util;
 import com.giant.vo.commands.Room;
@@ -39,15 +41,37 @@ protected function connectServer(event:GiantEvent):void
 	Room.getRoom().roomId = event.data.roomId;
 	status.text = "正在连接服务器...";
 	ShareManager.port = NetConfig.STU_PORT;
-	client = new SocketClient();
+	ShareManager.client = client = new SocketClient();
 	client.getSocket().addEventListener(GiantEvent.SERVER_CONNECTED,connectServerHandlder);
 	client.getSocket().addEventListener(GiantEvent.CLOSE_CONNECT,closeConnectHandler);
 	client.getSocket().addEventListener(GiantEvent.RECV_DATA,recvDataHandler);
 	route.registerWithObj(Person.getPerson(),loginServerRes);
-	route.registerWithString("get_room_info",getRoomInfo);
-	route.registerWithString("error_msg",msgErrorHandler);
-	route.registerWithString("student_info",getStudentInfo);
+	route.registerWithString(RouteName.GET_ROOM_INFO,getRoomInfo);
+	route.registerWithString(RouteName.ERROR_MSG,msgErrorHandler);
+	route.registerWithString(RouteName.STUDENT_INFO,getStudentInfo);
+	route.registerWithString(RouteName.ALLOW_ASK,allowAskHandler);
+	route.registerWithString(RouteName.REFUSE_ASK,refuseAskHandler);
+	route.registerWithString(RouteName.LISTEN_ASK,listenHandler);
 	route.registerWithObj(new PPTItem(),getPPTInfo);
+}
+
+private function listenHandler(data:Object):void
+{
+	if(data.id!=Person.getPerson().id)
+	{
+		SoundStream.create().listen(data);
+	}
+}
+
+private function refuseAskHandler(data:Object):void
+{
+	EventManager.instance().dispatchEvent(new GiantEvent(RouteName.REFUSE_ASK,data));
+	
+}
+
+private function allowAskHandler(data:Object):void
+{
+	EventManager.instance().dispatchEvent(new GiantEvent(RouteName.ALLOW_ASK,data));
 }
 
 private function getStudentInfo(data:Object):void
@@ -64,6 +88,7 @@ protected function connectServerHandlder(event:GiantEvent):void
 	person.roomId = Room.getRoom().roomId;
 	person.type = "cmd";
 	client.sendMsg(JsonUtil.objToJson(person));
+	Util.warnTip("欢迎进入在线教学系统!");
 }
 /**
  * 学生登录的结果

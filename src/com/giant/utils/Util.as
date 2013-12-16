@@ -1,5 +1,9 @@
 package com.giant.utils
 {
+	import com.giant.events.GiantEvent;
+	import com.giant.managers.EventManager;
+	
+	import flash.events.Event;
 	import flash.external.ExternalInterface;
 	import flash.media.Microphone;
 	import flash.system.Capabilities;
@@ -103,6 +107,16 @@ package com.giant.utils
 		static public function supportMic():Boolean
 		{
 			return Microphone.names.length as Boolean;
+		}
+		
+		static public function errorTip(tip:String):void
+		{
+			EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.SYS_ERROR_INFO,tip));
+		}
+		
+		static public function warnTip(tip:String):void
+		{
+			EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.SYS_WARN_INFO,tip));
 		}
 		
 	}
