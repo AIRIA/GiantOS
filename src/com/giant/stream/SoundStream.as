@@ -58,7 +58,7 @@ package com.giant.stream
 			mic = Microphone.getMicrophone();
 			if(mic)
 			{
-				mic.gain = 50; 
+				mic.gain = 30; 
 				mic.rate = 11;
 				mic.setSilenceLevel(5,1000);
 				mic.setLoopBack(false);
