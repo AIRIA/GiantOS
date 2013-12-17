@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%" height="100%" creationComplete="createComplete(event)">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.giant.events.GiantEvent;
+			import com.giant.managers.EventManager;
+			import com.giant.stream.VideoStream;
+			
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			private var video:Video;
+			private var vs:VideoStream;
+			
+			protected function createComplete(event:FlexEvent):void
+			{
+				video = new Video();
+				video.width = videoWrapper.width;
+				video.height = videoWrapper.height;
+				
+				videoWrapper.addChild(video);
+				EventManager.instance().addEventListener(GiantEvent.PUBLISH_VIDEO,publishHandler);
+				EventManager.instance().addEventListener(GiantEvent.WATCH_VIDEO,watchHandler);
+			}
+			
+			protected function publishHandler(event:GiantEvent):void
+			{
+				var data:Object = event.data;
+				vs = VideoStream.create(video,data.host,data.streamName);
+				vs.publishVideo();
+			}
+			
+			protected function watchHandler(event:GiantEvent):void
+			{
+				var data:Object = event.data;
+				vs = VideoStream.create(video,data.host,data.streamName);
+				vs.watchVideo();
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:UIComponent id="videoWrapper" width="100%" height="100%">
+		
+	</mx:UIComponent>
+</s:Group>

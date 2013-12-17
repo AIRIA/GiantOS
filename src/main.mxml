@@ -2,7 +2,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   xmlns:gaint="com.giant.components.*"
+			   xmlns:giant="com.giant.components.*"
 			   minWidth="955" minHeight="600" pageTitle="多媒体直播" creationComplete="createComplete(event)">
 	<fx:Style source="com/giant/styles/main.css"/>
 	<fx:Script source="com/giant/scripts/teacher/teacher.as" />
@@ -14,28 +14,35 @@
 		<s:Image smooth="true" verticalCenter="0" height="20" source="assets/icons/logo.png" />
 		<s:Spacer width="100%"/>
 		<s:Button label="上传PPT"/>
-		<s:Button label="发布直播"/>
-		<s:Button label="结束直播"/>
+		<s:Button id="pubBtn" label="发布直播" click="publishVideo(event)"/>
+		<s:Button id="endBtn" label="结束直播" click="endPublish(event)"/>
 	</s:controlBarContent>
 	<s:VGroup width="100%" height="100%" gap="1">
 		<s:HGroup width="100%" height="100%">
 			<s:VGroup width="350" height="100%">
-				<gaint:SimplePanel width="100%" height="300" title="直播视频"
+				<giant:SimplePanel width="100%" height="300" title="直播视频"
 								   titleIcon="assets/icons/video.png">
 					<s:Rect width="100%" height="100%">
 						<s:fill>
 							<s:SolidColor color="0x000000"/>
 						</s:fill>
 					</s:Rect>
-					<s:VideoDisplay  muted="true" loop="true" width="100%" height="100%" source="030002010051ED8180A87C094560D3DE19B2C8-8EC0-7DFB-983B-EADB9AB5F5AC.flv"/>
-				</gaint:SimplePanel>
-				<gaint:PPTItemList width="100%" height="100%" orientation="rows"
+					<!--vod/mp4:sample1_1500kbps.f4v-->
+					<!--<s:VideoDisplay autoPlay="true" loop="true" width="100%" height="100%" source="rtmp://192.168.1.86/live/mp4:test.mp4"/>-->
+					<!--<s:VideoDisplay scaleMode="stretch" width="100%" height="100%"> 
+						<s:DynamicStreamingVideoSource host="rtmp://192.168.1.86/live/" streamType="live"> 
+							<s:DynamicStreamingVideoItem streamName="mp4:test.mp4"/> 
+						</s:DynamicStreamingVideoSource> 
+					</s:VideoDisplay>-->
+					<giant:GiantVideo width="100%" height="100%"/>
+				</giant:SimplePanel>
+				<giant:PPTItemList width="100%" height="100%" orientation="rows"
 								   titleIcon="assets/icons/pptlist.png"/>
 			</s:VGroup>
-			<gaint:PPTPanel id="pptPanel" width="100%" height="100%" titleIcon="assets/icons/ppt.png"/>
+			<giant:PPTPanel id="pptPanel" width="100%" height="100%" titleIcon="assets/icons/ppt.png"/>
 			<s:VGroup width="300" height="100%">
-				<gaint:OnlineList chatPanel="{chatPanel}" id="onlineList"/>
-				<gaint:ChatPanel socketClient="{client}" id="chatPanel" width="100%" height="100%" routeDic="{route}"
+				<giant:OnlineList chatPanel="{chatPanel}" id="onlineList"/>
+				<giant:ChatPanel socketClient="{client}" id="chatPanel" width="100%" height="100%" routeDic="{route}"
 								 titleIcon="assets/icons/chat.png"/>
 			</s:VGroup>
 		</s:HGroup>
@@ -58,5 +65,5 @@
 			</s:HGroup>
 		</s:Group>
 	</s:VGroup>
-	<gaint:LoginLayer id="loginLayer"/>
+	<giant:LoginLayer id="loginLayer"/>
 </s:Application>

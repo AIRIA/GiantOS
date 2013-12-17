@@ -41,7 +41,12 @@ package com.giant.events
 		
 		public static const SYS_ERROR_INFO:String = "sys_error_info";
 		
+		public static const PUBLISH_VIDEO:String = "publish_video";
+		
+		public static const WATCH_VIDEO:String = "watch_video";
+		
 		public var data:Object;
+		
 		
 		public function GiantEvent(type:String,data:Object=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

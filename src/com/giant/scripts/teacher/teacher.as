@@ -1,6 +1,7 @@
 import com.giant.configures.RouteDictionary;
 import com.giant.configures.RouteName;
 import com.giant.events.GiantEvent;
+import com.giant.managers.EventManager;
 import com.giant.managers.ShareManager;
 import com.giant.nets.NetConfig;
 import com.giant.nets.SocketClient;
@@ -9,6 +10,7 @@ import com.giant.vo.commands.Room;
 import com.giant.vo.msgs.Person;
 
 import flash.events.Event;
+import flash.events.MouseEvent;
 
 import mx.events.FlexEvent;
 
@@ -42,6 +44,19 @@ protected function connectServer(event:GiantEvent):void
 	route.registerWithString(RouteName.STUDENT_LOGIN,stuLoginHandler);
 	route.registerWithString(RouteName.STUDENT_LOGOUT,stuLogoutHandler);
 	route.registerWithString(RouteName.LISTEN_ASK,listenHandler);
+}
+
+private function publishVideo(event:MouseEvent):void
+{
+	EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.PUBLISH_VIDEO,{
+		host:'192.168.1.86',
+		streamName:'test'
+	}));
+}
+
+private function endPublish(event:MouseEvent):void
+{
+	
 }
 
 private function listenHandler(data:Object):void

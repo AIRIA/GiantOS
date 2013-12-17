@@ -24,6 +24,10 @@ private var route:RouteDictionary = new RouteDictionary();
 protected function createComplete(event:FlexEvent):void
 {
 	EventManager.instance().addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
+	EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.WATCH_VIDEO,{
+		host:'192.168.1.86',
+		streamName:'test'
+	}));
 	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,connectServer);
 }
 
