@@ -1,6 +1,7 @@
 import com.giant.configures.RouteDictionary;
 import com.giant.configures.RouteName;
 import com.giant.events.GiantEvent;
+import com.giant.file.PPTUploader;
 import com.giant.managers.EventManager;
 import com.giant.managers.ShareManager;
 import com.giant.nets.NetConfig;
@@ -44,6 +45,11 @@ protected function connectServer(event:GiantEvent):void
 	route.registerWithString(RouteName.STUDENT_LOGIN,stuLoginHandler);
 	route.registerWithString(RouteName.STUDENT_LOGOUT,stuLogoutHandler);
 	route.registerWithString(RouteName.LISTEN_ASK,listenHandler);
+}
+
+private function browsePPT(event:MouseEvent):void
+{
+	PPTUploader.instance().upload();
 }
 
 private function publishVideo(event:MouseEvent):void

@@ -13,7 +13,7 @@
 	<s:controlBarContent>
 		<s:Image smooth="true" verticalCenter="0" height="20" source="assets/icons/logo.png" />
 		<s:Spacer width="100%"/>
-		<s:Button label="上传PPT"/>
+		<s:Button label="上传PPT" click="browsePPT(event)"/>
 		<s:Button id="pubBtn" label="发布直播" click="publishVideo(event)"/>
 		<s:Button id="endBtn" label="结束直播" click="endPublish(event)"/>
 	</s:controlBarContent>

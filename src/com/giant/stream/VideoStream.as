@@ -141,7 +141,7 @@ package com.giant.stream
 				netStream = new NetStream(netCon);
 				h264Settings = new H264VideoStreamSettings();
 				h264Settings.setMode(480,320,30);
-				h264Settings.setQuality(0,100);
+				h264Settings.setQuality(1024*500,0);
 				h264Settings.setProfileLevel(H264Profile.BASELINE, H264Level.LEVEL_3_1);
 				netStream.videoStreamSettings = h264Settings;
 				netStream.addEventListener(NetStatusEvent.NET_STATUS,statusHandler);
