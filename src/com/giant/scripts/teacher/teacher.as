@@ -7,7 +7,9 @@ import com.giant.managers.ShareManager;
 import com.giant.nets.NetConfig;
 import com.giant.nets.SocketClient;
 import com.giant.stream.SoundStream;
+import com.giant.utils.JsonUtil;
 import com.giant.vo.commands.Room;
+import com.giant.vo.msgs.PPTItem;
 import com.giant.vo.msgs.Person;
 
 import flash.events.Event;
@@ -27,8 +29,12 @@ private var route:RouteDictionary = new RouteDictionary();
 protected function createComplete(event:FlexEvent):void
 {
 	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,connectServer);
+	
 }
 
+/**
+ * 连接socket服务器 
+ */
 protected function connectServer(event:GiantEvent):void
 {
 	status.text = "正在连接服务器...";

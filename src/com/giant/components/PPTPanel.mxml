@@ -15,6 +15,8 @@
 			public var prevPage:Function = null;
 			[Bindable]
 			public var pptItem:com.giant.vo.msgs.PPTItem;
+			[Bindable]
+			public var showNav:Boolean = true;
 			
 			protected function mouseOverHandler(event:MouseEvent):void
 			{
@@ -49,8 +51,8 @@
 			<s:SolidColor color="0xDDDDDD" />
 		</s:fill>
 	</s:Rect>
-	<s:Image width="100%" height="100%" source="{pptItem.source}" />
-	<s:HGroup mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)" alpha="0" id="navGroup" width="100%" height="100%" verticalAlign="middle">
+	<s:Image width="100%" height="100%" verticalCenter="0" horizontalCenter="0" source="{pptItem.source}" />
+	<s:HGroup visible="{showNav}" mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)" alpha="0" id="navGroup" width="100%" height="100%" verticalAlign="middle">
 		<s:Image click="prevPage(event)" alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)" buttonMode="true" source="assets/icons/prev.png" />
 		<s:Spacer width="100%" />
 		<s:Image click="nextPage(event)" alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)"  buttonMode="true" source="assets/icons/next.png" />

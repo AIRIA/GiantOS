@@ -1,4 +1,5 @@
 import com.giant.events.GiantEvent;
+import com.giant.managers.EventManager;
 import com.giant.managers.ShareManager;
 import com.giant.utils.JsonUtil;
 import com.giant.utils.Util;
@@ -8,30 +9,37 @@ import com.giant.vo.msgs.PPTItem;
 import flash.events.MouseEvent;
 
 // ActionScript file
+/**
+ * socket服务器连接成功后触发 
+ */
 protected function connectServerHandlder(event:GiantEvent):void
 {
 	status.text = "当前状态[在线]"
-	var pptItem:PPTItem = new PPTItem();
-	pptItem.pageId = 1;
-	pptItem.type = "ppt";
-	pptItem.roomId = "room_1";
-	pptItem.source = "ppts/1.jpg";
-	pptItem.name = "name1";
+	client.sendMsg(JsonUtil.objToJson(Room.getRoom()));
+	chatPanel.dispatchEvent(event);
+	EventManager.instance().addEventListener(GiantEvent.GET_PPTLIST,initPPTHandler);
+	route.registerWithObj(new PPTItem(),getPPTInfo);
+}
+
+/**
+ * 初始化PPT列表信息 
+ */
+protected function initPPTHandler(event:GiantEvent):void
+{
+	var pptItem:PPTItem = ShareManager.pptList[0];
 	pptPanel.pptItem = pptItem;
 	pptPanel.nextPage = nextPage;
 	pptPanel.prevPage = prevPage;
-	route.registerWithObj(new PPTItem(),getPPTInfo);
-	client.sendMsg(JsonUtil.objToJson(Room.getRoom()));
+	
 	client.sendMsg(JsonUtil.objToJson(pptItem));
-	chatPanel.dispatchEvent(event);
 }
 
 private function nextPage(event:MouseEvent):void
 {
-	var pptIdx:Number = pptPanel.pptItem.pageId;
+	var pptIdx:Number = pptPanel.pptItem.pageId+1;
 	if(pptIdx<ShareManager.pptList.length)
 	{
-		pptPanel.pptItem = JsonUtil.jsonToObj(ShareManager.pptList[pptIdx],PPTItem);
+		pptPanel.pptItem = ShareManager.pptList[pptIdx];
 		pptPanel.pptItem.roomId = Room.getRoom().roomId;
 		client.sendMsg(JsonUtil.objToJson(pptPanel.pptItem));
 	}
@@ -40,9 +48,9 @@ private function nextPage(event:MouseEvent):void
 private function prevPage(event:MouseEvent):void
 {
 	var pptIdx:Number = pptPanel.pptItem.pageId-1;
-	if(pptIdx>0)
+	if(pptIdx>=0)
 	{
-		pptPanel.pptItem = JsonUtil.jsonToObj(ShareManager.pptList[pptIdx-1],PPTItem);
+		pptPanel.pptItem =ShareManager.pptList[pptIdx];
 		pptPanel.pptItem.roomId = Room.getRoom().roomId;
 		client.sendMsg(JsonUtil.objToJson(pptPanel.pptItem));
 	}

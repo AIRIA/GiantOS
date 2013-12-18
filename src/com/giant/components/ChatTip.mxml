@@ -12,5 +12,6 @@
 		]]>
 	</fx:Script>
 	<s:Image left="5" top="5" source="@Embed('assets/icons/info.png')"/>
-	<s:Label left="32" top="10" width="100%" lineBreak="toFit" text="{tip}" color="0x987765"/>
+	<s:Label left="32" top="10" width="100%" lineHeight="16" lineBreak="toFit" text="{tip}" color="0x987765"/>
 </s:Group>
+ 

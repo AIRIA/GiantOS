@@ -27,7 +27,7 @@
 				</giant:SimplePanel>
 				<giant:ChatPanel btnLabel="发言" socketClient="{client}" routeDic="{route}" id="chatPanel" titleIcon="assets/icons/chat.png" width="100%" height="100%"/>
 			</s:VGroup>
-			<giant:PPTPanel id="pptPanel" width="100%" height="100%" titleIcon="assets/icons/ppt.png"/>
+			<giant:PPTPanel showNav="false" id="pptPanel" width="100%" height="100%" titleIcon="assets/icons/ppt.png"/>
 		</s:HGroup>
 		<s:Group width="100%" height="30">
 			

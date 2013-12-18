@@ -40,10 +40,18 @@ package com.giant.events
 		public static const SYS_WARN_INFO:String = "sys_warn_info";
 		
 		public static const SYS_ERROR_INFO:String = "sys_error_info";
-		
+		/**
+		 * 发布视频的事件 
+		 */		
 		public static const PUBLISH_VIDEO:String = "publish_video";
-		
+		/**
+		 * 观看视频的事件 
+		 */		
 		public static const WATCH_VIDEO:String = "watch_video";
+		/**
+		 * 获取到ppt列表的事件 
+		 */		
+		public static const GET_PPTLIST:String = "get_pptlist";
 		
 		public var data:Object;
 		

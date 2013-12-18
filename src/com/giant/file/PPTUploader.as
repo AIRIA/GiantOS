@@ -1,7 +1,12 @@
 package com.giant.file
 {
+	import com.giant.configures.NetConfig;
+	import com.giant.events.GiantEvent;
+	import com.giant.managers.EventManager;
+	import com.giant.managers.ShareManager;
 	import com.giant.utils.Util;
 	import com.giant.vo.commands.Room;
+	import com.giant.vo.msgs.PPTItem;
 	
 	import flash.events.DataEvent;
 	import flash.events.Event;
@@ -55,6 +60,17 @@ package com.giant.file
 		
 		private function uploadCompleteDataHandler(event:DataEvent):void {
 			Util.warnTip("uploadCompleteData: " + event);
+			var imgsUrl:Array = JSON.parse(event.data).body.jpgs;
+			ShareManager.pptList = [];
+			for(var i:int=0;i<imgsUrl.length;i++)
+			{
+				var pptItem:PPTItem = new PPTItem();
+				pptItem.source = NetConfig.PPT_SERVER+imgsUrl[i];
+				pptItem.pageId = i;
+				pptItem.name = "Page"+i;
+				ShareManager.pptList.push(pptItem);
+			}
+			EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.GET_PPTLIST));
 		}
 		
 		private function httpStatusHandler(event:HTTPStatusEvent):void {
@@ -98,7 +114,7 @@ package com.giant.file
 			urlReq = new URLRequest();
 			var param:URLVariables = new URLVariables();
 			param.roomId = Room.getRoom().roomId;
-			urlReq.url = "http://192.168.2.170:8989/ppt/upload";
+			urlReq.url = NetConfig.PPT_SERVER+"ppt/upload";
 			urlReq.data = param;
 			urlReq.method = URLRequestMethod.POST;
 		}

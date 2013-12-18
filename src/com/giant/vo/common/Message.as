@@ -1,5 +1,7 @@
 package com.giant.vo.common
 {
+	import com.giant.vo.commands.Room;
+
 	public class Message
 	{
 		private var _roomId:String;
@@ -43,7 +45,7 @@ package com.giant.vo.common
 		 */
 		public function get roomId():String
 		{
-			return _roomId;
+			return Room.getRoom().roomId;
 		}
 
 		/**
