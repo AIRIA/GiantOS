@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.giant.events.RTMP;
+			import com.giant.managers.EventManager;
+			protected function unconnect(event:MouseEvent):void
+			{
+				EventManager.instance().dispatchEvent(new Event(RTMP.VOICE_UNCONNECT));
+				(parent as Group).removeElement(this);
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0x333333" alpha="0.6" />
+		</s:fill>
+	</s:Rect>
+	<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
+		<s:Image source="@Embed(source='assets/images/voice.png')"/>
+		<s:Button label="结束提问" click="unconnect(event)" />
+	</s:VGroup>
+</s:Group>
