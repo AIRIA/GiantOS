@@ -13,5 +13,7 @@ package com.giant.configures
 		public static const REFUSE_ASK:String = "refuse_ask";
 		public static const LISTEN_ASK:String = "listen_ask";
 		public static const WATCH_VIDEO:String = "watch_video";
+		public static const LIVE_END:String = "live_end";
+		public static const FETCH_VIDEO:String = "fetch_video";
 	}
 }

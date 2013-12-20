@@ -2,6 +2,7 @@ package com.giant.file
 {
 	import com.giant.configures.NetConfig;
 	import com.giant.events.GiantEvent;
+	import com.giant.events.PPTEvent;
 	import com.giant.managers.EventManager;
 	import com.giant.managers.ShareManager;
 	import com.giant.utils.Util;
@@ -71,6 +72,7 @@ package com.giant.file
 				ShareManager.pptList.push(pptItem);
 			}
 			EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.GET_PPTLIST));
+			EventManager.instance().dispatchEvent(new Event(PPTEvent.LOADED));
 		}
 		
 		private function httpStatusHandler(event:HTTPStatusEvent):void {
@@ -82,6 +84,7 @@ package com.giant.file
 		}
 		
 		private function openHandler(event:Event):void {
+			EventManager.instance().dispatchEvent(new Event(PPTEvent.UPLOAD));
 			Util.warnTip("openHandler: " + event);
 		}
 		

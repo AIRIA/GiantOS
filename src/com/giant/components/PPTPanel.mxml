@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<components:SimplePanel xmlns:fx="http://ns.adobe.com/mxml/2009" 
-						xmlns:s="library://ns.adobe.com/flex/spark" 
-						xmlns:mx="library://ns.adobe.com/flex/mx" 
-						xmlns:components="com.giant.components.*" 
-						width="100%" height="100%" cutIcon="assets/icons/maximum.png"
-						title="PPT演示">
+<components:SimplePanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+						xmlns:s="library://ns.adobe.com/flex/spark"
+						xmlns:mx="library://ns.adobe.com/flex/mx"
+						xmlns:components="com.giant.components.*"
+						width="100%" height="100%" creationComplete="createComplete(event)" 
+						cutIcon="assets/icons/maximum.png" title="PPT演示">
 	
 	<fx:Script>
 		<![CDATA[
+			import com.giant.events.PPTEvent;
+			import com.giant.managers.EventManager;
 			import com.giant.vo.msgs.PPTItem;
+			
+			import mx.core.IVisualElement;
+			import mx.events.FlexEvent;
+			
+			import spark.components.Group;
 			[Bindable]
 			public var nextPage:Function = null;
 			[Bindable]
@@ -38,23 +45,58 @@
 				event.currentTarget.alpha = 0.5;
 			}
 			
+			protected function loadComplete(event:Event):void
+			{
+				try{
+					removeElement(pptIcon);
+				}catch(error:Error){
+					
+				}
+			}
+			
+			protected function createComplete(event:FlexEvent):void
+			{
+				EventManager.instance().addEventListener(PPTEvent.UPLOAD,showLoadingHandler);
+				EventManager.instance().addEventListener(PPTEvent.LOADED,loadedHandler);
+			}
+			
+			protected function showLoadingHandler(event:Event):void
+			{
+				var giantLoading:GiantLoading = new GiantLoading();
+				addElement(giantLoading);
+			}
+			
+			protected function loadedHandler(event:Event):void
+			{
+				removeElementAt(numElements-1);
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
-		<s:Fade id="fadeIn" duration="500" alphaTo="1"/>
-		<s:Fade id="fadeOut" duration="500" alphaTo="0"/>
+		<s:Fade id="fadeIn" alphaTo="1" duration="500"/>
+		<s:Fade id="fadeOut" alphaTo="0" duration="500"/>
 	</fx:Declarations>
 	<s:Rect left="0" right="0" top="0" bottom="0">
 		<s:fill>
-			<s:SolidColor color="0xDDDDDD" />
+			<s:SolidColor color="0xDDDDDD"/>
 		</s:fill>
 	</s:Rect>
-	<s:Image width="100%" height="100%" verticalCenter="0" horizontalCenter="0" source="{pptItem.source}" />
-	<s:HGroup visible="{showNav}" mouseOver="mouseOverHandler(event)" mouseOut="mouseOutHandler(event)" alpha="0" id="navGroup" width="100%" height="100%" verticalAlign="middle">
-		<s:Image click="prevPage(event)" alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)" buttonMode="true" source="assets/icons/prev.png" />
-		<s:Spacer width="100%" />
-		<s:Image click="nextPage(event)" alpha="0.5" mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)"  buttonMode="true" source="assets/icons/next.png" />
+	<s:Image width="100%" height="100%" complete="loadComplete(event)" horizontalCenter="0"
+			 source="{pptItem.source}" verticalCenter="0"/>
+	<s:HGroup id="navGroup" visible="{showNav}" width="100%" height="100%" alpha="0"
+			  mouseOut="mouseOutHandler(event)" mouseOver="mouseOverHandler(event)"
+			  verticalAlign="middle">
+		<s:Image alpha="0.5" buttonMode="true" click="prevPage(event)"
+				 mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)"
+				 source="assets/icons/prev.png"/>
+		<s:Spacer width="100%"/>
+		<s:Image alpha="0.5" buttonMode="true" click="nextPage(event)"
+				 mouseOut="navBtnOutHandler(event)" mouseOver="navBtnOverHandler(event)"
+				 source="assets/icons/next.png"/>
 	</s:HGroup>
+	<s:Image id="pptIcon" horizontalCenter="0" smooth="true"
+			 source="@Embed(source='assets/images/ppt.png')" verticalCenter="0"/>
 </components:SimplePanel>

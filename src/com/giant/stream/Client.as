@@ -50,10 +50,10 @@ package com.giant.stream
 				camera = Camera.getCamera();
 				if(camera)
 				{
-					//camera.setQuality(VideoConfig.kbps*128,100);
+					camera.setQuality(128*500,100);
 					camera.setLoopback(false);
 					camera.setMotionLevel(5,100);
-					//camera.setMode(VideoConfig.videoWidth,VideoConfig.videoHeight,30);
+					camera.setMode(960,640,30);
 					camera.addEventListener(StatusEvent.STATUS,function(event:StatusEvent):void{
 						var statusCode:String = event.code;
 						switch(statusCode)

@@ -48,6 +48,7 @@ package com.giant.managers
 			send(NetConfig.PUSH_SERVER,param,function(event:Event):void{
 				var urlLoader:URLLoader= event.target as URLLoader;
 				urlLoader.dataFormat = URLLoaderDataFormat.VARIABLES;
+				Util.info("[RTMP PUSH SERVER]"+urlLoader.data,"red");
 				handler(JSON.parse(urlLoader.data));
 			});
 		}

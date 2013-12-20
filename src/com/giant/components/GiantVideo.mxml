@@ -8,6 +8,7 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import com.giant.configures.RouteName;
 			import com.giant.events.GiantEvent;
 			import com.giant.managers.EventManager;
 			import com.giant.stream.VideoStream;
@@ -26,6 +27,7 @@
 				videoWrapper.addChild(video);
 				EventManager.instance().addEventListener(GiantEvent.PUBLISH_VIDEO,publishHandler);
 				EventManager.instance().addEventListener(GiantEvent.WATCH_VIDEO,watchHandler);
+				EventManager.instance().addEventListener(RouteName.LIVE_END,endHandler);
 			}
 			
 			protected function publishHandler(event:GiantEvent):void
@@ -40,6 +42,11 @@
 				var data:Object = event.data;
 				vs = VideoStream.create(video,data.host,data.streamName);
 				vs.watchVideo();
+			}
+			
+			protected function endHandler(event:GiantEvent):void
+			{
+				vs.end();	
 			}
 			
 		]]>

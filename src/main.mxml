@@ -13,9 +13,9 @@
 	<s:controlBarContent>
 		<s:Image smooth="true" verticalCenter="0" height="20" source="assets/icons/logo.png" />
 		<s:Spacer width="100%"/>
-		<s:Button label="上传PPT" click="browsePPT(event)"/>
-		<s:Button id="pubBtn" label="发布直播" click="publishVideo(event)"/>
-		<s:Button id="endBtn" label="结束直播" click="endPublish(event)"/>
+		<s:Button enabled="{ShareManager.connected}" label="上传PPT" click="browsePPT(event)"/>
+		<s:Button enabled="{ShareManager.connected}"  id="pubBtn" label="发布直播" click="publishVideo(event)"/>
+		<s:Button enabled="{ShareManager.connected}"  id="endBtn" label="结束直播" click="endPublish(event)"/>
 	</s:controlBarContent>
 	<s:VGroup width="100%" height="100%" gap="1">
 		<s:HGroup width="100%" height="100%">
@@ -61,7 +61,7 @@
 			<s:HGroup verticalAlign="middle" width="100%" height="100%" paddingRight="15">
 				<s:Label id="status" text="状态栏:当前状态[离线]" left="5" verticalCenter="0"/>
 				<s:Spacer width="100%"/>
-				<s:Image toolTip="离线状态" source="assets/icons/offline.png"/>
+				<s:Label visible="{Room.getRoom().roomId!=null?true:false}" text="{'房间号:'+Room.getRoom().roomId}" right="5" verticalCenter="0"/>
 			</s:HGroup>
 		</s:Group>
 	</s:VGroup>

@@ -44,7 +44,7 @@
 			<s:HGroup verticalAlign="middle" width="100%" height="100%" paddingRight="15">
 				<s:Label id="status" left="5" verticalCenter="0"/>
 				<s:Spacer width="100%"/>
-				<!--<s:Image toolTip="离线状态" source="assets/icons/offline.png"/>-->
+				<s:Label visible="{Room.getRoom().roomId!=null?true:false}" text="{'房间号:'+Room.getRoom().roomId}" right="5" verticalCenter="0"/>
 			</s:HGroup>
 		</s:Group>
 	</s:VGroup>

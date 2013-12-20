@@ -67,11 +67,11 @@ package com.giant.utils
 		/**
 		 * 如果是嵌入在浏览器中的话 在控制台中 打印出来日志
 		 */
-		static public function info(msg:String):void
+		static public function info(msg:String,color:String="0x333333"):void
 		{
 			if(isBrowser())
 			{
-				ExternalInterface.call("console.log",msg);
+				ExternalInterface.call("console.log","%c %s","color:"+color,msg);
 			}
 		}
 		

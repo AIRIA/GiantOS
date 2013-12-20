@@ -1,7 +1,9 @@
+import com.giant.components.GiantLoading;
 import com.giant.configures.NetConfig;
 import com.giant.configures.RouteDictionary;
 import com.giant.configures.RouteName;
 import com.giant.events.GiantEvent;
+import com.giant.events.PPTEvent;
 import com.giant.file.PPTUploader;
 import com.giant.managers.EventManager;
 import com.giant.managers.NetManager;
@@ -13,6 +15,7 @@ import com.giant.utils.Util;
 import com.giant.vo.commands.Room;
 import com.giant.vo.msgs.PPTItem;
 import com.giant.vo.msgs.Person;
+import com.giant.windows.LiveWindow;
 
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -86,7 +89,11 @@ private function getPushServerHandler(data:Object):void
 
 private function endPublish(event:MouseEvent):void
 {
-	
+	ShareManager.client.sendMsg(JSON.stringify({
+		route:RouteName.LIVE_END,
+		type:'msg'
+	}));
+	EventManager.instance().dispatchEvent(new GiantEvent(RouteName.LIVE_END));
 }
 
 private function listenHandler(data:Object):void
@@ -105,6 +112,13 @@ private function stuLogoutHandler(data:Object):void
 private function stuLoginHandler(data:Object):void
 {
 	onlineList.dispatchEvent(new GiantEvent(GiantEvent.STU_LOGIN,data));
+	client.sendMsg(JSON.stringify({
+		route:RouteName.FETCH_VIDEO,
+		stuId:data.id,
+		type:"msg",
+		host:ShareManager.rtmpHost,
+		streamName:ShareManager.streamName
+	}));
 }
 
 private function handsUpHandler(data:Object):void

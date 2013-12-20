@@ -14,6 +14,8 @@ import flash.events.MouseEvent;
  */
 protected function connectServerHandlder(event:GiantEvent):void
 {
+	ShareManager.connected = true;
+	removeElement(loginLayer);
 	status.text = "当前状态[在线]"
 	client.sendMsg(JsonUtil.objToJson(Room.getRoom()));
 	chatPanel.dispatchEvent(event);

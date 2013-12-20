@@ -1,9 +1,11 @@
 import com.giant.components.ChatItem;
 import com.giant.components.ChatTip;
+import com.giant.components.VoiceLayer;
 import com.giant.configures.RouteDictionary;
 import com.giant.configures.RouteName;
 import com.giant.configures.StatusConfigure;
 import com.giant.events.GiantEvent;
+import com.giant.events.RTMP;
 import com.giant.managers.EventManager;
 import com.giant.nets.SocketClient;
 import com.giant.skins.GiantTextInputSkin;
@@ -17,7 +19,8 @@ import flash.events.Event;
 
 import mx.events.FlexEvent;
 
-import spark.components.Label;
+import spark.components.Application;
+
 [Bindable]
 public var btnLabel:String = "";
 [Bindable]

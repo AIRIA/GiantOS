@@ -34,6 +34,7 @@ package com.giant.nets
 			socket.addEventListener(ProgressEvent.SOCKET_DATA,getDataHandler);
 			socket.addEventListener(OutputProgressEvent.OUTPUT_PROGRESS,outputHandler);
 			socket.connect(NetConfig.SERVER_IP,ShareManager.port);
+			Util.info("[Socket Server IP]"+NetConfig.SERVER_IP+":"+ShareManager.port,"red");
 		}
 		
 		public function getSocket():Socket

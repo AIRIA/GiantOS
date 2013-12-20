@@ -19,8 +19,6 @@ package com.giant.stream
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 	
-	import spark.components.Application;
-
 	public class VideoStream
 	{
 		private var netCon:NetConnection;
@@ -60,6 +58,7 @@ package com.giant.stream
 			
 		}
 		
+		
 		protected function statusHandler(event:NetStatusEvent):void
 		{
 			var code:String = event.info.code;
@@ -92,7 +91,7 @@ package com.giant.stream
 					ShareManager.client.sendMsg(JSON.stringify({
 						route:RouteName.WATCH_VIDEO,
 						type:'msg',
-						appId:ShareManager.appId,
+						clientId:ShareManager.clientId,
 						host:host,
 						streamName:ShareManager.streamName
 					}));
@@ -140,6 +139,7 @@ package com.giant.stream
 		public function publishVideo():void
 		{
 			netCon.connect("rtmp://"+host+"/ccsrc");
+			ShareManager.rtmpHost = host;
 			onConnect = publish;
 		}
 		
@@ -151,8 +151,8 @@ package com.giant.stream
 			{
 				netStream = new NetStream(netCon);
 				h264Settings = new H264VideoStreamSettings();
-				h264Settings.setMode(480,320,30);
-				h264Settings.setQuality(1024*500,0);
+				h264Settings.setMode(960,640,30);
+				h264Settings.setQuality(0,100);
 				h264Settings.setProfileLevel(H264Profile.BASELINE, H264Level.LEVEL_3_1);
 				netStream.videoStreamSettings = h264Settings;
 				netStream.addEventListener(NetStatusEvent.NET_STATUS,statusHandler);
@@ -160,12 +160,22 @@ package com.giant.stream
 				netStream.attachAudio(client.mic);
 				netStream.publish(streamName,"live");
 				video.attachCamera(client.camera);
+				ShareManager.isPublish = true;
 			}
 		}
 		
-		public function pausePublish():void
+		public function end():void
 		{
-			
+			netCon.close();
+			netStream.close();
+			Util.warnTip("直播结束！");
+			if(video)
+			{
+				video.attachCamera(null);
+				netStream.attachAudio(null);
+				video.clear();
+				ShareManager.isPublish = false;
+			}
 		}
 	}
 }

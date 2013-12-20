@@ -2,6 +2,7 @@ package com.giant.vo.commands
 {
 	import com.giant.vo.common.Command;
 
+	[Bindable]
 	public class Room extends Command
 	{
 		

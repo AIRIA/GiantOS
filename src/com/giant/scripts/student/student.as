@@ -7,6 +7,7 @@ import com.giant.managers.NetManager;
 import com.giant.managers.ShareManager;
 import com.giant.nets.SocketClient;
 import com.giant.stream.SoundStream;
+import com.giant.stream.VideoStream;
 import com.giant.utils.JsonUtil;
 import com.giant.utils.Util;
 import com.giant.vo.commands.Room;
@@ -25,8 +26,15 @@ private var route:RouteDictionary = new RouteDictionary();
 protected function createComplete(event:FlexEvent):void
 {
 	EventManager.instance().addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
-	
-	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,connectServer);
+	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,updateUserInfo);
+	EventManager.instance().addEventListener(GiantEvent.LOADED_SERVER_INFO,connectServer);
+}
+
+protected function updateUserInfo(event:GiantEvent):void
+{
+	status.text = "正在加载配置文件...";
+	Util.loadServerInfo();
+	ShareManager.streamName = Room.getRoom().roomId = event.data.roomId;
 }
 
 protected function handsUpHandler(event:GiantEvent):void
@@ -40,7 +48,6 @@ protected function handsUpHandler(event:GiantEvent):void
 
 protected function connectServer(event:GiantEvent):void
 {
-	Room.getRoom().roomId = event.data.roomId;
 	status.text = "正在连接服务器...";
 	ShareManager.port = NetConfig.STU_PORT;
 	ShareManager.client = client = new SocketClient();
@@ -55,13 +62,29 @@ protected function connectServer(event:GiantEvent):void
 	route.registerWithString(RouteName.REFUSE_ASK,refuseAskHandler);
 	route.registerWithString(RouteName.LISTEN_ASK,listenHandler);
 	route.registerWithString(RouteName.WATCH_VIDEO,watchVideoHandler);
+	route.registerWithString(RouteName.LIVE_END,liveEndHandler);
+	route.registerWithString(RouteName.FETCH_VIDEO,fetchVideoHandler);
 	route.registerWithObj(new PPTItem(),getPPTInfo);
+}
+
+private function fetchVideoHandler(data:Object):void
+{
+	if(data.stuId==Person.getPerson().id)
+	{
+		watchVideoHandler(data);
+	}
+}
+
+private function liveEndHandler(data:Object):void
+{
+	EventManager.instance().dispatchEvent(new GiantEvent(RouteName.LIVE_END));
 }
 
 private function watchVideoHandler(data:Object):void
 {
 	ShareManager.streamName = data.streamName;
 	ShareManager.rtmpHost = data.host;
+	Util.info("[RTMP PUSH SERVER]"+ data.host,"red");
 	Util.warnTip("老师开始发布视频了，现在开始连接服务器!");
 	NetManager.getInstance().getIdlePlayServer({
 		chName:"ccsrc",
@@ -114,6 +137,7 @@ protected function connectServerHandlder(event:GiantEvent):void
 	person.type = "cmd";
 	client.sendMsg(JsonUtil.objToJson(person));
 	Util.warnTip("欢迎进入在线教学系统!");
+	removeElement(loginLayer);
 }
 /**
  * 学生登录的结果

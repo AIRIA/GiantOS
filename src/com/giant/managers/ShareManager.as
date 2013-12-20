@@ -14,6 +14,9 @@ package com.giant.managers
 		public static var pptList:Array = [];
 		public static var streamName:String;
 		public static var rtmpHost:String;
-		public static var appId:String = Util.getGUID();
+		public static var clientId:String = Util.getGUID();
+		public static var connected:Boolean = false;
+		public static var isPublish:Boolean = false;
+		
 	}
 }

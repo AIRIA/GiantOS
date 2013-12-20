@@ -34,16 +34,27 @@ package com.giant.stream
 			netCon.client = {};
 			EventManager.instance().addEventListener(RTMP.CONNECT_SUCCESS,successHandler);
 			EventManager.instance().addEventListener(RTMP.CONNECT_FAILED,failedHandler);
+			EventManager.instance().addEventListener(RTMP.VOICE_UNCONNECT,unconnectHandler);
+		}
+		
+		protected function unconnectHandler(event:Event):void
+		{
+			netCon.close();
+			netStream.close();
+			Util.warnTip("提问结束");
+			EventManager.instance().removeEventListener(RTMP.VOICE_UNCONNECT,unconnectHandler);
 		}
 		
 		protected function successHandler(event:Event):void
 		{
 			onConnect(event);
+			EventManager.instance().removeEventListener(RTMP.CONNECT_SUCCESS,successHandler);
 		}
 		
 		protected function failedHandler(event:Event):void
 		{
 			Util.warnTip("语音服务器连接失败！");
+			EventManager.instance().removeEventListener(RTMP.CONNECT_FAILED,failedHandler);
 		}
 		protected function listenStream(event:Event):void
 		{
@@ -66,7 +77,7 @@ package com.giant.stream
 				mic.encodeQuality = 6;
 			}
 			Util.warnTip("服务器连接成功，开始提问吧！");
-			
+			EventManager.instance().dispatchEvent(new Event(RTMP.VOICE_CONNECT));
 			netStream = new NetStream(netCon);
 			netStream.addEventListener(NetStatusEvent.NET_STATUS,statusEventHandler);
 			netStream.client = this;
@@ -108,6 +119,8 @@ package com.giant.stream
 					break;
 				case "NetStream.Play.UnpublishNotify":
 					Util.info("直播发布结束或服务器终止直播");
+					netCon.close();
+					netStream.close();
 					break;
 				case "NetStream.Publish.Start":
 					Util.info("直播流成功开始发布");

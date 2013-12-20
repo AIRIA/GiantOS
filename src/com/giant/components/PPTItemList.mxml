@@ -4,12 +4,37 @@
 		 width="100%" height="100%" cutIcon="assets/icons/down.png"
 		 iconTip="隐藏" title="PPT列表" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" 
-		 xmlns:components="com.giant.components.*">
+		 xmlns:components="com.giant.components.*" creationComplete="createComplete(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.giant.events.GiantEvent;
+			import com.giant.managers.EventManager;
+			import com.giant.managers.ShareManager;
+			import com.giant.vo.msgs.PPTItem;
+			
+			import mx.events.FlexEvent;
 			[Inspectable(arrayType="string",enumeration="rows,columns",defaultValue="rows")]
 			[Bindable]
 			public var orientation:String;
+			
+			protected function createComplete(event:FlexEvent):void
+			{
+				EventManager.instance().addEventListener(GiantEvent.GET_PPTLIST,getPPTList);
+			}
+			
+			protected function getPPTList(event:GiantEvent):void
+			{
+				var list:Array = ShareManager.pptList;
+				for(var i:int=0;i<list.length;i++)
+				{
+					var pptItemData:com.giant.vo.msgs.PPTItem = list[i] as com.giant.vo.msgs.PPTItem;
+					var pptItemUI:com.giant.components.PPTItem = new com.giant.components.PPTItem();
+					pptItemUI.itemName = pptItemData.name;
+					pptItemUI.itemImage = pptItemData.source;
+					pptGroup.addElement(pptItemUI);
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -21,14 +46,7 @@
 		</s:fill>
 	</s:Rect>
 	<s:Scroller width="100%" height="100%">
-		<s:TileGroup horizontalAlign="center" paddingTop="15" paddingBottom="15" paddingLeft="20" orientation="{orientation}" columnWidth="150" width="100%" height="100%">
-			<components:PPTItem itemName="name1" itemImage="ppts/1.jpg"/>
-			<components:PPTItem itemName="name2" itemImage="ppts/2.jpg"/>
-			<components:PPTItem itemName="name3" itemImage="ppts/3.jpg"/>
-			<components:PPTItem itemName="name4" itemImage="ppts/4.jpg"/>
-			<components:PPTItem itemName="name5" itemImage="ppts/5.jpg"/>
-			<components:PPTItem itemName="name6" itemImage="ppts/6.jpg"/>
-			<components:PPTItem itemName="name7" itemImage="ppts/7.jpg"/>
+		<s:TileGroup id="pptGroup" horizontalAlign="center" paddingTop="15" paddingBottom="15" paddingLeft="20" orientation="{orientation}" columnWidth="150" width="100%" height="100%">
 		</s:TileGroup>
 	</s:Scroller>
 </components:SimplePanel>

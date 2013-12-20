@@ -23,8 +23,16 @@
 				var btn:Button = event.target as Button;
 				btn.enabled = false;
 				Util.warnTip("已经向老师发送了提问的请求，请等待......");
+				EventManager.instance().addEventListener(RTMP.VOICE_CONNECT,connectHandler);
 			}
 			
+			protected function connectHandler(event:Event):void
+			{
+				var voiceLayer:VoiceLayer = new VoiceLayer();
+				var app:Application = parentApplication as Application;
+				app.addElement(voiceLayer);
+			}
+
 		]]>
 	</fx:Script>
 	
