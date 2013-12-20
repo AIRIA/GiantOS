@@ -1,5 +1,6 @@
 package com.giant.nets
 {
+	import com.giant.configures.NetConfig;
 	import com.giant.events.GiantEvent;
 	import com.giant.managers.ShareManager;
 	import com.giant.utils.Util;
@@ -24,7 +25,7 @@ package com.giant.nets
 		
 		public function SocketClient()
 		{
-			Security.loadPolicyFile("xmlsocket://192.168.2.170:9703");
+			Security.loadPolicyFile("xmlsocket://"+NetConfig.CROSSDOMAIN_IP);
 			socket = new Socket();
 			socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR,securityErrorHandler);
 			socket.addEventListener(Event.CONNECT,connectHandler);

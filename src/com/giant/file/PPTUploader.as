@@ -109,12 +109,12 @@ package com.giant.file
 		{
 			file = new FileReference();
 			configureListeners(file);
-			fileFilter = new FileFilter("PPT课件","*.ppt;*.pptx");
+			fileFilter = new FileFilter("PPT课件(*.ppt,*.pptx)","*.ppt;*.pptx");
 			types.push(fileFilter);
 			urlReq = new URLRequest();
 			var param:URLVariables = new URLVariables();
 			param.roomId = Room.getRoom().roomId;
-			urlReq.url = NetConfig.PPT_SERVER+"ppt/upload";
+			urlReq.url = NetConfig.PPT_SERVER+"file/upload";
 			urlReq.data = param;
 			urlReq.method = URLRequestMethod.POST;
 		}

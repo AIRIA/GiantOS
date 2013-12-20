@@ -1,13 +1,15 @@
+import com.giant.configures.NetConfig;
 import com.giant.configures.RouteDictionary;
 import com.giant.configures.RouteName;
 import com.giant.events.GiantEvent;
 import com.giant.file.PPTUploader;
 import com.giant.managers.EventManager;
+import com.giant.managers.NetManager;
 import com.giant.managers.ShareManager;
-import com.giant.nets.NetConfig;
 import com.giant.nets.SocketClient;
 import com.giant.stream.SoundStream;
 import com.giant.utils.JsonUtil;
+import com.giant.utils.Util;
 import com.giant.vo.commands.Room;
 import com.giant.vo.msgs.PPTItem;
 import com.giant.vo.msgs.Person;
@@ -28,8 +30,15 @@ private var route:RouteDictionary = new RouteDictionary();
  */
 protected function createComplete(event:FlexEvent):void
 {
-	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,connectServer);
-	
+	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,updateUserInfo);
+	EventManager.instance().addEventListener(GiantEvent.LOADED_SERVER_INFO,connectServer);
+}
+
+protected function updateUserInfo(event:GiantEvent):void
+{
+	status.text = "正在加载配置文件...";
+	Util.loadServerInfo();
+	ShareManager.streamName = Room.getRoom().roomId = event.data.roomId;
 }
 
 /**
@@ -38,7 +47,6 @@ protected function createComplete(event:FlexEvent):void
 protected function connectServer(event:GiantEvent):void
 {
 	status.text = "正在连接服务器...";
-	Room.getRoom().roomId = event.data.roomId;
 	ShareManager.port = NetConfig.TEA_PORT;
 	ShareManager.client = client = new SocketClient();
 	client.getSocket().addEventListener(GiantEvent.SERVER_CONNECTED,connectServerHandlder);
@@ -60,10 +68,20 @@ private function browsePPT(event:MouseEvent):void
 
 private function publishVideo(event:MouseEvent):void
 {
+	NetManager.getInstance().getIdlePushServer({
+		chName:"ccsrc",
+		chId:ShareManager.streamName,
+		uId:"tempUID",
+		osType:"flash"
+	},getPushServerHandler);
+}
+
+private function getPushServerHandler(data:Object):void
+{
 	EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.PUBLISH_VIDEO,{
-		host:'192.168.1.86',
-		streamName:'test'
-	}));
+		host:data.body.ip,
+		streamName:ShareManager.streamName
+	}));		
 }
 
 private function endPublish(event:MouseEvent):void

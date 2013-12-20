@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servers>
+	<!-- 策略文件的地址 -->
+	<server name="CROSSDOMAIN_IP" value="192.168.2.170:9703" />
+	<!-- socket服务器地址 -->
+	<server name="SERVER_IP" value="192.168.2.170" />
+	<!-- 学生连接的端口 -->
+	<server name="STU_PORT" value="9701" />
+	<!-- 老师连接的端口 -->
+	<server name="TEA_PORT" value="9700" />
+	<!-- 上传PPT的地址 -->
+	<server name="PPT_SERVER" value="http://114.113.152.136:8090/" />
+	<!-- 推送服务器的地址 -->
+	<server name="PUSH_SERVER" value="http://cloud.live.bokecc.com:8090/server/push" />
+	<!-- 播流服务器的地址 -->
+	<server name="PLAY_SERVER" value="http://cloud.live.bokecc.com:8090/server/play" />
+	<!-- 推送成功后通知的地址 -->
+	<server name="PUSH_SUCCESS"
+		value="http://cloud.live.bokecc.com:8090/server/pushSuccessed" />
+	<!-- 日志服务器的地址 -->
+	<server name="LOG_SERVER" value="http://log.live.bokecc.com/" />
+</servers>

@@ -53,6 +53,7 @@ package com.giant.events
 		 */		
 		public static const GET_PPTLIST:String = "get_pptlist";
 		
+		public static const LOADED_SERVER_INFO:String = "loaded_server_info";
 		public var data:Object;
 		
 		

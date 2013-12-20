@@ -1,6 +1,7 @@
 package com.giant.configures
 {
 	import com.giant.managers.ShareManager;
+	import com.giant.utils.Util;
 	
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
@@ -55,7 +56,12 @@ package com.giant.configures
 		public function recvRoute(data:String):void
 		{
 			var jsonObj:Object = JSON.parse(data);
-			dict[jsonObj["route"]](jsonObj);
+			if(dict.hasOwnProperty(jsonObj["route"])){
+				dict[jsonObj["route"]](jsonObj);
+			}else{
+				Util.info("接收到没有注册的路由:"+jsonObj["route"]);
+			}
+			
 		}
 	}
 }

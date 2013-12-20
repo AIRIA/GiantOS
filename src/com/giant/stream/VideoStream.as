@@ -1,8 +1,10 @@
 package com.giant.stream
 {
+	import com.giant.configures.RouteName;
 	import com.giant.events.GiantEvent;
 	import com.giant.events.RTMP;
 	import com.giant.managers.EventManager;
+	import com.giant.managers.ShareManager;
 	import com.giant.utils.Util;
 	
 	import flash.events.IOErrorEvent;
@@ -16,6 +18,8 @@ package com.giant.stream
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
+	
+	import spark.components.Application;
 
 	public class VideoStream
 	{
@@ -85,6 +89,13 @@ package com.giant.stream
 					break;
 				case "NetStream.Publish.Start":
 					Util.info("直播流成功开始发布");
+					ShareManager.client.sendMsg(JSON.stringify({
+						route:RouteName.WATCH_VIDEO,
+						type:'msg',
+						appId:ShareManager.appId,
+						host:host,
+						streamName:ShareManager.streamName
+					}));
 					break;
 				case "NetStream.Play.Start":
 					Util.info("播放开始");
@@ -114,7 +125,7 @@ package com.giant.stream
 		
 		public function watchVideo():void
 		{
-			netCon.connect("rtmp://"+host+"/live");
+			netCon.connect("rtmp://"+host+"/ccsrc");
 			onConnect = watch;
 		}
 		
@@ -128,7 +139,7 @@ package com.giant.stream
 		
 		public function publishVideo():void
 		{
-			netCon.connect("rtmp://"+host+"/live");
+			netCon.connect("rtmp://"+host+"/ccsrc");
 			onConnect = publish;
 		}
 		

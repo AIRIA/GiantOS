@@ -1,8 +1,8 @@
+import com.giant.configures.NetConfig;
 import com.giant.configures.RouteDictionary;
 import com.giant.configures.StatusConfigure;
 import com.giant.events.GiantEvent;
 import com.giant.managers.ShareManager;
-import com.giant.nets.NetConfig;
 import com.giant.nets.SocketClient;
 import com.giant.utils.JsonUtil;
 import com.giant.vo.msgs.PPTItem;

@@ -1,11 +1,16 @@
 package com.giant.utils
 {
+	import com.giant.configures.NetConfig;
 	import com.giant.events.GiantEvent;
 	import com.giant.managers.EventManager;
+	import com.giant.managers.ShareManager;
 	
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.external.ExternalInterface;
 	import flash.media.Microphone;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	import flash.system.Capabilities;
 	
 	import mx.utils.ObjectUtil;
@@ -16,6 +21,35 @@ package com.giant.utils
 	 */
 	public class Util
 	{
+		
+		static public function loadServerInfo():void
+		{
+			var urlReq:URLRequest = new URLRequest();
+			var urlLoader:URLLoader = new URLLoader();
+			urlReq.url = "address.xml";
+			urlLoader.addEventListener(Event.COMPLETE,loadComplete);
+			urlLoader.addEventListener(IOErrorEvent.IO_ERROR,ioErrorHandler);
+			urlLoader.load(urlReq);
+		}
+		
+		protected static function ioErrorHandler(event:IOErrorEvent):void
+		{
+			Util.warnTip("配置文件加载失败"+event);
+		}
+		
+		protected static function loadComplete(event:Event):void
+		{
+			var urlLoader:URLLoader = event.target as URLLoader;
+			var xml:XML = XML(urlLoader.data);
+			Util.warnTip(xml);
+			var servers:XMLList = xml.server;
+			for(var i:int =0;i<servers.length();i++)
+			{
+				var server:XML = servers[i];
+				NetConfig[server.@name] = server.@value;
+			}
+			EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.LOADED_SERVER_INFO));
+		}
 		
 		/**
 		 * 是否在浏览器内运行

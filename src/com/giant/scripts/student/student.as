@@ -1,9 +1,10 @@
+import com.giant.configures.NetConfig;
 import com.giant.configures.RouteDictionary;
 import com.giant.configures.RouteName;
 import com.giant.events.GiantEvent;
 import com.giant.managers.EventManager;
+import com.giant.managers.NetManager;
 import com.giant.managers.ShareManager;
-import com.giant.nets.NetConfig;
 import com.giant.nets.SocketClient;
 import com.giant.stream.SoundStream;
 import com.giant.utils.JsonUtil;
@@ -24,10 +25,7 @@ private var route:RouteDictionary = new RouteDictionary();
 protected function createComplete(event:FlexEvent):void
 {
 	EventManager.instance().addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
-	EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.WATCH_VIDEO,{
-		host:'192.168.1.86',
-		streamName:'test'
-	}));
+	
 	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,connectServer);
 }
 
@@ -56,8 +54,31 @@ protected function connectServer(event:GiantEvent):void
 	route.registerWithString(RouteName.ALLOW_ASK,allowAskHandler);
 	route.registerWithString(RouteName.REFUSE_ASK,refuseAskHandler);
 	route.registerWithString(RouteName.LISTEN_ASK,listenHandler);
+	route.registerWithString(RouteName.WATCH_VIDEO,watchVideoHandler);
 	route.registerWithObj(new PPTItem(),getPPTInfo);
 }
+
+private function watchVideoHandler(data:Object):void
+{
+	ShareManager.streamName = data.streamName;
+	ShareManager.rtmpHost = data.host;
+	Util.warnTip("老师开始发布视频了，现在开始连接服务器!");
+	NetManager.getInstance().getIdlePlayServer({
+		chName:"ccsrc",
+		chId:ShareManager.streamName,
+		uId:Person.getPerson().id,
+		osType:"flash"
+	},playServerHandler);
+}
+
+private function playServerHandler(data:Object):void
+{
+	EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.WATCH_VIDEO,{
+		host:ShareManager.rtmpHost,
+		streamName:ShareManager.streamName
+	}));
+}
+
 
 private function listenHandler(data:Object):void
 {
