@@ -68,40 +68,6 @@ package com.giant.nets
 			//Util.alert("send data");
 		}
 		
-//		private function decodePack(packStr:String,prefixLength:Number=4):void
-//		{
-//			if(decodeEnded){
-//				packSize = Number(packStr.substr(0,prefixLength));
-//				packBuffer = packStr.substr(prefixLength,packSize);
-//				if(packBuffer.length == packSize){
-//					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,packBuffer));
-//					packBuffer = null;
-//					decodeEnded = true;
-//					var remainStr:String = packStr.substr(packSize+prefixLength);
-//					if(remainStr.length)
-//						decodePack(remainStr);
-//				}else{
-//					decodeEnded = false;
-//					packSuffixSize = packSize - packBuffer.length;
-//				}
-//			}else{
-//				var suffixStr:String;
-//				suffixStr = packStr.substr(0,packSuffixSize);
-//				packBuffer += suffixStr;
-//				if(packBuffer.length == packSize){
-//					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,packBuffer));
-//					decodeEnded = true;
-//					packBuffer = null;
-//					var lastStr:String = packStr.substr(packSuffixSize);
-//					if(lastStr.length)
-//						decodePack(remainStr);
-//				}else{
-//					decodeEnded = false;
-//					packSuffixSize = packSize - packBuffer.length;
-//				}
-//			}
-//		}
-		
 		protected function getDataHandler(event:ProgressEvent):void
 		{
 			try{
