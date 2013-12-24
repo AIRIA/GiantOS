@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <servers>
 	<!-- 策略文件的地址 -->
-	<server name="CROSSDOMAIN_IP" value="192.168.2.170:9703" />
+	<server name="CROSSDOMAIN_IP" value="114.113.152.136:9703" />
 	<!-- socket服务器地址 -->
-	<server name="SERVER_IP" value="192.168.2.170" />
+	<server name="SERVER_IP" value="114.113.152.136" />
 	<!-- 学生连接的端口 -->
 	<server name="STU_PORT" value="9701" />
 	<!-- 老师连接的端口 -->

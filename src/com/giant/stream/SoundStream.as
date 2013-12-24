@@ -121,6 +121,7 @@ package com.giant.stream
 					Util.info("直播发布结束或服务器终止直播");
 					netCon.close();
 					netStream.close();
+					EventManager.instance().dispatchEvent(new GiantEvent(RTMP.VOICE_UNPUBLISH));
 					break;
 				case "NetStream.Publish.Start":
 					Util.info("直播流成功开始发布");

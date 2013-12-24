@@ -26,7 +26,7 @@ package com.giant.utils
 		{
 			var urlReq:URLRequest = new URLRequest();
 			var urlLoader:URLLoader = new URLLoader();
-			urlReq.url = "address.xml";
+			urlReq.url = "address.xml?version="+Math.random();
 			urlLoader.addEventListener(Event.COMPLETE,loadComplete);
 			urlLoader.addEventListener(IOErrorEvent.IO_ERROR,ioErrorHandler);
 			urlLoader.load(urlReq);

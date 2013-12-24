@@ -2,12 +2,18 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="150" height="130" buttonMode="true">
+		 width="150" height="130" buttonMode="true" click="onClick(event)">
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import com.giant.events.GiantEvent;
+			import com.giant.managers.EventManager;
+			import com.giant.managers.ShareManager;
+			import com.giant.utils.JsonUtil;
+			import com.giant.vo.commands.Room;
+			import com.giant.vo.msgs.PPTItem;
 			[Bindable]
 			public var itemName:String;
 			[Bindable]
@@ -19,6 +25,19 @@
 			
 			[Bindable]
 			private var _bgPadding:Number = 1;
+			
+			protected function onClick(event:MouseEvent):void
+			{
+				var pptItem:com.giant.vo.msgs.PPTItem = new com.giant.vo.msgs.PPTItem();
+				pptItem.roomId = Room.getRoom().roomId;
+				pptItem.pageId = pageId;
+				pptItem.source = String(itemImage);
+				pptItem.name = itemName;
+				/* 派发PPT改变的事件 通知ppt面板更改当前显示的ppt */
+				EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.PPT_CHANGE,pptItem));
+				ShareManager.client.sendMsg(JsonUtil.objToJson(pptItem));
+			}
+			
 		]]>
 	</fx:Script>
 	<s:Rect radiusX="4" radiusY="4" left="{_bgPadding}" right="{_bgPadding}" top="{_bgPadding}" bottom="{_bgPadding}">

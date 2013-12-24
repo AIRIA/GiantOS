@@ -7,7 +7,10 @@
 		<![CDATA[
 			import com.giant.configures.RouteName;
 			import com.giant.events.GiantEvent;
+			import com.giant.events.RTMP;
+			import com.giant.managers.EventManager;
 			import com.giant.managers.ShareManager;
+			import com.giant.utils.Util;
 			
 			import mx.events.FlexEvent;
 			[Bindable]
@@ -34,6 +37,8 @@
 			protected function createComplete(event:FlexEvent):void
 			{
 				addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
+				EventManager.instance().addEventListener(RTMP.VOICE_UNPUBLISH,unpublishHandler);
+				Util.info("注册了侦听停止发布的函数");
 				if(icon=="student")
 				{
 					roleImg.source = stu;
@@ -66,6 +71,11 @@
 					id:this.id
 				}));
 				yesImg.visible = noImg.visible = videoImg.visible = false;
+			}
+			
+			protected function unpublishHandler(event:Event):void
+			{
+				videoImg.visible = false;
 			}
 			
 		]]>

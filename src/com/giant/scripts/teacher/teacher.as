@@ -35,7 +35,9 @@ protected function createComplete(event:FlexEvent):void
 {
 	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,updateUserInfo);
 	EventManager.instance().addEventListener(GiantEvent.LOADED_SERVER_INFO,connectServer);
+	
 }
+
 
 protected function updateUserInfo(event:GiantEvent):void
 {

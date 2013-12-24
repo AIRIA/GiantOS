@@ -8,6 +8,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.giant.events.GiantEvent;
 			import com.giant.events.PPTEvent;
 			import com.giant.managers.EventManager;
 			import com.giant.vo.msgs.PPTItem;
@@ -58,8 +59,14 @@
 			{
 				EventManager.instance().addEventListener(PPTEvent.UPLOAD,showLoadingHandler);
 				EventManager.instance().addEventListener(PPTEvent.LOADED,loadedHandler);
+				/* 侦听PPT列表中派发出来的事件 改变当前显示的ppt页 */
+				EventManager.instance().addEventListener(GiantEvent.PPT_CHANGE,changePPTHandler);
 			}
 			
+			protected function changePPTHandler(event:GiantEvent):void
+			{
+				pptItem = event.data as com.giant.vo.msgs.PPTItem;
+			}
 			protected function showLoadingHandler(event:Event):void
 			{
 				var giantLoading:GiantLoading = new GiantLoading();
