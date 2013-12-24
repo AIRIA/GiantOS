@@ -50,7 +50,7 @@ package com.giant.stream
 				camera = Camera.getCamera();
 				if(camera)
 				{
-					camera.setQuality(128*500,100);
+					camera.setQuality(102.4*500,100);
 					camera.setLoopback(false);
 					camera.setMotionLevel(5,100);
 					camera.setMode(960,640,30);

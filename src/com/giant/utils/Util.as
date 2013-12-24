@@ -41,7 +41,7 @@ package com.giant.utils
 		{
 			var urlLoader:URLLoader = event.target as URLLoader;
 			var xml:XML = XML(urlLoader.data);
-			Util.warnTip(xml);
+			Util.info(xml);
 			var servers:XMLList = xml.server;
 			for(var i:int =0;i<servers.length();i++)
 			{

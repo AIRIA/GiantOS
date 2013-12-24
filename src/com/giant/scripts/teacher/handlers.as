@@ -14,9 +14,10 @@ import flash.events.MouseEvent;
  */
 protected function connectServerHandlder(event:GiantEvent):void
 {
+	Util.warnTip("欢迎进入在线教学系统");
 	ShareManager.connected = true;
 	removeElement(loginLayer);
-	status.text = "当前状态[在线]"
+	status.text = "当前状态[在线]";
 	client.sendMsg(JsonUtil.objToJson(Room.getRoom()));
 	chatPanel.dispatchEvent(event);
 	EventManager.instance().addEventListener(GiantEvent.GET_PPTLIST,initPPTHandler);

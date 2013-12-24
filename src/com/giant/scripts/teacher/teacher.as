@@ -19,6 +19,8 @@ import com.giant.windows.LiveWindow;
 
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.system.Security;
+import flash.system.SecurityDomain;
 
 import mx.events.FlexEvent;
 
@@ -35,7 +37,6 @@ protected function createComplete(event:FlexEvent):void
 {
 	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,updateUserInfo);
 	EventManager.instance().addEventListener(GiantEvent.LOADED_SERVER_INFO,connectServer);
-	
 }
 
 

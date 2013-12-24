@@ -1,0 +1,16 @@
+<project name="publish" default="push">
+	<property name="ssh.username" value="phenix" />
+	<property name="ssh.pwd" value="FlfsyqT#Faith_136" />
+	<property name="ssh.host" value="114.113.152.136" />
+	<property name="ssh.port" value="12" />
+	<property name="ssh.targetDir" value="/var/www/dream/webroot/flash" />
+
+	<target name="connect" description="连接服务器">
+		<sshexec host="${ssh.host}" password="${ssh.pwd}" username="${ssh.username}" port="12" trust="true" command="ls -al" />
+	</target>
+	<target name="push" description="更新swf文件到服务器">
+		<scp file="./bin-release/main.swf" port="12" todir="${ssh.username}:${ssh.pwd}@${ssh.host}:${ssh.targetDir}" trust="true" />
+		<scp file="./bin-release/index.swf" port="12" todir="${ssh.username}:${ssh.pwd}@${ssh.host}:${ssh.targetDir}" trust="true" />
+		<echo level="info" message="上传成功"/>
+	</target>
+</project>

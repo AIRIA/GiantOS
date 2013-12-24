@@ -52,15 +52,15 @@ package com.giant.file
 		}
 		
 		private function cancelHandler(event:Event):void {
-			Util.warnTip("cancelHandler: " + event);
+			Util.info("cancelHandler: " + event);
 		}
 		
 		private function completeHandler(event:Event):void {
-			Util.warnTip("completeHandler: " + event);
+			Util.info("completeHandler: " + event);
 		}
 		
 		private function uploadCompleteDataHandler(event:DataEvent):void {
-			Util.warnTip("uploadCompleteData: " + event);
+			Util.info("uploadCompleteData: " + event);
 			var imgsUrl:Array = JSON.parse(event.data).body.jpgs;
 			ShareManager.pptList = [];
 			for(var i:int=0;i<imgsUrl.length;i++)
@@ -76,30 +76,30 @@ package com.giant.file
 		}
 		
 		private function httpStatusHandler(event:HTTPStatusEvent):void {
-			Util.warnTip("httpStatusHandler: " + event);
+			Util.info("httpStatusHandler: " + event);
 		}
 		
 		private function ioErrorHandler(event:IOErrorEvent):void {
-			Util.warnTip("ioErrorHandler: " + event);
+			Util.info("ioErrorHandler: " + event);
 		}
 		
 		private function openHandler(event:Event):void {
 			EventManager.instance().dispatchEvent(new Event(PPTEvent.UPLOAD));
-			Util.warnTip("openHandler: " + event);
+			Util.info("openHandler: " + event);
 		}
 		
 		private function progressHandler(event:ProgressEvent):void {
 			var file:FileReference = FileReference(event.target);
-			Util.warnTip("progressHandler name=" + file.name + " bytesLoaded=" + event.bytesLoaded + " bytesTotal=" + event.bytesTotal);
+			Util.info("progressHandler name=" + file.name + " bytesLoaded=" + event.bytesLoaded + " bytesTotal=" + event.bytesTotal);
 		}
 		
 		private function securityErrorHandler(event:SecurityErrorEvent):void {
-			Util.warnTip("securityErrorHandler: " + event);
+			Util.info("securityErrorHandler: " + event);
 		}
 		
 		private function selectHandler(event:Event):void {
 			var file:FileReference = FileReference(event.target);
-			Util.warnTip("selectHandler: name=" + file.name + " URL=" + urlReq.url);
+			Util.info("selectHandler: name=" + file.name + " URL=" + urlReq.url);
 			file.upload(urlReq,"upfile");
 		}
 		

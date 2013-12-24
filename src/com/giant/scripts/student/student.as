@@ -84,18 +84,23 @@ private function watchVideoHandler(data:Object):void
 {
 	ShareManager.streamName = data.streamName;
 	ShareManager.rtmpHost = data.host;
-	Util.info("[RTMP PUSH SERVER]"+ data.host,"red");
-	Util.warnTip("老师开始发布视频了，现在开始连接服务器!");
-	NetManager.getInstance().getIdlePlayServer({
+	if(data.host)
+	{
+		playServerHandler(data);
+		Util.info("[RTMP PLAY SERVER]"+ data.host,"red");
+	}
+	
+	/*NetManager.getInstance().getIdlePlayServer({
 		chName:"ccsrc",
 		chId:ShareManager.streamName,
 		uId:Person.getPerson().id,
 		osType:"flash"
-	},playServerHandler);
+	},playServerHandler);*/
 }
 
 private function playServerHandler(data:Object):void
 {
+	Util.warnTip("老师开始发布视频了，现在开始连接服务器!");
 	EventManager.instance().dispatchEvent(new GiantEvent(GiantEvent.WATCH_VIDEO,{
 		host:ShareManager.rtmpHost,
 		streamName:ShareManager.streamName
