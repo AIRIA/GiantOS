@@ -25,6 +25,10 @@ package com.giant.events
 		 */
 		public static const INPUT_NAME_ENDED:String = "input_name_ended";
 		/**
+		 * 登录成功的事件
+		 */
+		public static const LOGIN_SUCCESS:String = "login_success";
+		/**
 		 * 学生举手抢麦
 		 */
 		public static const HANDS_UP:String = "hands_up";

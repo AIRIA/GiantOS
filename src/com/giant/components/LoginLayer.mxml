@@ -4,10 +4,16 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" creationComplete="createComplete(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.giant.configures.NetConfig;
 			import com.giant.events.GiantEvent;
+			import com.giant.managers.NetManager;
+			import com.giant.managers.ShareManager;
+			import com.giant.utils.Util;
+			import com.giant.vo.commands.Room;
 			import com.giant.vo.msgs.Person;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.core.IVisualElement;
 			import mx.events.FlexEvent;
 			
@@ -18,13 +24,29 @@
 			
 			protected function enterHandler(event:FlexEvent):void
 			{
-				Person.getPerson().name = userName.text;
-				dispatchEvent(new GiantEvent(GiantEvent.INPUT_NAME_ENDED,{
-					roomId:roomId.text
-				}));
-				removeElement(formGroup);
-				var giantLoading:GiantLoading = new GiantLoading();
-				addElement(giantLoading);
+				NetManager.getInstance().send(NetConfig.HTTP_SERVER+"/live/index.php?r=api/room&",{
+					sk:Room.getRoom().roomId,
+					pwd:userName.text
+				},onSuccessHandler);
+			}
+			
+			private function onSuccessHandler(event:Event):void
+			{
+				var url:URLLoader = event.target as URLLoader;
+				url.dataFormat = URLLoaderDataFormat.VARIABLES;
+				var data:Object = JSON.parse(url.data);
+				if(data.result=="error")
+				{
+					Alert.show(data.error);
+				}else{
+					/* 登录成功后触发 */
+					dispatchEvent(new GiantEvent(GiantEvent.LOGIN_SUCCESS));
+					removeElement(formGroup);
+					var giantLoading:GiantLoading = new GiantLoading();
+					addElement(giantLoading);
+					Person.getPerson().name = data.info.teacher_name;
+					Util.warnTip(data.info.teacher_name);
+				}
 			}
 			
 		]]>
@@ -40,10 +62,8 @@
 		</s:fill>
 	</s:Rect>
 	<s:VGroup id="formGroup" width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
-		<s:TextInput id="roomId" width="150" height="25" skinClass="com.giant.skins.GiantTextInputSkin"
-					 prompt="输入频道号"/>
 		<s:TextInput width="150" height="25" skinClass="com.giant.skins.GiantTextInputSkin"
-					 prompt="输入姓名 回车确认" id="userName" enter="enterHandler(event)"/>
+					 prompt="输入房间密码 回车确认" displayAsPassword="true" id="userName" enter="enterHandler(event)"/>
 	</s:VGroup>
 	
 </s:Group>

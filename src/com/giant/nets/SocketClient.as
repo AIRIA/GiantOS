@@ -82,7 +82,12 @@ package com.giant.nets
 						return;
 					var data:String = socket.readMultiByte(packSize,"UTF-8");
 					Util.info("[recv]("+packSize+")"+data);
-					socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,data));
+					if(data=="##$$")
+					{
+						sendMsg("$$##");
+					}else{
+						socket.dispatchEvent(new GiantEvent(GiantEvent.RECV_DATA,data));
+					}
 					packSize=0;
 				}
 			}catch(e:Error){

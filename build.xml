@@ -11,6 +11,7 @@
 	<target name="push" description="更新swf文件到服务器">
 		<scp file="./bin-release/main.swf" port="12" todir="${ssh.username}:${ssh.pwd}@${ssh.host}:${ssh.targetDir}" trust="true" />
 		<scp file="./bin-release/index.swf" port="12" todir="${ssh.username}:${ssh.pwd}@${ssh.host}:${ssh.targetDir}" trust="true" />
+		<scp file="./bin-release/address.xml" port="12" todir="${ssh.username}:${ssh.pwd}@${ssh.host}:${ssh.targetDir}" trust="true" />
 		<echo level="info" message="上传成功"/>
 	</target>
 </project>

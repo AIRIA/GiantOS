@@ -3,7 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark" pageTitle="CC视频直播课堂" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" 
 			   xmlns:giant="com.giant.components.*" 
-			   creationComplete="createComplete(event)">
+			   addedToStage="createComplete(event)">
 	<fx:Script source="com/giant/scripts/student/student.as" />
 	<fx:Style source="com/giant/styles/main.css"/>
 	<fx:Declarations>

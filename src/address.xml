@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <servers>
-	<!-- 策略文件的地址 -->
+	<!-- 策略文件的地址  192.168.2.170 114.113.152.136-->
 	<server name="CROSSDOMAIN_IP" value="114.113.152.136:9703" />
 	<!-- socket服务器地址 -->
 	<server name="SERVER_IP" value="114.113.152.136" />
@@ -19,4 +19,6 @@
 		value="http://cloud.live.bokecc.com:8090/server/pushSuccessed" />
 	<!-- 日志服务器的地址 -->
 	<server name="LOG_SERVER" value="http://log.live.bokecc.com/" />
+	<!-- HTTP 服务器  -->
+	<server name="HTTP_SERVER" value="http://cloud.live.bokecc.com"></server>
 </servers>

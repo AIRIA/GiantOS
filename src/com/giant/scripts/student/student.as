@@ -23,8 +23,11 @@ private var client:SocketClient;
 [Bindable]
 private var route:RouteDictionary = new RouteDictionary();
 
-protected function createComplete(event:FlexEvent):void
+protected function createComplete(event:Event):void
 {
+	var param:Object = root.loaderInfo.parameters;
+	Util.warnTip(param.room);
+	ShareManager.streamName = Room.getRoom().roomId = param.room;
 	EventManager.instance().addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
 	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,updateUserInfo);
 	EventManager.instance().addEventListener(GiantEvent.LOADED_SERVER_INFO,connectServer);

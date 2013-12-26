@@ -1,4 +1,5 @@
 import com.giant.components.GiantLoading;
+import com.giant.components.LoginLayer;
 import com.giant.configures.NetConfig;
 import com.giant.configures.RouteDictionary;
 import com.giant.configures.RouteName;
@@ -33,18 +34,24 @@ private var route:RouteDictionary = new RouteDictionary();
 /**
  * 程序创建完毕后 发送房间信息到服务器
  */
-protected function createComplete(event:FlexEvent):void
-{
-	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,updateUserInfo);
-	EventManager.instance().addEventListener(GiantEvent.LOADED_SERVER_INFO,connectServer);
-}
-
-
-protected function updateUserInfo(event:GiantEvent):void
+protected function createComplete(event:Event):void
 {
 	status.text = "正在加载配置文件...";
 	Util.loadServerInfo();
-	ShareManager.streamName = Room.getRoom().roomId = event.data.roomId;
+	var param:Object = root.loaderInfo.parameters;
+	Util.warnTip(param.room);
+	ShareManager.streamName = Room.getRoom().roomId = param.room;
+	EventManager.instance().addEventListener(GiantEvent.LOADED_SERVER_INFO,serverInfoLoaded);
+}
+
+/* 加载完成后移除loading 添加登录层 */
+protected function serverInfoLoaded(event:Event):void
+{
+	status.text = "配置文件加载成功 等待密码输入";
+	removeElement(loading);
+	var loginLayer:LoginLayer = new LoginLayer();
+	loginLayer.addEventListener(GiantEvent.LOGIN_SUCCESS,connectServer);
+	addElement(loginLayer);
 }
 
 /**

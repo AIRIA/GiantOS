@@ -30,5 +30,9 @@ package com.giant.configures
 		 * 日志服务器的地址
 		 */
 		static public var LOG_SERVER:String;
+		/**
+		 * http server ip 
+		 */		
+		static public var HTTP_SERVER:String;
 	}
 }

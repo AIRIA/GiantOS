@@ -16,7 +16,7 @@ protected function connectServerHandlder(event:GiantEvent):void
 {
 	Util.warnTip("欢迎进入在线教学系统");
 	ShareManager.connected = true;
-	removeElement(loginLayer);
+	removeElementAt(numElements-1);
 	status.text = "当前状态[在线]";
 	client.sendMsg(JsonUtil.objToJson(Room.getRoom()));
 	chatPanel.dispatchEvent(event);

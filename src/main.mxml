@@ -3,7 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:giant="com.giant.components.*"
-			   minWidth="955" minHeight="600" pageTitle="多媒体直播" creationComplete="createComplete(event)">
+			   minWidth="955" minHeight="600" pageTitle="多媒体直播" addedToStage="createComplete(event)">
 	<fx:Style source="com/giant/styles/main.css"/>
 	<fx:Script source="com/giant/scripts/teacher/teacher.as" />
 	<fx:Script source="com/giant/scripts/teacher/handlers.as"/>
@@ -65,5 +65,5 @@
 			</s:HGroup>
 		</s:Group>
 	</s:VGroup>
-	<giant:LoginLayer id="loginLayer"/>
+	<giant:GiantLoading id="loading" width="100%" height="100%" />
 </s:Application>
