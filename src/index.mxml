@@ -48,5 +48,5 @@
 			</s:HGroup>
 		</s:Group>
 	</s:VGroup>
-	<giant:LoginLayer id="loginLayer"/>
+	<!--<giant:LoginLayer id="loginLayer"/>-->
 </s:Application>

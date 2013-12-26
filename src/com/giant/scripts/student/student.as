@@ -15,6 +15,7 @@ import com.giant.vo.msgs.PPTItem;
 import com.giant.vo.msgs.Person;
 
 import flash.events.Event;
+import flash.external.ExternalInterface;
 
 import mx.events.FlexEvent;
 
@@ -25,18 +26,20 @@ private var route:RouteDictionary = new RouteDictionary();
 
 protected function createComplete(event:Event):void
 {
+	var name:String = ExternalInterface.call("randomChar",6);
+	Person.getPerson().name = name;
+	status.text = "正在加载配置文件...";
+	Util.loadServerInfo();
 	var param:Object = root.loaderInfo.parameters;
 	Util.warnTip(param.room);
 	ShareManager.streamName = Room.getRoom().roomId = param.room;
 	EventManager.instance().addEventListener(GiantEvent.HANDS_UP,handsUpHandler);
-	loginLayer.addEventListener(GiantEvent.INPUT_NAME_ENDED,updateUserInfo);
 	EventManager.instance().addEventListener(GiantEvent.LOADED_SERVER_INFO,connectServer);
 }
 
 protected function updateUserInfo(event:GiantEvent):void
 {
-	status.text = "正在加载配置文件...";
-	Util.loadServerInfo();
+	
 	ShareManager.streamName = Room.getRoom().roomId = event.data.roomId;
 }
 
@@ -145,7 +148,7 @@ protected function connectServerHandlder(event:GiantEvent):void
 	person.type = "cmd";
 	client.sendMsg(JsonUtil.objToJson(person));
 	Util.warnTip("欢迎进入在线教学系统!");
-	removeElement(loginLayer);
+	/*removeElement(loginLayer);*/
 }
 /**
  * 学生登录的结果
