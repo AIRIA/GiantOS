@@ -4,12 +4,15 @@ package com.giant.stream
 	import com.giant.events.GiantEvent;
 	import com.giant.events.RTMP;
 	import com.giant.managers.EventManager;
+	import com.giant.managers.NetManager;
 	import com.giant.managers.ShareManager;
 	import com.giant.utils.Util;
 	
+	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.NetStatusEvent;
 	import flash.events.SecurityErrorEvent;
+	import flash.events.TimerEvent;
 	import flash.media.Camera;
 	import flash.media.H264Level;
 	import flash.media.H264Profile;
@@ -18,9 +21,14 @@ package com.giant.stream
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
+	import flash.utils.Timer;
+	import flash.utils.getTimer;
 	
 	public class VideoStream
 	{
+		private var connectServerTime:Number;
+		private var playVideoTime:Number;
+		
 		private var netCon:NetConnection;
 		private var netStream:NetStream;
 		private var mic:Microphone;
@@ -31,6 +39,7 @@ package com.giant.stream
 		private var streamName:String;
 		private var video:Video;
 		private var h264Settings:H264VideoStreamSettings;
+		private var reconnectTimer:Timer;
 		
 		public static function create(video:Video,host:String,streamName:String):VideoStream
 		{
@@ -58,6 +67,20 @@ package com.giant.stream
 			
 		}
 		
+		/**
+		 * 断开服务器连接后重新连接
+		 */
+		public function reconnect(event:Event=null):void{
+			Util.info("重新尝试连接......");
+			reconnectTimer = new Timer(5000,1);
+			reconnectTimer.addEventListener(TimerEvent.TIMER,onTimerHandler);
+			reconnectTimer.start();
+		}
+		
+		protected function onTimerHandler(event:TimerEvent):void
+		{
+			netCon.connect("rtmp://"+host+"/ccsrc");
+		}
 		
 		protected function statusHandler(event:NetStatusEvent):void
 		{
@@ -78,6 +101,13 @@ package com.giant.stream
 					break;
 				case "NetConnection.Connect.Failed":
 					Util.info("RTMP服务器连接失败");
+					reconnect();
+					NetManager.getInstance().sendLog({
+						status:3,
+						des:'Connect.Failed reconnect',
+						host:host,
+						streamName:streamName
+					});
 					EventManager.instance().dispatchEvent(new GiantEvent(RTMP.CONNECT_FAILED));
 					break;
 				case "NetStream.Play.PublishNotify":
@@ -97,7 +127,15 @@ package com.giant.stream
 					}));
 					break;
 				case "NetStream.Play.Start":
+					playVideoTime = getTimer();
 					Util.info("播放开始");
+					NetManager.getInstance().sendLog({
+						status:7,
+						des:'Play.Start',
+						host:host,
+						time:playVideoTime-connectServerTime,
+						streamName:streamName
+					});
 					break;
 				case "NetStream.Play.StreamNotFound":
 					Util.info("无法找到播放的文件");
@@ -134,6 +172,7 @@ package com.giant.stream
 			netStream.addEventListener(NetStatusEvent.NET_STATUS,statusHandler);
 			video.attachNetStream(netStream);
 			netStream.play(streamName);
+			connectServerTime = getTimer();
 		}
 		
 		public function publishVideo():void

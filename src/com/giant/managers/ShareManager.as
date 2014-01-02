@@ -17,6 +17,5 @@ package com.giant.managers
 		public static var clientId:String = Util.getGUID();
 		public static var connected:Boolean = false;
 		public static var isPublish:Boolean = false;
-		
 	}
 }

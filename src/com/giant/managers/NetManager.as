@@ -41,6 +41,14 @@ package com.giant.managers
 		}
 		
 		/**
+		 * 发送日志信息
+		 */
+		public function sendLog(param:Object):void
+		{
+			send(NetConfig.LOG_SERVER,param,Util.info);
+		}
+		
+		/**
 		 * 获取空闲推流服务器
 		 */
 		public function getIdlePushServer(param:Object,handler:Function):void
